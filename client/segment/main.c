@@ -159,7 +159,7 @@ static int process_commands(SerialDriver* sd, int argc, char* argv[], int delta)
 
             case 'B':
             case 'b':   // SET BRIGHTNESS
-                        // 1 paramter: 0-15
+                        // 1 parameter: 0-15
                 {
                     // Get the required argument
                     if (i < argc - 1) {

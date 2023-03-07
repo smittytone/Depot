@@ -375,7 +375,7 @@ void HT16K33_rotate(uint8_t angle) {
 static void HT16K33_sleep_ms(int ms) {
 
     // FROM 1.1.2
-    // New, better alogrithm
+    // New, better algorithm
     long delta = 0;
     struct timespec now, then;
     clock_gettime(CLOCK_MONOTONIC_RAW, &then);

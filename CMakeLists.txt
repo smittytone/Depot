@@ -53,8 +53,8 @@ endif()
 project(${PROJECT_NAME}
         LANGUAGES C CXX ASM
         VERSION ${FW_VERSION_NUMBER}
-        DESCRIPTION "RP2040-based Multi-bus host"
-        HOMEPAGE_URL https://smittytone.net/cli2c
+        DESCRIPTION "RP2040-based Multi-bus adaptor"
+        HOMEPAGE_URL https://smittytone.net/depot
 )
 
 # Initialise the Pico SDK
