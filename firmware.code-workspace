@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+    ],
+    "settings": {
+        "files.associations": {
+            "serial.h": "c",
+            "gpio.h": "c",
+            "stdio.h": "c",
+            "random": "c",
+            "binary_info.h": "c",
+            "string.h": "c",
+            "main.h": "c",
+            "algorithm": "c",
+            "stdint.h": "c",
+            "debug.h": "c",
+            "compare": "c",
+            "functional": "c",
+            "stdbool.h": "c",
+            "stdlib.h": "c"
+        }
+    }
+}

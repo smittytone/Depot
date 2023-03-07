@@ -1,0 +1,682 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3B09CBDE29A64AEC00EE69D8 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 3B09CBDC29A64AEC00EE69D8 /* main.c */; };
+		3B09CBE629A64B1000EE69D8 /* gpio.c in Sources */ = {isa = PBXBuildFile; fileRef = 3B09CBE129A64B1000EE69D8 /* gpio.c */; };
+		3B09CBE729A64B1000EE69D8 /* serialdriver.c in Sources */ = {isa = PBXBuildFile; fileRef = 3B09CBE229A64B1000EE69D8 /* serialdriver.c */; };
+		3B09CBE829A64B1000EE69D8 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 3B09CBE329A64B1000EE69D8 /* utils.c */; };
+		3B09CBEC29A64B1A00EE69D8 /* owdriver.c in Sources */ = {isa = PBXBuildFile; fileRef = 3B09CBEA29A64B1A00EE69D8 /* owdriver.c */; };
+		3B311C1029A77F7A0001A2F4 /* serialdriver.c in Sources */ = {isa = PBXBuildFile; fileRef = 3B09CBE229A64B1000EE69D8 /* serialdriver.c */; };
+		3B311C1229A77F840001A2F4 /* owdriver.c in Sources */ = {isa = PBXBuildFile; fileRef = 3B09CBEA29A64B1A00EE69D8 /* owdriver.c */; };
+		3B311C1629A780080001A2F4 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B311C1529A780080001A2F4 /* main.swift */; };
+		3B311C1729A7863C0001A2F4 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 3B09CBE329A64B1000EE69D8 /* utils.c */; };
+		3B311C2F29A7B1780001A2F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B311C2A29A7B1780001A2F4 /* Assets.xcassets */; };
+		3B311C3029A7B1780001A2F4 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B311C2B29A7B1780001A2F4 /* MainMenu.xib */; };
+		3B311C3129A7B1780001A2F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B311C2D29A7B1780001A2F4 /* AppDelegate.swift */; };
+		3B311C3329A7B1C10001A2F4 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 3B09CBE329A64B1000EE69D8 /* utils.c */; };
+		3B311C3429A7B1C50001A2F4 /* serialdriver.c in Sources */ = {isa = PBXBuildFile; fileRef = 3B09CBE229A64B1000EE69D8 /* serialdriver.c */; };
+		3B311C3529A7B1C80001A2F4 /* owdriver.c in Sources */ = {isa = PBXBuildFile; fileRef = 3B09CBEA29A64B1A00EE69D8 /* owdriver.c */; };
+		3B311C3829A7C3160001A2F4 /* modems.c in Sources */ = {isa = PBXBuildFile; fileRef = 3B311C3629A7C3160001A2F4 /* modems.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		3B09CBCD29A64A7D00EE69D8 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		3B311C0629A77EE00001A2F4 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		3B09CBCF29A64A7D00EE69D8 /* cliwire */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = cliwire; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B09CBDB29A64AEC00EE69D8 /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
+		3B09CBDC29A64AEC00EE69D8 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		3B09CBDD29A64AEC00EE69D8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3B09CBE029A64B1000EE69D8 /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
+		3B09CBE129A64B1000EE69D8 /* gpio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gpio.c; sourceTree = "<group>"; };
+		3B09CBE229A64B1000EE69D8 /* serialdriver.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = serialdriver.c; sourceTree = "<group>"; };
+		3B09CBE329A64B1000EE69D8 /* utils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils.c; sourceTree = "<group>"; };
+		3B09CBE429A64B1000EE69D8 /* gpio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gpio.h; sourceTree = "<group>"; };
+		3B09CBE529A64B1000EE69D8 /* serialdriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = serialdriver.h; sourceTree = "<group>"; };
+		3B09CBEA29A64B1A00EE69D8 /* owdriver.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = owdriver.c; sourceTree = "<group>"; };
+		3B09CBEB29A64B1A00EE69D8 /* owdriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = owdriver.h; sourceTree = "<group>"; };
+		3B311C0329A77ECB0001A2F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3B311C0829A77EE00001A2F4 /* ds18b20 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ds18b20; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B311C1429A780080001A2F4 /* ds18b20-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ds18b20-Bridging-Header.h"; sourceTree = "<group>"; };
+		3B311C1529A780080001A2F4 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		3B311C1C29A7B13C0001A2F4 /* Sensor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sensor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B311C2A29A7B1780001A2F4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3B311C2C29A7B1780001A2F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		3B311C2D29A7B1780001A2F4 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		3B311C2E29A7B1780001A2F4 /* sensor.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = sensor.entitlements; sourceTree = "<group>"; };
+		3B311C3229A7B1BC0001A2F4 /* sensor-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "sensor-Bridging-Header.h"; path = "client/sensor/sensor-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
+		3B311C3629A7C3160001A2F4 /* modems.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = modems.c; sourceTree = "<group>"; };
+		3B311C3729A7C3160001A2F4 /* modems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = modems.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3B09CBCC29A64A7D00EE69D8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3B311C0529A77EE00001A2F4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3B311C1929A7B13C0001A2F4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3B09CBC629A64A7D00EE69D8 = {
+			isa = PBXGroup;
+			children = (
+				3B09CBDA29A64AEC00EE69D8 /* cliwire */,
+				3B311C0029A77ECB0001A2F4 /* ds18b20 */,
+				3B311C2929A7B1780001A2F4 /* sensor */,
+				3B09CBDF29A64B1000EE69D8 /* common */,
+				3B09CBE929A64B1A00EE69D8 /* onewire */,
+				3B09CBD029A64A7D00EE69D8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3B09CBD029A64A7D00EE69D8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3B09CBCF29A64A7D00EE69D8 /* cliwire */,
+				3B311C0829A77EE00001A2F4 /* ds18b20 */,
+				3B311C1C29A7B13C0001A2F4 /* Sensor.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3B09CBDA29A64AEC00EE69D8 /* cliwire */ = {
+			isa = PBXGroup;
+			children = (
+				3B09CBDB29A64AEC00EE69D8 /* main.h */,
+				3B09CBDC29A64AEC00EE69D8 /* main.c */,
+				3B09CBDD29A64AEC00EE69D8 /* Info.plist */,
+			);
+			name = cliwire;
+			path = client/cliwire;
+			sourceTree = SOURCE_ROOT;
+		};
+		3B09CBDF29A64B1000EE69D8 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				3B09CBE529A64B1000EE69D8 /* serialdriver.h */,
+				3B09CBE229A64B1000EE69D8 /* serialdriver.c */,
+				3B09CBE029A64B1000EE69D8 /* utils.h */,
+				3B09CBE329A64B1000EE69D8 /* utils.c */,
+				3B09CBE429A64B1000EE69D8 /* gpio.h */,
+				3B09CBE129A64B1000EE69D8 /* gpio.c */,
+			);
+			name = common;
+			path = client/common;
+			sourceTree = SOURCE_ROOT;
+		};
+		3B09CBE929A64B1A00EE69D8 /* onewire */ = {
+			isa = PBXGroup;
+			children = (
+				3B09CBEB29A64B1A00EE69D8 /* owdriver.h */,
+				3B09CBEA29A64B1A00EE69D8 /* owdriver.c */,
+			);
+			name = onewire;
+			path = client/onewire;
+			sourceTree = SOURCE_ROOT;
+		};
+		3B311C0029A77ECB0001A2F4 /* ds18b20 */ = {
+			isa = PBXGroup;
+			children = (
+				3B311C1529A780080001A2F4 /* main.swift */,
+				3B311C1429A780080001A2F4 /* ds18b20-Bridging-Header.h */,
+				3B311C0329A77ECB0001A2F4 /* Info.plist */,
+			);
+			name = ds18b20;
+			path = client/ds18b20;
+			sourceTree = SOURCE_ROOT;
+		};
+		3B311C2929A7B1780001A2F4 /* sensor */ = {
+			isa = PBXGroup;
+			children = (
+				3B311C2A29A7B1780001A2F4 /* Assets.xcassets */,
+				3B311C2B29A7B1780001A2F4 /* MainMenu.xib */,
+				3B311C2D29A7B1780001A2F4 /* AppDelegate.swift */,
+				3B311C3229A7B1BC0001A2F4 /* sensor-Bridging-Header.h */,
+				3B311C3729A7C3160001A2F4 /* modems.h */,
+				3B311C3629A7C3160001A2F4 /* modems.c */,
+				3B311C2E29A7B1780001A2F4 /* sensor.entitlements */,
+			);
+			name = sensor;
+			path = client/sensor;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3B09CBCE29A64A7D00EE69D8 /* cliwire */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3B09CBD629A64A7D00EE69D8 /* Build configuration list for PBXNativeTarget "cliwire" */;
+			buildPhases = (
+				3B09CBCB29A64A7D00EE69D8 /* Sources */,
+				3B09CBCC29A64A7D00EE69D8 /* Frameworks */,
+				3B09CBCD29A64A7D00EE69D8 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = cliwire;
+			productName = cliwire;
+			productReference = 3B09CBCF29A64A7D00EE69D8 /* cliwire */;
+			productType = "com.apple.product-type.tool";
+		};
+		3B311C0729A77EE00001A2F4 /* ds18b20 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3B311C0C29A77EE00001A2F4 /* Build configuration list for PBXNativeTarget "ds18b20" */;
+			buildPhases = (
+				3B311C0429A77EE00001A2F4 /* Sources */,
+				3B311C0529A77EE00001A2F4 /* Frameworks */,
+				3B311C0629A77EE00001A2F4 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ds18b20;
+			productName = ds18b20;
+			productReference = 3B311C0829A77EE00001A2F4 /* ds18b20 */;
+			productType = "com.apple.product-type.tool";
+		};
+		3B311C1B29A7B13C0001A2F4 /* sensor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3B311C2629A7B1420001A2F4 /* Build configuration list for PBXNativeTarget "sensor" */;
+			buildPhases = (
+				3B311C1829A7B13C0001A2F4 /* Sources */,
+				3B311C1929A7B13C0001A2F4 /* Frameworks */,
+				3B311C1A29A7B13C0001A2F4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = sensor;
+			productName = sensor;
+			productReference = 3B311C1C29A7B13C0001A2F4 /* Sensor.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3B09CBC729A64A7D00EE69D8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1420;
+				LastUpgradeCheck = 1420;
+				TargetAttributes = {
+					3B09CBCE29A64A7D00EE69D8 = {
+						CreatedOnToolsVersion = 14.2;
+					};
+					3B311C0729A77EE00001A2F4 = {
+						CreatedOnToolsVersion = 14.2;
+						LastSwiftMigration = 1420;
+					};
+					3B311C1B29A7B13C0001A2F4 = {
+						CreatedOnToolsVersion = 14.2;
+					};
+				};
+			};
+			buildConfigurationList = 3B09CBCA29A64A7D00EE69D8 /* Build configuration list for PBXProject "cliwire" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3B09CBC629A64A7D00EE69D8;
+			productRefGroup = 3B09CBD029A64A7D00EE69D8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3B09CBCE29A64A7D00EE69D8 /* cliwire */,
+				3B311C0729A77EE00001A2F4 /* ds18b20 */,
+				3B311C1B29A7B13C0001A2F4 /* sensor */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3B311C1A29A7B13C0001A2F4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B311C2F29A7B1780001A2F4 /* Assets.xcassets in Resources */,
+				3B311C3029A7B1780001A2F4 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3B09CBCB29A64A7D00EE69D8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B09CBE629A64B1000EE69D8 /* gpio.c in Sources */,
+				3B09CBEC29A64B1A00EE69D8 /* owdriver.c in Sources */,
+				3B09CBE829A64B1000EE69D8 /* utils.c in Sources */,
+				3B09CBDE29A64AEC00EE69D8 /* main.c in Sources */,
+				3B09CBE729A64B1000EE69D8 /* serialdriver.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3B311C0429A77EE00001A2F4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B311C1629A780080001A2F4 /* main.swift in Sources */,
+				3B311C1729A7863C0001A2F4 /* utils.c in Sources */,
+				3B311C1229A77F840001A2F4 /* owdriver.c in Sources */,
+				3B311C1029A77F7A0001A2F4 /* serialdriver.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3B311C1829A7B13C0001A2F4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B311C3129A7B1780001A2F4 /* AppDelegate.swift in Sources */,
+				3B311C3529A7B1C80001A2F4 /* owdriver.c in Sources */,
+				3B311C3329A7B1C10001A2F4 /* utils.c in Sources */,
+				3B311C3429A7B1C50001A2F4 /* serialdriver.c in Sources */,
+				3B311C3829A7C3160001A2F4 /* modems.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		3B311C2B29A7B1780001A2F4 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3B311C2C29A7B1780001A2F4 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3B09CBD429A64A7D00EE69D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		3B09CBD529A64A7D00EE69D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		3B09CBD729A64A7D00EE69D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 41;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = Y5J3K52DNA;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					"APP_VERSION=\\\"$(MARKETING_VERSION)\\\"",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/client/cliwire/Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bps.cliwire;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = Debug;
+		};
+		3B09CBD829A64A7D00EE69D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 41;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = Y5J3K52DNA;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "APP_VERSION=\\\"$(MARKETING_VERSION)\\\"";
+				INFOPLIST_FILE = "$(SRCROOT)/client/cliwire/Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bps.cliwire;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = Release;
+		};
+		3B311C0D29A77EE00001A2F4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 41;
+				DEFINES_MODULE = NO;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = Y5J3K52DNA;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					"APP_VERSION=\\\"$(MARKETING_VERSION)\\\"",
+					"SWIFT_BUILD=1",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/client/ds18b20/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bps.ds18b20;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "client/ds18b20/ds18b20-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		3B311C0E29A77EE00001A2F4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 41;
+				DEFINES_MODULE = NO;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = Y5J3K52DNA;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"SWIFT_BUILD=1",
+					"APP_VERSION=\\\"$(MARKETING_VERSION)\\\"",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/client/ds18b20/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bps.ds18b20;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "client/ds18b20/ds18b20-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		3B311C2729A7B1420001A2F4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CODE_SIGN_ENTITLEMENTS = client/sensor/sensor.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 42;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = Y5J3K52DNA;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					"SWIFT_BUILD=1",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Sensor;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainNibFile = MainMenu;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bps.sensor;
+				PRODUCT_NAME = Sensor;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "client/sensor/sensor-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		3B311C2829A7B1420001A2F4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CODE_SIGN_ENTITLEMENTS = client/sensor/sensor.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 42;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = Y5J3K52DNA;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "SWIFT_BUILD=1";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Sensor;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainNibFile = MainMenu;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bps.sensor;
+				PRODUCT_NAME = Sensor;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "client/sensor/sensor-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3B09CBCA29A64A7D00EE69D8 /* Build configuration list for PBXProject "cliwire" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3B09CBD429A64A7D00EE69D8 /* Debug */,
+				3B09CBD529A64A7D00EE69D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3B09CBD629A64A7D00EE69D8 /* Build configuration list for PBXNativeTarget "cliwire" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3B09CBD729A64A7D00EE69D8 /* Debug */,
+				3B09CBD829A64A7D00EE69D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3B311C0C29A77EE00001A2F4 /* Build configuration list for PBXNativeTarget "ds18b20" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3B311C0D29A77EE00001A2F4 /* Debug */,
+				3B311C0E29A77EE00001A2F4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3B311C2629A7B1420001A2F4 /* Build configuration list for PBXNativeTarget "sensor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3B311C2729A7B1420001A2F4 /* Debug */,
+				3B311C2829A7B1420001A2F4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3B09CBC729A64A7D00EE69D8 /* Project object */;
+}

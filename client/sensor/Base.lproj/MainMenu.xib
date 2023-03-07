@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
+            <connections>
+                <outlet property="delegate" destination="Voe-Tx-rLC" id="GzC-gU-4Uq"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Sensor" customModuleProvider="target">
+            <connections>
+                <outlet property="connectedImage" destination="ws5-SW-wzQ" id="oUf-Ai-zyX"/>
+                <outlet property="connectedLabel" destination="11U-mc-buH" id="F4f-aU-caM"/>
+                <outlet property="devicesMenu" destination="6Lt-dT-wnZ" id="lUF-iX-hch"/>
+                <outlet property="outputLabel" destination="lch-VE-hRC" id="qYe-lY-4YT"/>
+                <outlet property="parentApp" destination="-2" id="qIj-rA-DYv"/>
+                <outlet property="startButton" destination="4rJ-1J-6sG" id="kyf-AR-dVZ"/>
+                <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
+            </connections>
+        </customObject>
+        <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
+        <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
+            <items>
+                <menuItem title="Sensor" id="1Xt-HY-uBw">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Sensor" systemMenu="apple" autoenablesItems="NO" id="uQy-DD-JDr">
+                        <items>
+                            <menuItem title="About Sensor" id="5kV-Vb-QxS">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="doShowAboutPanel" target="Voe-Tx-rLC" id="bxd-V1-qML"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
+                            <menuItem title="Services" id="NMo-om-nkz">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Services" systemMenu="services" id="hz9-B4-Xy5"/>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="4je-JR-u6R"/>
+                            <menuItem title="Hide sensor" keyEquivalent="h" id="Olw-nP-bQN">
+                                <connections>
+                                    <action selector="hide:" target="-1" id="PnN-Uc-m68"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Hide Others" keyEquivalent="h" id="Vdr-fp-XzO">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="hideOtherApplications:" target="-1" id="VT4-aY-XCT"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Show All" id="Kd2-mp-pUS">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="unhideAllApplications:" target="-1" id="Dhg-Le-xox"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="kCx-OE-vgT"/>
+                            <menuItem title="Quit sensor" keyEquivalent="q" id="4sb-4s-VLi">
+                                <connections>
+                                    <action selector="terminate:" target="-1" id="Te7-pn-YzF"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Devices" id="L0x-Fo-atH">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Devices" autoenablesItems="NO" id="6Lt-dT-wnZ">
+                        <items>
+                            <menuItem title="No devices available" id="2g0-yW-bzN">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Window" id="aUF-d1-5bR">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Window" systemMenu="window" id="Td7-aD-5lo">
+                        <items>
+                            <menuItem title="Minimize" keyEquivalent="m" id="OY7-WF-poV">
+                                <connections>
+                                    <action selector="performMiniaturize:" target="-1" id="VwT-WD-YPe"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Zoom" id="R4o-n2-Eq4">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="performZoom:" target="-1" id="DIl-cC-cCs"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="eu3-7i-yIM"/>
+                            <menuItem title="Bring All to Front" id="LE2-aR-0XJ">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="arrangeInFront:" target="-1" id="DRN-fu-gQh"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Help" id="wpr-3q-Mcd">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
+                        <items>
+                            <menuItem title="sensor Help" keyEquivalent="?" id="FKE-Sm-Kum">
+                                <connections>
+                                    <action selector="showHelp:" target="-1" id="y7X-2Q-9no"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+            </items>
+            <point key="canvasLocation" x="200" y="121"/>
+        </menu>
+        <window title="DS18B20 Sensor Sample" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" titlebarAppearsTransparent="YES" id="QvC-M9-y7g">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" fullSizeContentView="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="335" y="390" width="480" height="210"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
+            <value key="minSize" type="size" width="480" height="210"/>
+            <value key="maxSize" type="size" width="480" height="210"/>
+            <value key="minFullScreenContentSize" type="size" width="480" height="210"/>
+            <value key="maxFullScreenContentSize" type="size" width="480" height="210"/>
+            <view key="contentView" id="EiT-Mj-1SZ">
+                <rect key="frame" x="0.0" y="0.0" width="480" height="210"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lch-VE-hRC">
+                        <rect key="frame" x="18" y="48" width="444" height="126"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="126" id="E3Q-34-LN3"/>
+                        </constraints>
+                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Label" id="NW2-w8-DqC">
+                            <font key="font" size="112" name="AndaleMono"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4rJ-1J-6sG">
+                        <rect key="frame" x="208" y="13" width="64" height="32"/>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="50" id="HrA-vc-ZgE"/>
+                            <constraint firstAttribute="height" constant="20" id="wk9-do-P3J"/>
+                        </constraints>
+                        <buttonCell key="cell" type="push" title="Start" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="OpB-k2-lAs">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="doStartWithSender:" target="Voe-Tx-rLC" id="hQe-IE-oDA"/>
+                        </connections>
+                    </button>
+                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ws5-SW-wzQ">
+                        <rect key="frame" x="20" y="18" width="24" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="24" id="SrN-Mf-gwG"/>
+                            <constraint firstAttribute="width" constant="24" id="ppp-4c-CX4"/>
+                        </constraints>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSStatusUnavailable" id="u0f-jO-lhy"/>
+                    </imageView>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="11U-mc-buH">
+                        <rect key="frame" x="42" y="22" width="167" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="16" id="pOc-mA-HXK"/>
+                        </constraints>
+                        <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" alignment="left" title="Not connected" id="OoN-RW-MU4">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="11U-mc-buH" firstAttribute="leading" secondItem="ws5-SW-wzQ" secondAttribute="trailing" id="G0r-se-24y"/>
+                    <constraint firstItem="lch-VE-hRC" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="36" id="OWR-wy-Hoe"/>
+                    <constraint firstItem="4rJ-1J-6sG" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="Q5X-7H-MPT"/>
+                    <constraint firstAttribute="bottom" secondItem="11U-mc-buH" secondAttribute="bottom" constant="22" id="gqm-HB-z1a"/>
+                    <constraint firstItem="lch-VE-hRC" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="lWz-hS-PFc"/>
+                    <constraint firstAttribute="bottom" secondItem="ws5-SW-wzQ" secondAttribute="bottom" constant="18" id="mt8-wm-iBx"/>
+                    <constraint firstItem="4rJ-1J-6sG" firstAttribute="leading" secondItem="11U-mc-buH" secondAttribute="trailing" constant="8" symbolic="YES" id="qPj-jX-saP"/>
+                    <constraint firstAttribute="bottom" secondItem="4rJ-1J-6sG" secondAttribute="bottom" constant="20" symbolic="YES" id="uxf-Wg-dtm"/>
+                    <constraint firstAttribute="trailing" secondItem="lch-VE-hRC" secondAttribute="trailing" constant="20" symbolic="YES" id="xJJ-x7-WSc"/>
+                    <constraint firstItem="ws5-SW-wzQ" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="zIE-DE-YTK"/>
+                </constraints>
+            </view>
+            <point key="canvasLocation" x="277" y="416"/>
+        </window>
+    </objects>
+    <resources>
+        <image name="NSStatusUnavailable" width="16" height="16"/>
+    </resources>
+</document>
