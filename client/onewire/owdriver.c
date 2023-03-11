@@ -161,7 +161,7 @@ void one_wire_scan(SerialDriver *sd) {
         for (int i = 0 ; i < device_count ; i++) {
             uint8_t fid = (device_list[i] & 0xFF);
             uint64_t sid = (device_list[i] & 0xFFFFFFFFFFFF00) >> 8;
-            fprintf(stderr, "%02i. Family ID: %02X, Serial: %012lluX\n", i + 1, fid, sid);
+            fprintf(stderr, "%02i. Family ID: %02X, Serial: %012lluX\n", i + 1, fid, (long long unsigned int)sid);
         }
     } else {
         fprintf(stderr, "No 1-Wire devices present\n");
