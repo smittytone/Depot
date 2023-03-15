@@ -14,7 +14,7 @@ Why Depot? Because it’s a place in which you’ll find lots of buses.
 
 ### Bus Host Board
 
-The bus host board is a [Raspberry Pi Pico](https://www.raspberrypi.com/documentation/microcontrollers/raspberry-pi-pico.html), [Adafruit QTPy RP2040](https://www.adafruit.com/product/4900), [Adafruit QT2040 Trinkey](https://www.adafruit.com/product/5056), [SparkFun ProMicro RP2040](https://www.sparkfun.com/products/18288) or [Pimoroni Tiny 2040](https://shop.pimoroni.com/products/tiny-2040?variant=39560012234835). 
+The bus host board is a [Raspberry Pi Pico](https://www.raspberrypi.com/documentation/microcontrollers/raspberry-pi-pico.html), [Adafruit QTPy RP2040](https://www.adafruit.com/product/4900), [Adafruit QT2040 Trinkey](https://www.adafruit.com/product/5056), [SparkFun ProMicro RP2040](https://www.sparkfun.com/products/18288) or [Pimoroni Tiny 2040](https://shop.pimoroni.com/products/tiny-2040?variant=39560012234835).
 
 It runs the included firmware and connects to a host computer via USB.
 
@@ -92,7 +92,7 @@ The contents of this repo are:
 |   |___/segment                // An HT16K33 4-digit, 7-segment-oriented version of cli2c
 |   |___/cliwire                // A generic CLI tool for any 1-Wire device
 |   |___/common                 // Code common to all versions
-|   |___/i2c                    // I&sup2;C driver code
+|   |___/i2c                    // I2C driver code
 |   |___/onewire                // 1-Wire driver code
 |   |___/ds18b20                // A DS18B20-oriented version of cliwire
 |   |___/sensor                 // A macOS GUI app the uses the 1-Wire and serial driver code.
@@ -175,7 +175,7 @@ The 1-Wire driver is based on code I produced for the Twilio Electric Imp IoT pl
     - Use CMake’s `CMAKE_BUILD_TYPE` variable to choose build types when building at the command line.
     - Migrate client app documentation from Read Me to my documentation site.
     - Remove early debug code outputting to a connected segment display.
-    
+
 *You can find release notes for previous versions [here](https://github.com/smittytone/cli2c)*
 
 ## Licences and Copyright
