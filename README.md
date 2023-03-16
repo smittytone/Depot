@@ -4,6 +4,8 @@ Multi-bus clients for macOS and Linux, and bus-host adaptor board firmware for t
 
 It is used as the basis for I&sup2;C client apps for generic I&sup2;C usage, and to operate Holtek HT16K33-controlled matrix and segment LED displays, and 1-Wire apps for generic 1-Wire usage and to use the Analog Devices DS18B20 sensors.
 
+![Driving a pair of LTP305 LED matrices as a CPU activity indicator](images/matrix_002.jpg)
+
 The client code is largely written in C, and will compile and run on both macOS and Linux. The exceptions are the DS18B20 command-line utility and DS18B20 GUI app, both of which are written in Swift — and the latter is built for the macOS GUI.
 
 Why Depot? Because it’s a place in which you’ll find lots of buses.
