@@ -1,4 +1,4 @@
-# Depot 1.2.0
+# Depot 1.2.1
 
 Multi-bus clients for macOS and Linux, and bus-host adaptor board firmware for the RP2040.
 
@@ -130,7 +130,7 @@ The contents of this repo are:
 
 ## Devices
 
-Under macOS, RP2040-based boards will appear in `/dev` as `cu.usbmodemXXXXX` or `cu.usbserialXXXXXX`. You can use my [`dlist()`](https://blog.smittytone.net/2022/09/08/how-to-manage-serial-devices-on-mac/) shell function to save looking up and keying in these names, which can vary across boots.
+Under macOS, RP2040-based boards will appear in `/dev` as `cu.usbmodemXXXXX` or `cpu_chart_ltp305_cli2c.py`. You can use my [`dlist()`](https://blog.smittytone.net/2022/09/08/how-to-manage-serial-devices-on-mac/) shell function to save looking up and keying in these names, which can vary across boots.
 
 Under Linux, specifically Raspberry Pi OS, boards appear as `/dev/ttyACM0`. You may need to add your user account to the group `dialout` in order to access the port:
 
@@ -155,6 +155,13 @@ The [`examples`](examples/) folder contains Python scripts that make use the abo
 * `cpu_chart_matrix.py` — A rudimentary side-scrolling CPU activity chart. Requires an HT16K33-based 8x8 matrix LED.
 * `cpu_chart_segment.py` — A CPU activity numerical percentage readout. Requires an HT16K33-based 4-digit, 7-segment matrix LED.
 * `mcp9809_temp_cli2c.py` — Second-by-second temperature readout. Requires an MCP98008 temperature sensor breakout.
+* `cpu_chart_ltp305_cli2c.py` — A version of the side-scrolling CPU activity chart. Requires a [Pimoroni LED Matrices + Driver](https://shop.pimoroni.com/products/led-dot-matrix-breakout).
+
+All the examples run at the command line and take the path to the adaptor device as a required argument and a I&sup2;C address as a second, optional address (if you are not using each device’s standard address). For example:
+
+```shell
+python examples/cpu_chart_ltp305_cli2c.py /dev/cu.usbserial-0101 0x63
+```
 
 ## Acknowledgements
 
@@ -170,6 +177,9 @@ The 1-Wire driver is based on code I produced for the Twilio Electric Imp IoT pl
 
 ## Release Notes
 
+- 1.2.1 *Unreleased*
+    - Add LTP305 LED matrix example.
+    - Add example instructions.
 - 1.2.0 *18 March 2023*
     - Rename project to `Depot`.
     - Add 1-Wire support to adaptor firmware.

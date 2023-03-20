@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - Tiny 2040 LED
  *
- * @version     1.2.0
+ * @version     1.2.1
  * @author      Tony Smith (@smittytone)
  * @copyright   2023
  * @licence     MIT

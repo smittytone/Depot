@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.18)
 
 # Set project data
 set(PROJECT_NAME "Depot Bus Host Firmware")
-set(FW_BUILD_NUMBER "41")
-set(FW_VERSION_NUMBER "1.2.0")
+set(FW_BUILD_NUMBER "42")
+set(FW_VERSION_NUMBER "1.2.1")
 
 # Set app name(s) and version(s)
 set(FW_1_NAME "firmware_qtpy_rp2040")
