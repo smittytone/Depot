@@ -177,10 +177,10 @@ The 1-Wire driver is based on code I produced for the Twilio Electric Imp IoT pl
 
 ## Release Notes
 
-- 1.2.1 *Unreleased*
+- 1.2.1 *21 March 2023*
     - Add LTP305 LED matrix example.
     - Add example instructions.
-- 1.2.0 *18 March 2023*
+- 1.2.0 *17 March 2023*
     - Rename project to `Depot`.
     - Add 1-Wire support to adaptor firmware.
     - Add 1-Wire centric client apps: `cliwire` for generic use, `ds18b20` to read a single DS18B20 sensor, `sensor` to read a single DS18B20 sensor and display the output in a GUI.
