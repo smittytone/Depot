@@ -1,5 +1,5 @@
 /*
- * Depot RP2040 Bus Host Firmware - Adafruit QTPy RP2040
+ * Depot RP2040 Bus Host Firmware - Arduino Nano RP2040 Connect
  *
  * @version     1.2.2
  * @author      Tony Smith (@smittytone)
@@ -15,7 +15,8 @@
  */
 int main(void) {
     // Initialise the LED
-    ws2812_init();
+    pico_led_init();
+    pico_led_off();
 
     // Enable STDIO and allow 2s for the board to come up
     if (stdio_usb_init()) {
@@ -27,13 +28,12 @@ int main(void) {
         rx_loop();
 
         // End
-        return 0;
+        // return 0;
     }
 
     // Could not initialize stdio over USB,
-    // so signal error (red) and end
-    ws2812_set_colour(0xFF0000);
-    ws2812_flash(10);
-    ws2812_pixel(0xFF0000);
+    // so signal error and end
+    pico_led_flash(10);
+    pico_led_on();
     return 1;
 }

@@ -2,24 +2,29 @@ cmake_minimum_required(VERSION 3.18)
 
 # Set project data
 set(PROJECT_NAME "Depot Bus Host Firmware")
-set(FW_BUILD_NUMBER "42")
-set(FW_VERSION_NUMBER "1.2.1")
+set(FW_BUILD_NUMBER "43")
+set(FW_VERSION_NUMBER "1.2.2")
 
 # Set app name(s) and version(s)
+# NOTE Indices changed from 1.2.2
+set(FW_0_NAME "firmware_pico")
+set(FW_0_SRC_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/pico")
+
 set(FW_1_NAME "firmware_qtpy_rp2040")
 set(FW_1_SRC_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/qtpy")
 
-set(FW_2_NAME "firmware_pico")
-set(FW_2_SRC_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/pico")
+set(FW_2_NAME "firmware_promicro")
+set(FW_2_SRC_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/promicro")
 
-set(FW_3_NAME "firmware_promicro")
-set(FW_3_SRC_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/promicro")
+set(FW_3_NAME "firmware_tiny2040")
+set(FW_3_SRC_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/tiny")
 
-set(FW_4_NAME "firmware_tiny2040")
-set(FW_4_SRC_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/tiny")
+set(FW_4_NAME "firmware_trinkey2040")
+set(FW_4_SRC_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/trinkey")
 
-set(FW_5_NAME "firmware_trinkey2040")
-set(FW_5_SRC_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/trinkey")
+# FROM 1.2.2
+set(FW_5_NAME "firmware_arduino_nano")
+set(FW_5_SRC_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/nano")
 
 # Move common source code to a separate directory
 set(COMMON_CODE_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/common")
@@ -60,10 +65,17 @@ project(${PROJECT_NAME}
 # Initialise the Pico SDK
 pico_sdk_init()
 
-# Include the apps' source code
-# Comment out any that you don't require (speeds build time)
-add_subdirectory(${FW_1_SRC_DIRECTORY}) # QTPy
-add_subdirectory(${FW_2_SRC_DIRECTORY}) # Pico
-add_subdirectory(${FW_3_SRC_DIRECTORY}) # ProMicro
-add_subdirectory(${FW_4_SRC_DIRECTORY}) # Tiny
-add_subdirectory(${FW_5_SRC_DIRECTORY}) # Trinkey
+# FROM 1.2.2
+# Check for specific board env var DEPOT_BOARD
+if(("$ENV{DEPOT_BOARD}" GREATER_EQUAL "0") AND ("$ENV{DEPOT_BOARD}" LESS "6"))
+    set(BLD_DIR "FW_$ENV{DEPOT_BOARD}_SRC_DIRECTORY")
+    add_subdirectory("${${BLD_DIR}}")
+else()
+    # Include all the apps' source code
+    add_subdirectory(${FW_0_SRC_DIRECTORY}) # Pico
+    add_subdirectory(${FW_1_SRC_DIRECTORY}) # QTPy
+    add_subdirectory(${FW_2_SRC_DIRECTORY}) # ProMicro
+    add_subdirectory(${FW_3_SRC_DIRECTORY}) # Tiny
+    add_subdirectory(${FW_4_SRC_DIRECTORY}) # Trinkey
+    add_subdirectory(${FW_5_SRC_DIRECTORY}) # Arduino Nano
+endif()

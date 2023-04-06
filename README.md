@@ -1,4 +1,4 @@
-# Depot 1.2.1
+# Depot 1.2.2
 
 Multi-bus clients for macOS and Linux, and bus-host adaptor board firmware for the RP2040.
 
@@ -177,6 +177,9 @@ The 1-Wire driver is based on code I produced for the Twilio Electric Imp IoT pl
 
 ## Release Notes
 
+- 1.2.2 *Unreleased*
+    - Support `DEPOT_BOARD` environment variable to select specific firmware target.
+    - Support Arduino Nano RP2040 Connect.
 - 1.2.1 *21 March 2023*
     - Add LTP305 LED matrix example.
     - Add example instructions.

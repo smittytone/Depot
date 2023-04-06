@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.18)
 # Make project data accessible to compiler
 # IMPORTANT `HW_MODEL` must be no more than 24 characters
 add_compile_definitions(
-    FW_NAME="${FW_3_NAME}"
+    FW_NAME="${FW_2_NAME}"
     FW_VERSION="${FW_VERSION_NUMBER}"
     BUILD_NUM=${FW_BUILD_NUMBER}
     NEO_BUILD=1
@@ -36,9 +36,9 @@ add_compile_definitions(
     NEO_COLOUR=0x000010)    # Blue
 
 # Include app source code file(s)
-add_executable(${FW_3_NAME}
-    ${FW_3_SRC_DIRECTORY}/main.c
-    ${FW_3_SRC_DIRECTORY}/pins.c
+add_executable(${FW_2_NAME}
+    ${FW_2_SRC_DIRECTORY}/main.c
+    ${FW_2_SRC_DIRECTORY}/pins.c
     ${COMMON_CODE_DIRECTORY}/serial.c
     ${COMMON_CODE_DIRECTORY}/led.c
     ${COMMON_CODE_DIRECTORY}/gpio.c
@@ -47,25 +47,25 @@ add_executable(${FW_3_NAME}
 
 # Compile debug sources
 # Now uses CMake generator expression to extract config type
-target_sources(${FW_3_NAME} PRIVATE "$<$<CONFIG:Debug>:${COMMON_CODE_DIRECTORY}/debug.c>")
+target_sources(${FW_2_NAME} PRIVATE "$<$<CONFIG:Debug>:${COMMON_CODE_DIRECTORY}/debug.c>")
 
 # Set the stack size
-target_compile_definitions(${FW_3_NAME} PRIVATE
+target_compile_definitions(${FW_2_NAME} PRIVATE
     PICO_HEAP_SIZE=8192
     PICO_STACK_SIZE=8192)
 
 # Link to built libraries
-target_link_libraries(${FW_3_NAME} LINK_PUBLIC
+target_link_libraries(${FW_2_NAME} LINK_PUBLIC
     pico_stdlib
     hardware_i2c
     hardware_pio)
 
-target_sources(${FW_3_NAME} PRIVATE ${FW_1_SRC_DIRECTORY}/ws2812.c)
-pico_generate_pio_header(${FW_3_NAME} ${FW_1_SRC_DIRECTORY}/ws2812.pio)
+target_sources(${FW_2_NAME} PRIVATE ${FW_1_SRC_DIRECTORY}/ws2812.c)
+pico_generate_pio_header(${FW_2_NAME} ${FW_1_SRC_DIRECTORY}/ws2812.pio)
 
 # Enable/disable STDIO via USB and UART
-pico_enable_stdio_usb(${FW_3_NAME} 1)
-pico_enable_stdio_uart(${FW_3_NAME} 0)
+pico_enable_stdio_usb(${FW_2_NAME} 1)
+pico_enable_stdio_uart(${FW_2_NAME} 0)
 
 # Enable extra build products
-pico_add_extra_outputs(${FW_3_NAME})
+pico_add_extra_outputs(${FW_2_NAME})

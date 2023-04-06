@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - Pimoroni Tiny 2040
  *
- * @version     1.2.1
+ * @version     1.2.2
  * @author      Tony Smith (@smittytone)
  * @copyright   2023
  * @licence     MIT

@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - Errors list
  *
- * @version     1.2.1
+ * @version     1.2.2
  * @author      Tony Smith (@smittytone)
  * @copyright   2023
  * @licence     MIT
@@ -66,7 +66,7 @@ enum HOST_ERRORS {
     // = 0xA4
     GPIO_CANT_SET_PIN           = 0xA5,
     GPIO_PIN_ALREADY_IN_USE     = 0xA6,
-    
+
 
     // DO NOT USE VALUE 0xF0
     GEN_DO_NOT_USE_ERR          = 0xF0,
