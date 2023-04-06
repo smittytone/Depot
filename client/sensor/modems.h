@@ -1,7 +1,7 @@
 /*
  * macOS/Linux 1-Wire DS18B20 readout GUI app - board discovery functions
  *
- * Version 1.2.0
+ * Version 1.2.2
  * Copyright © 2023, Tony Smith (@smittytone)
  * Licence: MIT
  *

@@ -66,7 +66,7 @@ project(${PROJECT_NAME}
 pico_sdk_init()
 
 # FROM 1.2.2
-# Check for specific board env var DEPOT_BOARD
+# Check for specific board env var `DEPOT_BOARD`
 if(("$ENV{DEPOT_BOARD}" GREATER_EQUAL "0") AND ("$ENV{DEPOT_BOARD}" LESS "6"))
     set(BLD_DIR "FW_$ENV{DEPOT_BOARD}_SRC_DIRECTORY")
     add_subdirectory("${${BLD_DIR}}")

@@ -20,7 +20,17 @@ The bus host board is a [Raspberry Pi Pico](https://www.raspberrypi.com/document
 
 It runs the included firmware and connects to a host computer via USB.
 
-There’s more information [in this blog post](https://blog.smittytone.net/2022/10/18/how-to-talk-to-i2c-sensors-displays-from-a-mac/).
+From version 1.2.2, you can set an environment variable, `DEPOT_BOARD`, to specify a particular supported board. If the variable is undefined, or defined incorrectly, the firmware will be built for all supported boards.
+
+| Board | `DEPOT_BOARD` Value |
+| :-- | :-: |
+| Pico | 0 |
+| QTPy | 1 |
+| ProMicro | 2 |
+| Trinkey | 3 |
+| Tiny | 4 |
+
+* There’s more information [in this blog post](https://blog.smittytone.net/2022/10/18/how-to-talk-to-i2c-sensors-displays-from-a-mac/).
 
 ## Build the Client Apps
 
@@ -50,6 +60,7 @@ In each case:
 **Important** WE STRONGLY RECOMMEND YOU BUILD THE FIRMWARE WITH PICO SDK 1.5.0 OR ABOVE.
 
 1. Navigate to the repo directory.
+1. Optionally enter `export DEPOT_BOARD=x`, where x is a board number ([see above](#bus-host-board)).
 1. `cmake -S . -B firmwarebuild`
 1. `cmake --build firmwarebuild`
 1. Write the firmware depending on which board you are using:
