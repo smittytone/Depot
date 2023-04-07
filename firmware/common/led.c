@@ -29,6 +29,8 @@ void led_on(void) {
     pico_led_on();
 #elif defined TINY_BUILD
     tiny_led_on();
+#elif defined NANO_BUILD
+    nano_led_on()
 #endif
 }
 
@@ -43,6 +45,8 @@ void led_off(void) {
     pico_led_off();
 #elif defined TINY_BUILD
     tiny_led_off();
+#elif defined NANO_BUILD
+    nano_led_off()
 #endif
 }
 
@@ -59,6 +63,8 @@ void led_set_state(bool is_on) {
     pico_led_set_state(is_on);
 #elif defined TINY_BUILD
     tiny_led_set_state(is_on);
+#elif defined NANO_BUILD
+    nano_led_set_state(is_on);
 #endif
 }
 
@@ -75,6 +81,8 @@ void led_flash(uint32_t count) {
     pico_led_flash(count);
 #elif defined TINY_BUILD
     tiny_led_flash(count);
+#elif defined NANO_BUILD
+    nano_led_flash(count);
 #endif
 }
 
@@ -90,5 +98,7 @@ void led_set_colour(uint32_t colour) {
     ws2812_set_colour(colour);
 #elif defined TINY_BUILD
     tiny_led_set_colour(colour);
+#elif defined NANO_BUILD
+    nano_led_set_colour(colour);
 #endif
 }

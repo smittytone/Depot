@@ -1,5 +1,5 @@
 /*
- * Depot RP2040 Bus Host Firmware - Raspberry Pi Pico
+ * Depot RP2040 Bus Host Firmware - Arduino Nano RP2040 Connect
  *
  * @version     1.2.2
  * @author      Tony Smith (@smittytone)
@@ -24,7 +24,7 @@
 #include "pico/binary_info.h"
 #include "hardware/gpio.h"
 // App includes
-#include "pico_led.h"
+#include "nano_led.h"
 #include "../common/serial.h"
 
 

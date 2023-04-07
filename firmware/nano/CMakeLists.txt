@@ -6,7 +6,7 @@ add_compile_definitions(
     FW_NAME="${FW_5_NAME}"
     FW_VERSION="${FW_VERSION_NUMBER}"
     BUILD_NUM=${FW_BUILD_NUMBER}
-    LED_BUILD=1
+    NANO_BUILD=1
     HW_MODEL="ARDUINO-NANO")
 
 # Set the device's I2C pins
@@ -21,7 +21,7 @@ add_compile_definitions(
 # Include app source code file(s)
 add_executable(${FW_5_NAME}
     ${FW_5_SRC_DIRECTORY}/main.c
-    ${FW_5_SRC_DIRECTORY}/pico_led.c
+    ${FW_5_SRC_DIRECTORY}/nano_led.c
     ${FW_5_SRC_DIRECTORY}/pins.c
     ${COMMON_CODE_DIRECTORY}/serial.c
     ${COMMON_CODE_DIRECTORY}/led.c

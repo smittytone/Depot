@@ -26,6 +26,10 @@
 #include "../tiny/tiny_led.h"
 #endif
 
+#ifdef NANO_BUILD
+#include "../nano/nano_led.h"
+#endif
+
 
 /*
  * PROTOTYPES
