@@ -15,8 +15,8 @@
  */
 int main(void) {
     // Initialise the LED
-    pico_led_init();
-    pico_led_off();
+    nano_led_init();
+    nano_led_off();
 
     // Enable STDIO and allow 2s for the board to come up
     if (stdio_usb_init()) {
@@ -33,7 +33,7 @@ int main(void) {
 
     // Could not initialize stdio over USB,
     // so signal error and end
-    pico_led_flash(10);
-    pico_led_on();
+    nano_led_flash(10);
+    nano_led_on();
     return 1;
 }

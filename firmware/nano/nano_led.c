@@ -20,7 +20,7 @@ static uint8_t SLAVERESET  = 5;  // reset pin
 /**
  * @brief Initialise the Nina module and its SPI link
  */
-void nano_led_init() {
+void nano_led_init(void) {
 
     // Initialise SPI link to Nina/ESP32
 
@@ -69,7 +69,7 @@ void nano_led_init() {
 /**
  * @brief Turn the LED off.
  */
-void nano_led_off() {
+void nano_led_off(void) {
 
     // SET Nina/ESP32 GPIO pins to HIGH
     nina_analog_write(NINA_LED_R, 255);
@@ -81,7 +81,7 @@ void nano_led_off() {
 /**
  * @brief Turn the LED on.
  */
-void nano_led_on() {
+void nano_led_on(void) {
 
     // SET Nina/ESP32 GPIO pins to LOW
     nina_analog_write(NINA_LED_R, 255 - colour.red);

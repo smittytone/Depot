@@ -9,8 +9,8 @@ add_compile_definitions(
     NANO_BUILD=1
     HW_MODEL="ARDUINO-NANO")
 
-# Set the device's default I2C pins
-# These are for the GPIO 0 and GPIO 1
+# Set the device's I2C pins
+# These are for the board pins 1 (GPIO 0) and 2 (GPIO 1)
 add_compile_definitions(
     DEFAULT_SDA_PIN=0
     DEFAULT_SCL_PIN=1
