@@ -30,7 +30,7 @@ void led_on(void) {
 #elif defined TINY_BUILD
     tiny_led_on();
 #elif defined NANO_BUILD
-    nano_led_on()
+    nano_led_on();
 #endif
 }
 
@@ -46,7 +46,7 @@ void led_off(void) {
 #elif defined TINY_BUILD
     tiny_led_off();
 #elif defined NANO_BUILD
-    nano_led_off()
+    nano_led_off();
 #endif
 }
 

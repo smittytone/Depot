@@ -51,6 +51,7 @@ void    nano_led_off(void);
 void    nano_led_on(void);
 void    nano_led_set_state(bool is_on);
 void    nano_led_flash(uint32_t count);
+void    nano_led_set_colour(uint32_t rgb_colour);
 
 
 #endif  // _HEADER_PICO_LED_

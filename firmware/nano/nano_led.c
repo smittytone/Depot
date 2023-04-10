@@ -16,7 +16,7 @@ Nano_LED_colour colour;
 /**
  * @brief Initialise the LED's GPIO pin
  */
-void nano_led_init() {
+void nano_led_init(void) {
 
     // Initialise SPI link to Nina/ESP32
 
@@ -27,7 +27,7 @@ void nano_led_init() {
 /**
  * @brief Turn the LED off.
  */
-void nano_led_off() {
+void nano_led_off(void) {
 
     // SET Nina/ESP32 GPIO pins to HIGH
 }
@@ -36,7 +36,7 @@ void nano_led_off() {
 /**
  * @brief Turn the LED on.
  */
-void nano_led_on() {
+void nano_led_on(void) {
 
     // SET Nina/ESP32 GPIO pins to LOW
 }

@@ -10,13 +10,11 @@ add_compile_definitions(
     HW_MODEL="ARDUINO-NANO")
 
 # Set the device's I2C pins
-# These are for the board pins 4 (GPIO 2) and 5 (GPIO 3)
-# You can set these to other I2C pins but make sure
-# you select pins on I2C1
+# These are for the board pins 1 (GPIO 0) and 2 (GPIO 1)
 add_compile_definitions(
-    DEFAULT_SDA_PIN=2
-    DEFAULT_SCL_PIN=3
-    DEFAULT_I2C_BUS=1)
+    DEFAULT_SDA_PIN=0
+    DEFAULT_SCL_PIN=1
+    DEFAULT_I2C_BUS=0)
 
 # Include app source code file(s)
 add_executable(${FW_5_NAME}

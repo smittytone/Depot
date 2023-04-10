@@ -219,7 +219,13 @@ static int process_commands(SerialDriver *sd, int argc, char *argv[], uint32_t d
 #endif
 
                                 bool result = i2c_set_bus(sd, (uint8_t)bus_id, (uint8_t)sda_pin, (uint8_t)scl_pin);
-                                if (!result) print_warning("I2C bus config un-ACK’d");
+                                if (!result) {
+                                    // FROM 1.2.2 -- Get and present error
+                                    print_error("I2C bus config un-ACK’d");
+                                    serial_get_last_error(sd);
+                                    return EXIT_ERR;
+                                }
+                                
                                 break;
                             }
                         }
@@ -244,7 +250,12 @@ static int process_commands(SerialDriver *sd, int argc, char *argv[], uint32_t d
 
                         if (speed == 1 || speed == 4) {
                             bool result = i2c_set_speed(sd, speed);
-                            if (!result) print_warning("Frequency set un-ACK’d");
+                            if (!result) {
+                                // FROM 1.2.2 -- Get and present error
+                                print_error("Frequency set un-ACK’d");
+                                serial_get_last_error(sd);
+                                return EXIT_ERR;
+                            }
                         } else {
                             print_warning("Incorrect I2C frequency selected. Should be 1(00kHz) or 4(00kHz)");
                         }
