@@ -29,14 +29,22 @@
 /*
  * CONSTANTS
  */
-#define     NINA_LED_R            18
-#define     NINA_LED_G            16
-#define     NINA_LED_B            17
+// Nina own pins
+#define     NINA_LED_R                      27 //18
+#define     NINA_LED_G                      25 //16
+#define     NINA_LED_B                      26 //17
 
-#define     NINA_CMD_SET_DIGITAL_WRITE      00
-#define     NINA_CMD_SET_PIN_MODE           11
-#define     NINA_CMD_END                    22
+// Nina firmware commands
+#define     NINA_CMD_SET_PIN_MODE           0x50
+#define     NINA_CMD_DIGITAL_WRITE          0x51
+#define     NINA_CMD_ANALOG_WRITE           0x52
+#define     NINA_CMD_START                  0xE0
+#define     NINA_CMD_END                    0xEE
 
+#define     NINA_OUT                        1
+#define     NINA_IN                         0
+
+// Nina RP2040 pins
 #define     NINA_PIN_RSTN                   3
 #define     NINA_PIN_GPIO0                  2
 #define     NINA_PIN_READY                  10
