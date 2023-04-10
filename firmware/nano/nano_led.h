@@ -23,6 +23,7 @@
 #include "pico/stdlib.h"
 #include "pico/binary_info.h"
 #include "hardware/gpio.h"
+#include "hardware/spi.h"
 
 
 /*
@@ -31,6 +32,20 @@
 #define     NINA_LED_R            18
 #define     NINA_LED_G            16
 #define     NINA_LED_B            17
+
+#define     NINA_CMD_SET_DIGITAL_WRITE      00
+#define     NINA_CMD_SET_PIN_MODE           11
+#define     NINA_CMD_END                    22
+
+#define     NINA_PIN_RSTN                   3
+#define     NINA_PIN_GPIO0                  2
+#define     NINA_PIN_READY                  10
+#define     NINA_PIN_SPI_CS                 9
+#define     NINA_PIN_SPI_TX                 11
+#define     NINA_PIN_SPI_RX                 8
+#define     NINA_PIN_SPI_SCK                14
+
+#define     NINA_SPI                        spi1
 
 
 /*

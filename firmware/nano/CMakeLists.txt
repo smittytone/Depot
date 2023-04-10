@@ -9,14 +9,12 @@ add_compile_definitions(
     NANO_BUILD=1
     HW_MODEL="ARDUINO-NANO")
 
-# Set the device's I2C pins
-# These are for the board pins 4 (GPIO 2) and 5 (GPIO 3)
-# You can set these to other I2C pins but make sure
-# you select pins on I2C1
+# Set the device's default I2C pins
+# These are for the GPIO 0 and GPIO 1
 add_compile_definitions(
-    DEFAULT_SDA_PIN=2
-    DEFAULT_SCL_PIN=3
-    DEFAULT_I2C_BUS=1)
+    DEFAULT_SDA_PIN=0
+    DEFAULT_SCL_PIN=1
+    DEFAULT_I2C_BUS=0)
 
 # Include app source code file(s)
 add_executable(${FW_5_NAME}
@@ -41,7 +39,8 @@ target_compile_definitions(${FW_5_NAME} PRIVATE
 # Link to built libraries
 target_link_libraries(${FW_5_NAME} LINK_PUBLIC
     pico_stdlib
-    hardware_i2c)
+    hardware_i2c
+    hardware_spi)
 
 # Enable/disable STDIO via USB and UART
 pico_enable_stdio_usb(${FW_5_NAME} 1)
