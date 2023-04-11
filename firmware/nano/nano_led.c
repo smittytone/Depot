@@ -15,18 +15,14 @@
  */
 static void nina_set_pin_mode(uint8_t pin, uint8_t mode);
 static void nina_send_cmd(uint8_t cmd, uint8_t pin, uint8_t value);
-static void nina_analog_write(uint8_t pin, uint8_t value);
+static void nina_pin_write(uint8_t pin, uint8_t value);
 static void nina_wait_for_ready(void);
-static void spi_send_cmd(uint8_t cmd, uint8_t num_params);
-static void spi_send_param(uint8_t* param, uint8_t param_len, bool is_last_param);
-static inline uint32_t spi_transfer(uint8_t data);
-static unsigned int spi_wait_response_cmd(uint8_t cmd, uint8_t numParam, uint8_t* param, uint8_t* param_len);
 
 
 /*
  * GLOBALS
  */
-Nano_LED_colour colour;
+RGB_LED_colour colour;
 
 
 /**
@@ -35,12 +31,14 @@ Nano_LED_colour colour;
 void nano_led_init(void) {
 
     // Set Nina GPIO pins
+    gpio_init(PIN_MONO_LED);
+    gpio_set_dir(PIN_MONO_LED, GPIO_OUT);
+    gpio_put(PIN_MONO_LED, false);
+
+    /*
     gpio_init(NINA_PIN_RSTN);
     gpio_set_dir(NINA_PIN_RSTN, GPIO_OUT);
     gpio_put(NINA_PIN_RSTN, false);
-
-    gpio_init(NINA_PIN_READY);
-    gpio_set_dir(NINA_PIN_READY, GPIO_IN);
 
     gpio_init(NINA_PIN_GPIO0);
     gpio_set_dir(NINA_PIN_GPIO0, GPIO_OUT);
@@ -54,7 +52,6 @@ void nano_led_init(void) {
     sleep_ms(10);
     gpio_put(NINA_PIN_RSTN, true);
     sleep_ms(750);
-    gpio_put(NINA_PIN_GPIO0, false);
     gpio_set_dir(NINA_PIN_GPIO0, GPIO_IN);
 
     // Init SPI1
@@ -69,6 +66,7 @@ void nano_led_init(void) {
     nina_set_pin_mode(NINA_LED_R, NINA_OUT);
     nina_set_pin_mode(NINA_LED_G, NINA_OUT);
     nina_set_pin_mode(NINA_LED_B, NINA_OUT);
+    */
 }
 
 
@@ -78,9 +76,14 @@ void nano_led_init(void) {
 void nano_led_off(void) {
 
     // SET Nina/ESP32 GPIO pins to HIGH
-    nina_analog_write(NINA_LED_R, 255);
-    nina_analog_write(NINA_LED_G, 255);
-    nina_analog_write(NINA_LED_B, 255);
+    /*
+    nina_pin_write(NINA_LED_R, 1);
+    nina_pin_write(NINA_LED_G, 1);
+    nina_pin_write(NINA_LED_B, 1);
+    */
+    
+    // Use the mono LED for now
+    gpio_put(PIN_MONO_LED, false);
 }
 
 
@@ -90,9 +93,14 @@ void nano_led_off(void) {
 void nano_led_on(void) {
 
     // SET Nina/ESP32 GPIO pins to LOW
-    nina_analog_write(NINA_LED_R, 255 - colour.red);
-    nina_analog_write(NINA_LED_G, 255 - colour.green);
-    nina_analog_write(NINA_LED_B, 255 - colour.blue);
+    /*
+    nina_pin_write(NINA_LED_R, 0);
+    nina_pin_write(NINA_LED_G, 0);
+    nina_pin_write(NINA_LED_B, 0);
+    */
+
+    // Use the mono LED for now
+    gpio_put(PIN_MONO_LED, true);
 }
 
 
@@ -151,7 +159,7 @@ static void nina_set_pin_mode(uint8_t pin, uint8_t mode) {
 }
 
 
-static void nina_analog_write(uint8_t pin, uint8_t value) {
+static void nina_pin_write(uint8_t pin, uint8_t value) {
 
     nina_send_cmd(NINA_CMD_ANALOG_WRITE, pin, value);
 }
@@ -159,18 +167,23 @@ static void nina_analog_write(uint8_t pin, uint8_t value) {
 
 static void nina_send_cmd(uint8_t cmd, uint8_t pin, uint8_t value) {
 
+    uint8_t buffer[8] = {0};
+    buffer[0] = NINA_CMD_START;     // Packet start
+    buffer[1] = cmd & 0x7F;         // Command + reply bit (7)  
+    buffer[2] = 2;                  // Param count
+    buffer[3] = 1;                  // Param #1 length
+    buffer[4] = pin;                // Param #1
+    buffer[5] = 1;                  // Param #2 length
+    buffer[6] = value;              // Param #2
+    buffer[7] = NINA_CMD_END;       // Packet end
+    
     // Select CS
     nina_wait_for_ready();
     gpio_put(NINA_PIN_SPI_CS, false);
 
     // Send Command
-    spi_send_cmd(cmd, 2);
-    spi_send_param((uint8_t*)&pin, 1, false);
-    spi_send_param((uint8_t*)&value, 1, true);
-
-    // Pad to multiple of 4
-    spi_transfer(0xFF);  // 'D' for Dummy
-
+    uint32_t bytes_sent = spi_write_blocking(NINA_SPI, buffer, sizeof(buffer));
+    
     // Deselect CS
     gpio_put(NINA_PIN_SPI_CS, true);
 }
@@ -179,71 +192,9 @@ static void nina_send_cmd(uint8_t cmd, uint8_t pin, uint8_t value) {
 static void nina_wait_for_ready(void) {
 
     uint64_t last = time_us_64();
-    while (time_us_64() - last > 5000) {
+    while (time_us_64() - last > 6000) {
         if (gpio_get(NINA_PIN_READY)) {
             break;
         }
     }
 }
-
-
-static void spi_send_cmd(uint8_t cmd, uint8_t num_params) {
-
-    // Send SPI START CMD
-    spi_transfer(NINA_CMD_START);
-
-    // Send SPI C + cmd
-    spi_transfer(cmd & ~0x80);
-
-    // Send SPI numParam
-    spi_transfer(num_params);
-
-    // No params? Send END command
-    if (num_params == 0) spi_transfer(NINA_CMD_END);
-}
-
-
-static void spi_send_param(uint8_t* param, uint8_t param_len, bool is_last_param) {
-
-    // Send SPI paramLen
-    spi_transfer(param_len);
-
-    // Send SPI param data
-    for (uint32_t i = 0 ; i < param_len ; ++i) {
-        spi_transfer(param[i]);
-    }
-
-    // All done? Send END command
-    if (is_last_param) spi_transfer(NINA_CMD_END);
-}
-
-
-static inline uint32_t spi_transfer(uint8_t data) {
-
-    return spi_write_blocking(NINA_SPI, &data, 1);
-}
-
-
-/*
-static unsigned int spi_wait_response_cmd(uint8_t cmd, uint8_t numParam, uint8_t* param, uint8_t* param_len) {
-
-    char _data = 0;
-    int ii = 0;
-
-    IF_CHECK_START_CMD(_data) {
-        CHECK_DATA(cmd | REPLY_FLAG, _data){};
-        CHECK_DATA(numParam, _data) {
-            readParamLen8(param_len);
-            for (ii = 0 ; ii < (*param_len) ; ++ii)
-            {
-                // Get Params data
-                getParam(&param[ii]);
-            }
-        }
-
-        readAndCheckChar(END_CMD, &_data);
-    }
-
-    return 1;
-}
-*/

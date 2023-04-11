@@ -30,7 +30,7 @@
  * CONSTANTS
  */
 // Nina own pins
-#define     NINA_LED_R                      27 //18
+#define     NINA_LED_R                      27 //18 Should these be GPIO numbers (used) or pin numbers? (comment values)
 #define     NINA_LED_G                      25 //16
 #define     NINA_LED_B                      26 //17
 
@@ -43,27 +43,20 @@
 
 #define     NINA_OUT                        1
 #define     NINA_IN                         0
+#define     NINA_HIGH                       1
+#define     NINA_LOW                        0
 
-// Nina RP2040 pins
-#define     NINA_PIN_RSTN                   3
+// Nina RP2040 pins and buses
 #define     NINA_PIN_GPIO0                  2
+#define     NINA_PIN_RSTN                   3
 #define     NINA_PIN_READY                  10
 #define     NINA_PIN_SPI_CS                 9
-#define     NINA_PIN_SPI_TX                 11
 #define     NINA_PIN_SPI_RX                 8
+#define     NINA_PIN_SPI_TX                 11
 #define     NINA_PIN_SPI_SCK                14
-
 #define     NINA_SPI                        spi1
 
-
-/*
- * STRUCTURES
- */
-typedef struct {
-    uint16_t red;
-    uint16_t green;
-    uint16_t blue;
-} Nano_LED_colour;
+#define     PIN_MONO_LED                    6
 
 
 /*

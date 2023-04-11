@@ -32,6 +32,16 @@
 
 
 /*
+ * STRUCTURES
+ */
+typedef struct {
+    uint16_t red;
+    uint16_t green;
+    uint16_t blue;
+} RGB_LED_colour;
+
+
+/*
  * PROTOTYPES
  */
 void led_off(void);

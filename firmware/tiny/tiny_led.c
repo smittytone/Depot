@@ -10,7 +10,7 @@
 #include "main.h"
 
 
-Tiny_LED_colour colour;
+RGB_LED_colour colour;
 
 
 /**

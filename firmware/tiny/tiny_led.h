@@ -37,16 +37,6 @@
 
 
 /*
- * STRUCTURES
- */
-typedef struct {
-    uint16_t red;
-    uint16_t green;
-    uint16_t blue;
-} Tiny_LED_colour;
-
-
-/*
  * PROTOTYPES
  */
 void    tiny_led_init(void);

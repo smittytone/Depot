@@ -16,7 +16,7 @@ Why Depot? Because it’s a place in which you’ll find lots of buses.
 
 ### Bus Host Board
 
-The bus host board is a [Raspberry Pi Pico](https://www.raspberrypi.com/documentation/microcontrollers/raspberry-pi-pico.html), [Adafruit QTPy RP2040](https://www.adafruit.com/product/4900), [Adafruit QT2040 Trinkey](https://www.adafruit.com/product/5056), [SparkFun ProMicro RP2040](https://www.sparkfun.com/products/18288) or [Pimoroni Tiny 2040](https://shop.pimoroni.com/products/tiny-2040?variant=39560012234835).
+The bus host board is a [Raspberry Pi Pico](https://www.raspberrypi.com/documentation/microcontrollers/raspberry-pi-pico.html), [Adafruit QTPy RP2040](https://www.adafruit.com/product/4900), [Adafruit QT2040 Trinkey](https://www.adafruit.com/product/5056), [SparkFun ProMicro RP2040](https://www.sparkfun.com/products/18288), [Pimoroni Tiny 2040](https://shop.pimoroni.com/products/tiny-2040?variant=39560012234835) or [Arduino Nano RP2040 Connect](https://store.arduino.cc/products/arduino-nano-rp2040-connect-with-headers).
 
 It runs the included firmware and connects to a host computer via USB.
 
@@ -29,6 +29,7 @@ From version 1.2.2, you can set an environment variable, `DEPOT_BOARD`, to speci
 | ProMicro | 2 |
 | Trinkey | 3 |
 | Tiny | 4 |
+| Nano | 5 |
 
 * There’s more information [in this blog post](https://blog.smittytone.net/2022/10/18/how-to-talk-to-i2c-sensors-displays-from-a-mac/).
 
@@ -69,6 +70,7 @@ In each case:
     * `./deploy.sh /path/to/device firmwarebuild/firmware/promicro/firmware_promicro.uf2`
     * `./deploy.sh /path/to/device firmwarebuild/firmware/tiny/firmware_tiny2040.uf2`
     * `./deploy.sh /path/to/device firmwarebuild/firmware/trinkey/firmware_trinkey2040.uf2`
+    * `./deploy.sh /path/to/device firmwarebuild/firmware/nano/firmware_arduino_nano.uf2.uf2`
 
 The deploy script tricks the RP2040-based board into booting into disk mode, then copies over the newly build firmware. When the copy completes, the RP2040 automatically reboots. This saves of a lot of tedious power-cycling with the BOOT button held down.
 
@@ -99,41 +101,43 @@ The contents of this repo are:
 ```
 /depot
 |
-|___/client                     // Client-side code, written in C
-|   |___/cli2c                  // A generic CLI tool for any I&sup2;C device
-|   |___/matrix                 // An HT16K33 8x8 matrix-oriented version of cli2c
-|   |___/segment                // An HT16K33 4-digit, 7-segment-oriented version of cli2c
-|   |___/cliwire                // A generic CLI tool for any 1-Wire device
-|   |___/common                 // Code common to all versions
-|   |___/i2c                    // I2C driver code
-|   |___/onewire                // 1-Wire driver code
-|   |___/ds18b20                // A DS18B20-oriented version of cliwire
-|   |___/sensor                 // A macOS GUI app the uses the 1-Wire and serial driver code.
+|___/client                         // Client-side code, written in C
+|   |___/cli2c                      // A generic CLI tool for any I&sup2;C device
+|   |___/matrix                     // An HT16K33 8x8 matrix-oriented version of cli2c
+|   |___/segment                    // An HT16K33 4-digit, 7-segment-oriented version of cli2c
+|   |___/cliwire                    // A generic CLI tool for any 1-Wire device
+|   |___/common                     // Code common to all versions
+|   |___/i2c                        // I2C driver code
+|   |___/onewire                    // 1-Wire driver code
+|   |___/ds18b20                    // A DS18B20-oriented version of cliwire
+|   |___/sensor                     // A macOS GUI app the uses the 1-Wire and serial driver code.
 |
-|___/firmware                   // The RP2040 host firmware, written in C
-|   |___/pico                   // The Raspberry Pi Pico version
-|   |___/qtpy                   // An Adafruit QTPy RP2040 version
-|   |___/promicro               // A SparkFun ProMicro RP2040 version
-|   |___/tiny                   // A Pimoroni Tiny 2040 version
-|   |___/trinkey                // An Adafruit QT2040 Trinkey version
-|   |___/common                 // Code common to all versions
+|___/firmware                       // The RP2040 host firmware, written in C
+|   |___/pico                       // The Raspberry Pi Pico version
+|   |___/nano                       // An Arduino Nano RP2040 Connect version
+|   |___/promicro                   // A SparkFun ProMicro RP2040 version
+|   |___/qtpy                       // An Adafruit QTPy RP2040 version
+|   |___/tiny                       // A Pimoroni Tiny 2040 version
+|   |___/trinkey                    // An Adafruit QT2040 Trinkey version
+|   |___/common                     // Code common to all versions
 |
-|___/examples                   // Demo apps
-|   |___cpu_chart_matrix.py     // CPU utilization display for 8x8 matrix LEDs
-|   |___cpu_chart_segment.py    // CPU utilization display for 4-digit segment LEDs
-|   |___mcp9809_temp.py         // Periodic temperature reports from an MCP9808 sensor
+|___/examples                       // Demo apps
+|   |___cpu_chart_matrix.py         // CPU utilization display for 8x8 matrix LEDs
+|   |___cpu_chart_segment.py        // CPU utilization display for 4-digit segment LEDs
+|   |___cpu_chart_ltp305_cli2c.py   // CPU utilization display for twin LTP305 matrices
+|   |___mcp9809_temp.py             // Periodic temperature reports from an MCP9808 sensor
 |
-|___/linux                      // Linux build settings (Cmake) for the client apps
+|___/linux                          // Linux build settings (Cmake) for the client apps
 |
-|___CMakeLists.txt              // Top-level firmware project CMake config file
-|___pico_sdk_import.cmake       // Raspberry Pi Pico SDK CMake import script
+|___CMakeLists.txt                  // Top-level firmware project CMake config file
+|___pico_sdk_import.cmake           // Raspberry Pi Pico SDK CMake import script
 |
-|___firmware.code-workspace     // Visual Studio Code workspace for the RP2040 firmware
-|___cli2c.xcodeproj             // Xcode project for cli2c, matrix and segment
-|___cliwire.xcodeproj           // Xcode project for cliwire
+|___firmware.code-workspace         // Visual Studio Code workspace for the RP2040 firmware
+|___cli2c.xcodeproj                 // Xcode project for cli2c, matrix and segment
+|___cliwire.xcodeproj               // Xcode project for cliwire
 |
-|___deploy.sh                   // A .uf2 deployment script that saves pressing
-|                               // RESET/BOOTSEL buttons.
+|___deploy.sh                       // A .uf2 deployment script that saves pressing
+|                                   // RESET/BOOTSEL buttons.
 |
 |___README.md
 |___LICENSE.md

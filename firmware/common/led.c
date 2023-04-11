@@ -98,7 +98,5 @@ void led_set_colour(uint32_t colour) {
     ws2812_set_colour(colour);
 #elif defined TINY_BUILD
     tiny_led_set_colour(colour);
-#elif defined NANO_BUILD
-    nano_led_set_colour(colour);
 #endif
 }
