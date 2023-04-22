@@ -20,6 +20,13 @@ static void nina_wait_for_ready(void);
 
 
 /*
+ * TODO
+ *
+ * Update the code here to use the Nano's RGB LED
+ */
+
+
+/*
  * GLOBALS
  */
 RGB_LED_colour colour;
