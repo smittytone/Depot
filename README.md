@@ -4,7 +4,7 @@ Multi-bus clients for macOS and Linux, and bus-host adaptor board firmware for t
 
 It is used as the basis for I&sup2;C client apps for generic I&sup2;C usage, and to operate Holtek HT16K33-controlled matrix and segment LED displays, and 1-Wire apps for generic 1-Wire usage and to use the Analog Devices DS18B20 sensors.
 
-![Driving a pair of LTP305 LED matrices as a CPU activity indicator](images/matrix_002.jpg)
+![Driving a pair of LTP305 LED matrices as a CPU activity indicator](images/matrix_002.webp)
 
 The client code is largely written in C, and will compile and run on both macOS and Linux. The exceptions are the DS18B20 command-line utility and DS18B20 GUI app, both of which are written in Swift — and the latter is built for the macOS GUI.
 
@@ -19,6 +19,8 @@ Why Depot? Because it’s a place in which you’ll find lots of buses.
 The bus host board is a [Raspberry Pi Pico](https://www.raspberrypi.com/documentation/microcontrollers/raspberry-pi-pico.html), [Adafruit QTPy RP2040](https://www.adafruit.com/product/4900), [Adafruit QT2040 Trinkey](https://www.adafruit.com/product/5056), [SparkFun ProMicro RP2040](https://www.sparkfun.com/products/18288), [Pimoroni Tiny 2040](https://shop.pimoroni.com/products/tiny-2040?variant=39560012234835) or [Arduino Nano RP2040 Connect](https://store.arduino.cc/products/arduino-nano-rp2040-connect-with-headers).
 
 It runs the included firmware and connects to a host computer via USB.
+
+![Driving a segment display with the Arduino Nano](images/nano_seg.webp)
 
 From version 1.2.2, you can set an environment variable, `DEPOT_BOARD`, to specify a particular supported board. If the variable is undefined, or defined incorrectly, the firmware will be built for all supported boards.
 
