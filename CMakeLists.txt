@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.18)
 
 # Set project data
 set(PROJECT_NAME "Depot Bus Host Firmware")
-set(FW_BUILD_NUMBER "43")
+set(FW_BUILD_NUMBER "44")
 set(FW_VERSION_NUMBER "1.2.2")
 
 # Set app name(s) and version(s)
@@ -25,6 +25,21 @@ set(FW_4_SRC_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/trinkey")
 # FROM 1.2.2
 set(FW_5_NAME "firmware_arduino_nano")
 set(FW_5_SRC_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/nano")
+
+# FROM 1.2.2
+# Create a list of Depot-supported PICO_BOARD values
+set(BOARD_LIST  "pico"
+                "adafruit_qtpy_rp2040"
+                "sparkfun_promicro"
+                "pimoroni_tiny2040"
+                "adafruit_trinkey_qt2040"
+                "arduino_nano_rp2040_connect")
+set(NAME_LIST   "Pico"
+                "Adafruit QTPy RP2040"
+                "SparkFun ProMicro"
+                "Pimoroni Tiny 2040"
+                "Adafruit Trinkey QT2040"
+                "Arduino Nano RP2040 Connect")
 
 # Move common source code to a separate directory
 set(COMMON_CODE_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/common")
@@ -62,20 +77,38 @@ project(${PROJECT_NAME}
         HOMEPAGE_URL https://smittytone.net/depot
 )
 
+# FROM 1.2.2
+# Check for a board type set using the Pico SDK's `PICO_BOARD` env var
+set(BOARD_INDEX -1)
+if(DEFINED ENV{PICO_BOARD})
+    set(PICO_BOARD $ENV{PICO_BOARD})
+    list(FIND BOARD_LIST ${PICO_BOARD} BOARD_INDEX)
+    if(BOARD_INDEX EQUAL -1)
+        message("[DEPOT] Environmemnt variable PICO_BOARD set to unsupported board '${PICO_BOARD}'.")
+    else()
+        message("[DEPOT] Environmemnt variable PICO_BOARD set to supported board '${PICO_BOARD}'.")
+    endif()
+else()
+    message("[DEPOT] Environmemnt variable PICO_BOARD undefined.")
+endif()
+
 # Initialise the Pico SDK
 pico_sdk_init()
 
 # FROM 1.2.2
-# Check for specific board env var `DEPOT_BOARD`
-if(("$ENV{DEPOT_BOARD}" GREATER_EQUAL "0") AND ("$ENV{DEPOT_BOARD}" LESS "6"))
-    set(BLD_DIR "FW_$ENV{DEPOT_BOARD}_SRC_DIRECTORY")
-    add_subdirectory("${${BLD_DIR}}")
-else()
+# Build for a specific board, or for all
+if(BOARD_INDEX EQUAL -1)
     # Include all the apps' source code
+    message("[DEPOT] Configuring builds for all supported boards.")
     add_subdirectory(${FW_0_SRC_DIRECTORY}) # Pico
     add_subdirectory(${FW_1_SRC_DIRECTORY}) # QTPy
     add_subdirectory(${FW_2_SRC_DIRECTORY}) # ProMicro
     add_subdirectory(${FW_3_SRC_DIRECTORY}) # Tiny
     add_subdirectory(${FW_4_SRC_DIRECTORY}) # Trinkey
     add_subdirectory(${FW_5_SRC_DIRECTORY}) # Arduino Nano
+else()
+    list(GET NAME_LIST ${BOARD_INDEX} BOARD)
+    message("[DEPOT] Configuring build for ${BOARD}.")
+    set(BLD_DIR "FW_${BOARD_INDEX}_SRC_DIRECTORY")
+    add_subdirectory("${${BLD_DIR}}")
 endif()

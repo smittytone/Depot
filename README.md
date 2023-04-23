@@ -22,18 +22,18 @@ It runs the included firmware and connects to a host computer via USB.
 
 ![Driving a segment display with the Arduino Nano](images/nano_seg.webp)
 
-From version 1.2.2, you can set an environment variable, `DEPOT_BOARD`, to specify a particular supported board. If the variable is undefined, or defined incorrectly, the firmware will be built for all supported boards.
+From version 1.2.2, the build system will use the standard Pico SDK environment variable `PICO_BOARD`, if set, to configure compilation for a particular supported board. If the variable is undefined, or set to a board not yet supported by Depot, the firmware will be built for all supported boards.
 
-| Board | `DEPOT_BOARD` Value |
-| :-- | :-: |
-| Pico | 0 |
-| QTPy | 1 |
-| ProMicro | 2 |
-| Trinkey | 3 |
-| Tiny | 4 |
-| Nano | 5 |
+| Board | `PICO_BOARD` Value |
+| :-- | :-- |
+| Pico | `pico` |
+| QTPy | `adafruit_qtpy_rp2040` |
+| ProMicro | `sparkfun_promicro` |
+| Tiny | `pimoroni_tiny2040` |
+| Trinkey | `adafruit_trinkey_qt2040` |
+| Nano | `arduino_nano_rp2040_connect` |
 
-* There’s more information [in this blog post](https://blog.smittytone.net/2022/10/18/how-to-talk-to-i2c-sensors-displays-from-a-mac/).
+* There’s more information [in this blog post](https://blog.smittytone.net/2023/03/16/meet-depot-an-rp2040-based-multi-bus-adaptor-for-macs-and-linux-pcs/).
 
 ## Build the Client Apps
 
@@ -63,7 +63,7 @@ In each case:
 **Important** WE STRONGLY RECOMMEND YOU BUILD THE FIRMWARE WITH PICO SDK 1.5.0 OR ABOVE.
 
 1. Navigate to the repo directory.
-1. Optionally enter `export DEPOT_BOARD=x`, where x is a board number ([see above](#bus-host-board)).
+1. Optionally enter `export PICO_BOARD=x`, where x is a board name ([see above](#bus-host-board)).
 1. `cmake -S . -B firmwarebuild`
 1. `cmake --build firmwarebuild`
 1. Write the firmware depending on which board you are using:
@@ -195,8 +195,8 @@ The 1-Wire driver is based on code I produced for the Twilio Electric Imp IoT pl
 ## Release Notes
 
 - 1.2.2 *Unreleased*
-    - Support `DEPOT_BOARD` environment variable to select specific firmware target.
-    - Support Arduino Nano RP2040 Connect.
+    - Support the Pico SDK’s `PICO_BOARD` environment variable to select specific firmware targets.
+    - Support the Arduino Nano RP2040 Connect.
 - 1.2.1 *21 March 2023*
     - Add LTP305 LED matrix example.
     - Add example instructions.
