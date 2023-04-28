@@ -90,7 +90,7 @@ fastlane/test_output
 
 iOSInjectionProject/
 
-Linux/*build/
-Linux/.exports
+linux/*build/
+linux/.exports
 .exports
 # .vscode/
