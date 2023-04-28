@@ -1,4 +1,4 @@
-# Depot 1.2.2
+# Depot 1.2.3
 
 Multi-bus clients for macOS and Linux, and bus-host adaptor board firmware for the RP2040.
 
@@ -180,6 +180,8 @@ All the examples run at the command line and take the path to the adaptor device
 python examples/cpu_chart_ltp305_cli2c.py /dev/cu.usbserial-0101 0x63
 ```
 
+![Driving a segment LED as a CPU activity indicator](images/pico_seg.webp)
+
 ## Acknowledgements
 
 This work was inspired by James Bowman’s ([@jamesbowman](https://github.com/jamesbowman)) [`i2ccl` tool](https://github.com/jamesbowman/i2cdriver), which was written as a macOS/Linux/Windows command line tool to connect to his [I2CMini board](https://i2cdriver.com/mini.html).
@@ -194,6 +196,8 @@ The 1-Wire driver is based on code I produced for the Twilio Electric Imp IoT pl
 
 ## Release Notes
 
+- 1.2.3 *Unreleased*
+    - Remove some delays on UART-over-USB comms.
 - 1.2.2 *23 April 2023*
     - Support the Pico SDK’s `PICO_BOARD` environment variable to select specific firmware targets.
     - Support the Arduino Nano RP2040 Connect.
