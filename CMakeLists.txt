@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.18)
 
 # Set project data
 set(PROJECT_NAME "Depot Bus Host Firmware")
-set(FW_BUILD_NUMBER "44")
-set(FW_VERSION_NUMBER "1.2.2")
+set(FW_BUILD_NUMBER "45")
+set(FW_VERSION_NUMBER "1.2.3")
 
 # Set app name(s) and version(s)
 # NOTE Indices changed from 1.2.2

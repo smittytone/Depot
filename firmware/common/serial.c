@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - Primary serial and command functions
  *
- * @version     1.2.2
+ * @version     1.2.3
  * @author      Tony Smith (@smittytone)
  * @copyright   2023
  * @licence     MIT
@@ -572,7 +572,8 @@ static uint32_t rx(uint8_t* buffer) {
         c = getchar_timeout_us(1);
         if (c == PICO_ERROR_TIMEOUT) break;
         buffer[buffer_byte_count++] = (uint8_t)c;
-        sleep_ms(UART_LOOP_DELAY_MS);
+        // FROM 1.2.3 -- remove the delay
+        //sleep_ms(UART_LOOP_DELAY_MS);
     }
 
 #ifdef DO_UART_DEBUG
@@ -592,10 +593,9 @@ void tx(uint8_t* buffer, uint32_t byte_count) {
 
     for (uint32_t i = 0 ; i < byte_count ; ++i) {
         putchar((buffer[i]));
-        sleep_ms(UART_LOOP_DELAY_MS);
+        // FROM 1.2.3 -- remove the delay
+        //sleep_ms(UART_LOOP_DELAY_MS);
     }
-
-    // stdio_flush();
 }
 
 
