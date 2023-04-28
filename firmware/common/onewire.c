@@ -319,7 +319,6 @@ void ow_send_state(OneWireState* ows) {
     );
 
     char model[HW_MODEL_NAME_SIZE_MAX + 1] = {0};
-    //strncpy(model, model, HW_MODEL_NAME_SIZE_MAX);
     strncat(model, HW_MODEL, HW_MODEL_NAME_SIZE_MAX);
 
     // Generate and return the status data string.

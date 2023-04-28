@@ -22,6 +22,7 @@ static bool pin_check(uint8_t* pins, uint8_t pin);
  */
 // FROM 1.1.3
 // Access individual boards' pin arrays
+// (see, for example, `firmware/pico/pins.c`)
 extern uint8_t I2C_PIN_PAIRS_BUS_0[];
 extern uint8_t I2C_PIN_PAIRS_BUS_1[];
 
