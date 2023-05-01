@@ -30,6 +30,7 @@
 #include "i2c.h"
 #include "errors.h"
 #include "onewire.h"
+#include "button.h"
 
 #ifdef DO_UART_DEBUG
 #include "debug.h"
@@ -83,6 +84,7 @@
 #define PIN_USAGE_FIELD_GPIO                    0x01
 #define PIN_USAGE_FIELD_I2C                     0x02
 #define PIN_USAGE_FIELD_ONEWIRE                 0x10
+
 
 /*
  * PROTOTYPES

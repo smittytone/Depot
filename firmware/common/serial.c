@@ -36,6 +36,8 @@ char supported_modes[MAX_NUMBER_OF_MODES] = { MODE_CODE_NONE };
 I2C_State i2c_state;
 OneWireState ow_state;
 GPIO_State gpio_state;
+// FROM 1.2.3
+Button_State btn_state;
 
 
 /**
@@ -65,7 +67,7 @@ void rx_loop(void) {
     i2c_state.scl_pin = DEFAULT_SCL_PIN;                  // The I2C SCL pin
 
     // FROM 1.1.0 -- record GPIO pin state
-    memset(gpio_state.state_map, 0, GPIO_PIN_MAX + 1);
+    memset(gpio_state.state_map, 0x00, GPIO_PIN_MAX + 1);
 
     // FROM 1.2.0 -- record OneWire state
     ow_state.is_ready = false;
@@ -83,6 +85,12 @@ void rx_loop(void) {
 
     // FROM 1.1.3
     uint last_error_code = GEN_NO_ERROR;
+
+    // FROM 1.2.3
+    // Button variables
+    memset(btn_state.buttons, 0x00, sizeof(Button*) * 32);
+    btn_state.state = 0;
+    btn_state.count = 0;
 
     // Heartbeat variables
     uint64_t last = time_us_64();
@@ -481,6 +489,44 @@ void rx_loop(void) {
                         }
                         break;
 
+                    case 'b':   // SET BUTTON ON GPIO
+                        {
+                            uint8_t gpio_pin = (rx_buffer[1] & 0x1F);
+                            bool is_read = (rx_buffer[1] & 0x20);
+
+                            // Read operation? Return the four-byte status
+                            if (is_read) {
+                                // TODO CHECK BYTE ORDER AT RECEIVE END!!!!
+                                tx((uint8_t*)&btn_state.state, 4);
+                                break;
+                            }
+
+                            // Clear operation? Check for a postfix byte of the right value
+                            if (read_count > 2 && (rx_buffer[2] & 0x80)) {
+                                clear_button(&btn_state, gpio_pin);
+                                send_ack();
+                                break;
+                            }
+
+                            // If we've got this far, this is a set operation.
+                            // Make sure the button's GPIO pin is good to use.
+                            if (is_pin_taken(gpio_pin) > 1) {
+                                last_error_code = GPIO_PIN_ALREADY_IN_USE;
+                                send_err();
+                                break;
+                            }
+
+                            // Attempt to set the button
+                            if (!set_button(&btn_state, rx_buffer)) {
+                                last_error_code = GPIO_CANT_SET_BUTTON;
+                                send_err();
+                                break;
+                            }
+
+                            send_ack();
+                        }
+                        break;
+
                     default:    // UNKNOWN COMMAND -- FAIL
                         last_error_code = GEN_UNKNOWN_COMMAND;
                         send_err();
@@ -515,6 +561,10 @@ void rx_loop(void) {
             }
         }
 #endif
+
+        // FROM 1.2.3
+        // Button checks
+        if (btn_state.count > 0) poll_buttons(&btn_state);
 
         // Pause? May not be necessary or might be bad
         sleep_ms(RX_LOOP_DELAY_MS);

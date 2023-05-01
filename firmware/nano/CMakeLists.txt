@@ -7,14 +7,16 @@ add_compile_definitions(
     FW_VERSION="${FW_VERSION_NUMBER}"
     BUILD_NUM=${FW_BUILD_NUMBER}
     NANO_BUILD=1
-    HW_MODEL="ARDUINO-NANO")
+    HW_MODEL="ARDUINO-NANO"
+)
 
 # Set the device's I2C pins
 # These are for the board pins 1 (GPIO 0) and 2 (GPIO 1)
 add_compile_definitions(
     DEFAULT_SDA_PIN=0
     DEFAULT_SCL_PIN=1
-    DEFAULT_I2C_BUS=0)
+    DEFAULT_I2C_BUS=0
+)
 
 # Include app source code file(s)
 add_executable(${FW_5_NAME}
@@ -26,6 +28,7 @@ add_executable(${FW_5_NAME}
     ${COMMON_CODE_DIRECTORY}/gpio.c
     ${COMMON_CODE_DIRECTORY}/i2c.c
     ${COMMON_CODE_DIRECTORY}/onewire.c
+    ${COMMON_CODE_DIRECTORY}/button.c
 )
 
 # Compile debug sources
@@ -34,13 +37,15 @@ target_sources(${FW_5_NAME} PRIVATE "$<$<CONFIG:Debug>:${COMMON_CODE_DIRECTORY}/
 # Set the stack size
 target_compile_definitions(${FW_5_NAME} PRIVATE
     PICO_HEAP_SIZE=8192
-    PICO_STACK_SIZE=8192)
+    PICO_STACK_SIZE=8192
+)
 
 # Link to built libraries
 target_link_libraries(${FW_5_NAME} LINK_PUBLIC
     pico_stdlib
     hardware_i2c
-    hardware_spi)
+    hardware_spi
+)
 
 # Enable/disable STDIO via USB and UART
 pico_enable_stdio_usb(${FW_5_NAME} 1)

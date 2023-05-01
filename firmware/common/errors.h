@@ -66,6 +66,7 @@ enum HOST_ERRORS {
     // = 0xA4
     GPIO_CANT_SET_PIN           = 0xA5,
     GPIO_PIN_ALREADY_IN_USE     = 0xA6,
+    GPIO_CANT_SET_BUTTON        = 0xA7,
 
 
     // DO NOT USE VALUE 0xF0

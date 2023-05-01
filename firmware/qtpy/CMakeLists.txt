@@ -10,7 +10,8 @@ add_compile_definitions(
     FW_VERSION="${FW_VERSION_NUMBER}"
     BUILD_NUM=${FW_BUILD_NUMBER}
     NEO_BUILD=1
-    HW_MODEL="ADA-QTPY-RP2040")
+    HW_MODEL="ADA-QTPY-RP2040"
+)
 
 # Set the device's I2C pins
 # These are for the board pins A2 (SCL) and A3 (SDA)
@@ -20,20 +21,23 @@ if (USE_STEMMA)
     add_compile_definitions(
         DEFAULT_SDA_PIN=26
         DEFAULT_SCL_PIN=27
-        DEFAULT_I2C_BUS=1)
+        DEFAULT_I2C_BUS=1
+    )
     unset(USE_STEMMA)
 else()
     add_compile_definitions(
         DEFAULT_SDA_PIN=22
         DEFAULT_SCL_PIN=23
-        DEFAULT_I2C_BUS=1)
+        DEFAULT_I2C_BUS=1
+    )
 endif()
 
 # NeoPixel
 add_compile_definitions(
     PIN_NEO_DATA=12
     PIN_NEO_PWR=11
-    NEO_COLOUR=0x100010)    # Magenta
+    NEO_COLOUR=0x100010 # Magenta
+)
 
 set(PICO_BOARD=adafruit_qtpy_rp2040)
 set(PICO_STDIO_USB_CONNECT_WAIT_TIMEOUT_MS=2000)
@@ -46,7 +50,9 @@ add_executable(${FW_1_NAME}
     ${COMMON_CODE_DIRECTORY}/led.c
     ${COMMON_CODE_DIRECTORY}/gpio.c
     ${COMMON_CODE_DIRECTORY}/i2c.c
-    ${COMMON_CODE_DIRECTORY}/onewire.c)
+    ${COMMON_CODE_DIRECTORY}/onewire.c
+    ${COMMON_CODE_DIRECTORY}/button.c
+)
 
 # Compile debug sources
 # Now uses CMake generator expression to extract config type
@@ -55,13 +61,15 @@ target_sources(${FW_1_NAME} PRIVATE "$<$<CONFIG:Debug>:${COMMON_CODE_DIRECTORY}/
 # Set the stack size
 target_compile_definitions(${FW_1_NAME} PRIVATE
     PICO_HEAP_SIZE=8192
-    PICO_STACK_SIZE=8192)
+    PICO_STACK_SIZE=8192
+)
 
 # Link to built libraries
 target_link_libraries(${FW_1_NAME} LINK_PUBLIC
     pico_stdlib
     hardware_i2c
-    hardware_pio)
+    hardware_pio
+)
 
 # Compile WS2828 sources
 target_sources(${FW_1_NAME} PRIVATE ws2812.c)

@@ -25,9 +25,8 @@
 typedef struct {
     uint8_t         gpio;
     bool            trigger_on_release;
-    bool            set;
     bool            pressed;
-    struct timespec press;
+    long            press_time;
 } Button;
 
 #endif      // _MAIN_H_

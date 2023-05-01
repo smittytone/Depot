@@ -7,7 +7,8 @@ add_compile_definitions(
     FW_VERSION="${FW_VERSION_NUMBER}"
     BUILD_NUM=${FW_BUILD_NUMBER}
     LED_BUILD=1
-    HW_MODEL="PI-PICO")
+    HW_MODEL="PI-PICO"
+)
 
 # Set the device's I2C pins
 # These are for the board pins 4 (GPIO 2) and 5 (GPIO 3)
@@ -16,7 +17,8 @@ add_compile_definitions(
 add_compile_definitions(
     DEFAULT_SDA_PIN=2
     DEFAULT_SCL_PIN=3
-    DEFAULT_I2C_BUS=1)
+    DEFAULT_I2C_BUS=1
+)
 
 # Include app source code file(s)
 add_executable(${FW_0_NAME}
@@ -27,7 +29,9 @@ add_executable(${FW_0_NAME}
     ${COMMON_CODE_DIRECTORY}/led.c
     ${COMMON_CODE_DIRECTORY}/gpio.c
     ${COMMON_CODE_DIRECTORY}/i2c.c
-    ${COMMON_CODE_DIRECTORY}/onewire.c)
+    ${COMMON_CODE_DIRECTORY}/onewire.c
+    ${COMMON_CODE_DIRECTORY}/button.c
+)
 
 # Compile debug sources
 target_sources(${FW_0_NAME} PRIVATE "$<$<CONFIG:Debug>:${COMMON_CODE_DIRECTORY}/debug.c>")
@@ -35,12 +39,14 @@ target_sources(${FW_0_NAME} PRIVATE "$<$<CONFIG:Debug>:${COMMON_CODE_DIRECTORY}/
 # Set the stack size
 target_compile_definitions(${FW_0_NAME} PRIVATE
     PICO_HEAP_SIZE=8192
-    PICO_STACK_SIZE=8192)
+    PICO_STACK_SIZE=8192
+)
 
 # Link to built libraries
 target_link_libraries(${FW_0_NAME} LINK_PUBLIC
     pico_stdlib
-    hardware_i2c)
+    hardware_i2c
+)
 
 # Enable/disable STDIO via USB and UART
 pico_enable_stdio_usb(${FW_0_NAME} 1)

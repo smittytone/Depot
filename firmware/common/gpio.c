@@ -35,11 +35,8 @@ bool set_gpio(GPIO_State* gps, uint8_t* read_value, uint8_t* data) {
         gpio_set_dir(gpio_pin, (is_dir_out ? GPIO_OUT : GPIO_IN));
 
         if (is_dir_out) {
-        gps->state_map[gpio_pin] |= (1 << GPIO_PIN_DIRN_BIT);
-        gps->state_map[gpio_pin] |= (1 << GPIO_PIN_DIRN_BIT);
-        gps->state_map[gpio_pin] |= (1 << GPIO_PIN_STATE_BIT);
             gps->state_map[gpio_pin] |= (1 << GPIO_PIN_DIRN_BIT);
-        gps->state_map[gpio_pin] |= (1 << GPIO_PIN_STATE_BIT);
+            gps->state_map[gpio_pin] |= (1 << GPIO_PIN_STATE_BIT);
         } else {
             // FROM 1.2.3
             // Set the pin to revert to GND

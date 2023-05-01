@@ -20,7 +20,12 @@
             "functional": "c",
             "stdbool.h": "c",
             "stdlib.h": "c",
-            "nano_led.h": "c"
+            "nano_led.h": "c",
+            "array": "c",
+            "string": "c",
+            "string_view": "c",
+            "button.h": "c",
+            "stdarg.h": "c"
         }
     }
 }
