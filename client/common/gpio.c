@@ -20,7 +20,7 @@
 bool gpio_set_pin(SerialDriver *sd, uint8_t pin) {
 
     uint8_t set_pin_data[2] = {'g', pin};
-    serial_write_to_port(sd->file_descriptor, set_pin_data, sizeof(set_pin_data));
+    serial_write_to_port(sd->file_descriptor, set_pin_data, 2);
     return serial_ack(sd);
 }
 
@@ -36,9 +36,10 @@ bool gpio_set_pin(SerialDriver *sd, uint8_t pin) {
 uint8_t gpio_get_pin(SerialDriver *sd, uint8_t pin) {
 
     uint8_t set_pin_data[2] = {'g', pin};
-    serial_write_to_port(sd->file_descriptor, set_pin_data, sizeof(set_pin_data));
+    serial_write_to_port(sd->file_descriptor, set_pin_data, 2);
     uint8_t pin_read = 0;
-    serial_read(sd, &pin_read, 1);
+    size_t result = serial_read_from_port(sd->file_descriptor, &pin_read, 1);
+    if (result == -1) print_error("Could not read back from device");
     return pin_read;
 }
 
@@ -54,6 +55,6 @@ uint8_t gpio_get_pin(SerialDriver *sd, uint8_t pin) {
 bool gpio_clear_pin(SerialDriver *sd, uint8_t pin) {
 
     uint8_t set_pin_data[3] = {'g', pin, 0xF0};
-    serial_write_to_port(sd->file_descriptor, set_pin_data, sizeof(set_pin_data));
+    serial_write_to_port(sd->file_descriptor, set_pin_data, 3);
     return serial_ack(sd);
 }

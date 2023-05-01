@@ -27,7 +27,7 @@ typedef struct {
     bool            trigger_on_release;
     bool            set;
     bool            pressed;
-    struct timespec *press;
+    struct timespec press;
 } Button;
 
 #endif      // _MAIN_H_

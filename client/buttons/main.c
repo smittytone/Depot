@@ -23,6 +23,7 @@ SerialDriver board;
 
 Button* buttons[8];
 uint32_t button_count = 0;
+bool do_exit = false;
 
 #pragma mark - Main Function
 
@@ -60,73 +61,87 @@ int main(int argc, char* argv[]) {
         // Connect... with the device path
         serial_connect(&board, argv[1]);
         if (board.is_connected) {
+            // Don't output data we receive from the board
+            // NOTE Requires Depot FW 1.2.3
             serial_output_read_data(false);
             
+            // Set up delay timings
             struct timespec now, pause;
             pause.tv_sec = 0.020;
             pause.tv_nsec = 0.020 * 1000000;
 
             // Configure the buttons remaining commands in sequence
-            Button* btn = (Button*)malloc(sizeof(Button));
-            btn->gpio = 21;
-            btn->set = false;
-            btn->pressed = false;
-            btn->trigger_on_release = true;
-            buttons[button_count] = btn;
+            Button* btn1 = (Button*)malloc(sizeof(Button));
+            btn1->gpio = 1;
+            btn1->set = false;
+            btn1->pressed = false;
+            btn1->trigger_on_release = false;
+            buttons[button_count] = btn1;
             button_count++;
-
+            
+            Button* btn2 = (Button*)malloc(sizeof(Button));
+            btn2->gpio = 2;
+            btn2->set = false;
+            btn2->pressed = false;
+            btn2->trigger_on_release = true;
+            buttons[button_count] = btn2;
+            button_count++;
+            
+            // Configure the buttons' GPIO pins
             for (uint32_t i = 0 ; i < button_count ; ++i) {
-                btn = buttons[i];
+                Button* btn = buttons[i];
                 if (!gpio_set_pin(&board, (btn->gpio & 0x1F))) {
-                    // ERROR
-                    fprintf(stderr, "CONF ERR\n");
+                    fprintf(stderr, "BUTTON %i CONF ERR\n", i);
                     exit(1);
-                } else {
-                    fprintf(stderr, "BUTTON SET\n");
                 }
             }
             
-            fprintf(stderr, "LOOP\n");
-
             // Poll the buttons, one by one
+            Button* btn;
             while(1) {
                 for (uint32_t i = 0 ; i < button_count ; ++i) {
+                    // Get the next button to poll
                     btn = buttons[i];
-                    // Set bit 5 for a read op
-                    uint8_t pin_value = gpio_get_pin(&board, (btn->gpio | 0x20));
-                    fprintf(stderr, "%i\n", pin_value);
                     
-                    if ((pin_value & 0x80) == 0 && btn->pressed) {
+                    // Set bit 5 for a read op
+                    bool pin_high = (gpio_get_pin(&board, (btn->gpio | 0x20)) & 0x80);
+                    
+                    // Pin state is indicated by bit 7
+                    if (!pin_high && btn->pressed) {
                         // BUTTON RELEASED
                         btn->pressed = false;
-                        perform_action(i);
-                    } else if ((pin_value & 0x80) == 0x80) {
+                        if (btn->trigger_on_release) perform_action(i);
+                    } else if (pin_high) {
                         // BUTTON PRESSED?
                         if (!btn->set) {
                             // No press seen yet, so assume one and start the count
                             btn->set = true;
-                            clock_gettime(CLOCK_MONOTONIC_RAW, btn->press);
+                            clock_gettime(CLOCK_MONOTONIC_RAW, &btn->press);
                         } else {
                             // Button has been pressed -- check count
                             if (!btn->pressed) {
                                 clock_gettime(CLOCK_MONOTONIC_RAW, &now);
-                                if (now.tv_nsec - btn->press->tv_nsec >= 10000000) {
+                                struct timespec then = btn->press;
+                                if (now.tv_nsec - then.tv_nsec >= 10000000) {
                                     // Still held after debounce period
                                     btn->set = false;
+                                    btn->pressed = true;
                                     
-                                    if (btn->trigger_on_release) {
-                                        btn->pressed = true;
-                                    } else {
-                                        perform_action(i);
-                                    }
+                                    if (!btn->trigger_on_release) perform_action(i);
                                 }
                             }
                         }
                     }   
                 }
 
-                // Some ms or us delay
+                // Short ns delay
                 nanosleep(&pause, &pause);
+                
+                // Was the exit button pressed?
+                if (do_exit) {
+                    for (uint32_t i = 0 ; i < button_count ; ++i) free(buttons[i]);
+                    exit(EXIT_OK);
+                }
             }   
         }
     }
@@ -136,16 +151,26 @@ int main(int argc, char* argv[]) {
 }
 
 
-static void perform_action(uint32_t pin_number) {
-
-    switch(pin_number) {
+static void perform_action(uint32_t btn_number) {
+    
+    Button* btn = buttons[btn_number];
+    if (btn->trigger_on_release) {
+        fprintf(stderr, "BUTTON ON GPIO %i RELEASED\n", btn->gpio);
+    } else {
+        fprintf(stderr, "BUTTON ON GPIO %i PRESSED\n", btn->gpio);
+    }
+    
+    switch(btn_number) {
         case 0:
-            fprintf(stderr, "BUTTON 0 PRESSED\n");
+            do_exit = true;
+            break;
+        case 1:
             break;
         default:
             break;
     }
 }
+
 
 #pragma mark - User Messaging Functions
 
@@ -157,20 +182,9 @@ static void show_help(void) {
     fprintf(stderr, "segment {device} [address] [commands]\n\n");
     fprintf(stderr, "Usage:\n");
     fprintf(stderr, "  {device} is a mandatory device path, eg. /dev/cu.usbmodem-010101.\n");
-    fprintf(stderr, "  [address] is an optional display I2C address. Default: 0x70.\n");
-    fprintf(stderr, "  [commands] are optional HT16K33 segment commands.\n\n");
     fprintf(stderr, "Commands:\n");
     fprintf(stderr, "  a [on|off]                      Activate/deactivate the display. Default: on.\n");
     fprintf(stderr, "  b {0-15}                        Set the display brightness from low (0) to high (15).\n");
-    fprintf(stderr, "  f                               Flip the display vertically.\n");
-    fprintf(stderr, "  n {number}                      Draw the decimal number on the screen.\n");
-    fprintf(stderr, "                                  Range -999 to 9999.\n");
-    fprintf(stderr, "  v {value} {digit} [true|false]  Draw the value on the screen at the specified digit\n");
-    fprintf(stderr, "                                  (0-15/0x00-0x0F) and optionally set its decimal point.\n");
-    fprintf(stderr, "  g {glyph} {digit} [true|false]  Draw the user-defined character on the screen at the\n");
-    fprintf(stderr, "                                  specified digit. The glyph definition is a byte with bits\n");
-    fprintf(stderr, "                                  set for each of the digit’s segments.\n");
-    fprintf(stderr, "  w                               Wipe (clear) the display.\n");
     fprintf(stderr, "  h                               Help information.\n\n");
 }
 
@@ -180,6 +194,6 @@ static void show_help(void) {
  */
 static inline void show_version(void) {
 
-    fprintf(stderr, "segment %s\n", APP_VERSION);
+    fprintf(stderr, "buttons %s\n", APP_VERSION);
     fprintf(stderr, "Copyright © 2023, Tony Smith.\n");
 }
