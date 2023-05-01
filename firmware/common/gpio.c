@@ -22,9 +22,9 @@
 bool set_gpio(GPIO_State* gps, uint8_t* read_value, uint8_t* data) {
 
     uint8_t gpio_pin = (data[1] & 0x1F);
-    bool pin_state   = ((data[1] & 0x80) > 0);
-    bool is_dir_out  = ((data[1] & 0x40) > 0);
-    bool is_read     = ((data[1] & 0x20) > 0);
+    bool pin_state   = ((data[1] & 0x80) != 0);
+    bool is_dir_out  = ((data[1] & 0x40) != 0);
+    bool is_read     = ((data[1] & 0x20) != 0);
 
     // NOTE Function will not have been called if a bus is using the pin,
     //      but the check should really be here
@@ -35,6 +35,13 @@ bool set_gpio(GPIO_State* gps, uint8_t* read_value, uint8_t* data) {
         gpio_set_dir(gpio_pin, (is_dir_out ? GPIO_OUT : GPIO_IN));
         gps->state_map[gpio_pin] |= (1 << GPIO_PIN_DIRN_BIT);
         gps->state_map[gpio_pin] |= (1 << GPIO_PIN_STATE_BIT);
+    } else {
+        // FROM 1.2.3 -- Pin registered: check for a direction change
+        bool pin_dir_is_out = ((gps->state_map[gpio_pin] & (1 << GPIO_PIN_DIRN_BIT)) != 0);
+        if (pin_dir_is_out != is_dir_out) {
+            gpio_set_dir(gpio_pin, (is_dir_out ? GPIO_OUT : GPIO_IN));
+            gps->state_map[gpio_pin] ^= (1 << GPIO_PIN_STATE_BIT);
+        }
     }
 
     if (is_read) {

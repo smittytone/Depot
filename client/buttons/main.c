@@ -60,7 +60,11 @@ int main(int argc, char* argv[]) {
         // Connect... with the device path
         serial_connect(&board, argv[1]);
         if (board.is_connected) {
-            struct timespec now, then;
+            serial_output_read_data(false);
+            
+            struct timespec now, pause;
+            pause.tv_sec = 0.020;
+            pause.tv_nsec = 0.020 * 1000000;
 
             // Configure the buttons remaining commands in sequence
             Button* btn = (Button*)malloc(sizeof(Button));
@@ -73,22 +77,30 @@ int main(int argc, char* argv[]) {
 
             for (uint32_t i = 0 ; i < button_count ; ++i) {
                 btn = buttons[i];
-                if (!gpio_set_pin(&board, btn->gpio)) {
+                if (!gpio_set_pin(&board, (btn->gpio & 0x1F))) {
                     // ERROR
+                    fprintf(stderr, "CONF ERR\n");
+                    exit(1);
+                } else {
+                    fprintf(stderr, "BUTTON SET\n");
                 }
             }
+            
+            fprintf(stderr, "LOOP\n");
 
             // Poll the buttons, one by one
             while(1) {
                 for (uint32_t i = 0 ; i < button_count ; ++i) {
                     btn = buttons[i];
-                    uint8_t pin_value = gpio_get_pin(&board, (btn->gpio & 0x20));
-
-                    if (pin_value == 0 && btn->pressed) {
+                    // Set bit 5 for a read op
+                    uint8_t pin_value = gpio_get_pin(&board, (btn->gpio | 0x20));
+                    fprintf(stderr, "%i\n", pin_value);
+                    
+                    if ((pin_value & 0x80) == 0 && btn->pressed) {
                         // BUTTON RELEASED
                         btn->pressed = false;
                         perform_action(i);
-                    } else if (pin_value == 1) {
+                    } else if ((pin_value & 0x80) == 0x80) {
                         // BUTTON PRESSED?
                         if (!btn->set) {
                             // No press seen yet, so assume one and start the count
@@ -97,7 +109,6 @@ int main(int argc, char* argv[]) {
                         } else {
                             // Button has been pressed -- check count
                             if (!btn->pressed) {
-                                struct timespec now;
                                 clock_gettime(CLOCK_MONOTONIC_RAW, &now);
                                 if (now.tv_nsec - btn->press->tv_nsec >= 10000000) {
                                     // Still held after debounce period
@@ -115,6 +126,7 @@ int main(int argc, char* argv[]) {
                 }
 
                 // Some ms or us delay
+                nanosleep(&pause, &pause);
             }   
         }
     }

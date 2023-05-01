@@ -99,5 +99,8 @@ void            serial_read(SerialDriver *sd, uint8_t bytes[], size_t byte_count
 bool            serial_ack(SerialDriver *sd);
 void            serial_send_command(SerialDriver *sd, char c);
 
+// FROM 1.2.3
+bool            serial_output_read_data(bool do_output);
+
 
 #endif  // _SERIAL_DRIVER_H

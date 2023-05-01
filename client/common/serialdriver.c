@@ -18,6 +18,8 @@ static int serial_open_port(const char *portname);
 
 // Retain the original port settings
 struct termios original_settings;
+// FROM 1.2.3
+bool do_output_read_data = true;
 
 
 #pragma mark - Serial Port Control Functions
@@ -432,11 +434,31 @@ void serial_read(SerialDriver *sd, uint8_t bytes[], size_t byte_count) {
         if (result == -1) {
             print_error("Could not read back from device");
         } else {
-            for (size_t i = 0 ; i < result ; ++i) {
-                fprintf(stdout, "%02X", bytes[i]);
+            if (do_output_read_data) {
+                for (size_t i = 0 ; i < result ; ++i) {
+                    fprintf(stdout, "%02X", bytes[i]);
+                }
+                
+                fprintf(stdout, "\n");
             }
-
-            fprintf(stdout, "\n");
         }
     }
+}
+
+
+/**
+ * @brief Set whether read input is printed to stdout,
+ *        which defaults to `true`, to match existing
+ *        behaviour.
+ *
+ *        FROM 1.2.3
+ *
+ * @param sd:         Pointer to a SerialDriver structure.
+ * @param bytes:      A buffer for the bytes to read.
+ * @param byte_count: The number of bytes to write.
+ */
+bool serial_output_read_data(bool do_output) {
+    
+    do_output_read_data = do_output;
+    return do_output_read_data;
 }

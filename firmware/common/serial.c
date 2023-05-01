@@ -455,7 +455,8 @@ void rx_loop(void) {
                         {
                             uint8_t read_value = 0;
                             uint8_t gpio_pin = (rx_ptr[1] & 0x1F);
-
+                            bool is_read = ((rx_ptr[1] & 0x20) != 0);
+                            
                             // Make sure the pin's not in use by a bus
                             if (is_pin_taken(gpio_pin) > 1) {
                                 last_error_code = GPIO_PIN_ALREADY_IN_USE;
@@ -465,7 +466,7 @@ void rx_loop(void) {
 
                             // FROM 1.2.0
                             // Clear the pin? Check for a postfix byte of the right value
-                            if (read_count > 2 && (rx_buffer[2] & 0x80)) {
+                            if (read_count > 2 && (rx_ptr[2] & 0x80)) {
                                 clear_pin(&gpio_state, gpio_pin);
                                 send_ack();
                                 break;
@@ -477,7 +478,6 @@ void rx_loop(void) {
                                 break;
                             }
 
-                            bool is_read = ((rx_ptr[1] & 0x20) > 0);
                             putchar(is_read ? read_value : ACK);
                         }
                         break;

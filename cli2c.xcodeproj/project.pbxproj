@@ -24,6 +24,10 @@
 		3B09CBC329A6472E00EE69D8 /* gpio.c in Sources */ = {isa = PBXBuildFile; fileRef = 3B09CB8C29A636D300EE69D8 /* gpio.c */; };
 		3B09CBC429A6473100EE69D8 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 3B09CB8E29A636D300EE69D8 /* utils.c */; };
 		3B09CBC529A6473300EE69D8 /* serialdriver.c in Sources */ = {isa = PBXBuildFile; fileRef = 3B09CB8D29A636D300EE69D8 /* serialdriver.c */; };
+		3B90290E29FFC5A4007340BA /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 3B90290C29FFC5A4007340BA /* main.c */; };
+		3B90290F29FFC696007340BA /* serialdriver.c in Sources */ = {isa = PBXBuildFile; fileRef = 3B09CB8D29A636D300EE69D8 /* serialdriver.c */; };
+		3B90291029FFC69B007340BA /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 3B09CB8E29A636D300EE69D8 /* utils.c */; };
+		3B90291129FFC69E007340BA /* gpio.c in Sources */ = {isa = PBXBuildFile; fileRef = 3B09CB8C29A636D300EE69D8 /* gpio.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -46,6 +50,15 @@
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 		3B09CBB129A6455D00EE69D8 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		3B90290129FFC56D007340BA /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -81,6 +94,10 @@
 		3B09CBBD29A6457800EE69D8 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		3B09CBBE29A6457800EE69D8 /* ht16k33-matrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ht16k33-matrix.h"; sourceTree = "<group>"; };
 		3B09CBBF29A6457800EE69D8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3B90290329FFC56D007340BA /* buttons */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = buttons; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B90290B29FFC5A4007340BA /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
+		3B90290C29FFC5A4007340BA /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		3B90290D29FFC5A4007340BA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +122,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3B90290029FFC56D007340BA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -116,6 +140,7 @@
 				3B09CBBA29A6457800EE69D8 /* matrix */,
 				3B09CB8A29A636D300EE69D8 /* common */,
 				3B09CB9429A636DC00EE69D8 /* i2c */,
+				3B90290A29FFC5A4007340BA /* buttons */,
 				3B09CB7C29A636A200EE69D8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -126,6 +151,7 @@
 				3B09CB7B29A636A200EE69D8 /* cli2c */,
 				3B09CB9C29A63F3500EE69D8 /* segment */,
 				3B09CBB329A6455D00EE69D8 /* matrix */,
+				3B90290329FFC56D007340BA /* buttons */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -191,6 +217,17 @@
 			path = client/matrix;
 			sourceTree = SOURCE_ROOT;
 		};
+		3B90290A29FFC5A4007340BA /* buttons */ = {
+			isa = PBXGroup;
+			children = (
+				3B90290B29FFC5A4007340BA /* main.h */,
+				3B90290C29FFC5A4007340BA /* main.c */,
+				3B90290D29FFC5A4007340BA /* Info.plist */,
+			);
+			name = buttons;
+			path = client/buttons;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -245,6 +282,23 @@
 			productReference = 3B09CBB329A6455D00EE69D8 /* matrix */;
 			productType = "com.apple.product-type.tool";
 		};
+		3B90290229FFC56D007340BA /* buttons */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3B90290929FFC56D007340BA /* Build configuration list for PBXNativeTarget "buttons" */;
+			buildPhases = (
+				3B9028FF29FFC56D007340BA /* Sources */,
+				3B90290029FFC56D007340BA /* Frameworks */,
+				3B90290129FFC56D007340BA /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = buttons;
+			productName = buttons;
+			productReference = 3B90290329FFC56D007340BA /* buttons */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -252,7 +306,8 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastUpgradeCheck = 1420;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					3B09CB7A29A636A200EE69D8 = {
 						CreatedOnToolsVersion = 14.2;
@@ -262,6 +317,9 @@
 					};
 					3B09CBB229A6455D00EE69D8 = {
 						CreatedOnToolsVersion = 14.2;
+					};
+					3B90290229FFC56D007340BA = {
+						CreatedOnToolsVersion = 14.3;
 					};
 				};
 			};
@@ -281,6 +339,7 @@
 				3B09CB7A29A636A200EE69D8 /* cli2c */,
 				3B09CB9B29A63F3500EE69D8 /* segment */,
 				3B09CBB229A6455D00EE69D8 /* matrix */,
+				3B90290229FFC56D007340BA /* buttons */,
 			);
 		};
 /* End PBXProject section */
@@ -324,6 +383,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3B9028FF29FFC56D007340BA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B90291029FFC69B007340BA /* utils.c in Sources */,
+				3B90290E29FFC5A4007340BA /* main.c in Sources */,
+				3B90291129FFC69E007340BA /* gpio.c in Sources */,
+				3B90290F29FFC696007340BA /* serialdriver.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
@@ -360,6 +430,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -418,6 +489,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -443,6 +515,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 43;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = Y5J3K52DNA;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -467,6 +540,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 43;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = Y5J3K52DNA;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -487,6 +561,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 43;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = Y5J3K52DNA;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -498,6 +573,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/client/segment/Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.2.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bps.segment;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -510,6 +586,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 43;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = Y5J3K52DNA;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -517,6 +594,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/client/segment/Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.2.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bps.segment;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -529,6 +607,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 43;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = Y5J3K52DNA;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -540,6 +619,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/client/matrix/Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.2.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bps.matrix;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -552,6 +632,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 43;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = Y5J3K52DNA;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -559,8 +640,55 @@
 				INFOPLIST_FILE = "$(SRCROOT)/client/matrix/Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.2.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bps.matrix;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = Release;
+		};
+		3B90290729FFC56D007340BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 44;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = Y5J3K52DNA;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"APP_VERSION=\\\"$(MARKETING_VERSION)\\\"",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/client/buttons/Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.2.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bps.buttons;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		3B90290829FFC56D007340BA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 44;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = Y5J3K52DNA;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "APP_VERSION=\\\"$(MARKETING_VERSION)\\\"";
+				INFOPLIST_FILE = "$(SRCROOT)/client/buttons/Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.2.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bps.buttons;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -599,6 +727,15 @@
 			buildConfigurations = (
 				3B09CBB829A6455D00EE69D8 /* Debug */,
 				3B09CBB929A6455D00EE69D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3B90290929FFC56D007340BA /* Build configuration list for PBXNativeTarget "buttons" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3B90290729FFC56D007340BA /* Debug */,
+				3B90290829FFC56D007340BA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

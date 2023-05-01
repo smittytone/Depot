@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1420"
+   LastUpgradeVersion = "1430"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -45,6 +45,20 @@
                BlueprintIdentifier = "3B09CBB229A6455D00EE69D8"
                BuildableName = "matrix"
                BlueprintName = "matrix"
+               ReferencedContainer = "container:cli2c.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "3B90290229FFC56D007340BA"
+               BuildableName = "buttons"
+               BlueprintName = "buttons"
                ReferencedContainer = "container:cli2c.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
