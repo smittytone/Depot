@@ -28,6 +28,15 @@
 
 
 /*
+ * CONSTANTS
+ */
+#define         BUTTON_STATE_READY                  00
+#define         BUTTON_STATE_WAITING_RELEASE        1
+
+#define         BUTTON_DEBOUNCE_PERIOD_US           10000
+
+
+/*
  * STRUCTS
  */
 typedef struct {
@@ -39,17 +48,18 @@ typedef struct {
 
 typedef struct {
     Button*         buttons[32];
-    uint32_t        state;
+    uint32_t        states;
     uint32_t        count;
 } Button_State;
+
 
 
 /*
  * PROTOTYPES
  */
-bool    set_button(Button_State* bs, uint8_t* data);
-bool    clear_button(Button_State* btns, uint8_t gpio_pin);
-void    poll_buttons(Button_State* bs);
-
+bool    set_button(Button_State* bts, uint8_t* data);
+bool    clear_button(Button_State* bts, uint8_t pin);
+void    poll_buttons(Button_State* bts);
+bool    is_pin_in_use_by_button(Button_State* bts, uint8_t pin);
 
 #endif  // _BUTTON_HEADER_

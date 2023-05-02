@@ -84,6 +84,8 @@
 #define PIN_USAGE_FIELD_GPIO                    0x01
 #define PIN_USAGE_FIELD_I2C                     0x02
 #define PIN_USAGE_FIELD_ONEWIRE                 0x10
+// FROM 1.2.3
+#define PIN_USAGE_FIELD_BUTTON                  0x20
 
 
 /*

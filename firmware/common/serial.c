@@ -89,7 +89,7 @@ void rx_loop(void) {
     // FROM 1.2.3
     // Button variables
     memset(btn_state.buttons, 0x00, sizeof(Button*) * 32);
-    btn_state.state = 0;
+    btn_state.states = 0;
     btn_state.count = 0;
 
     // Heartbeat variables
@@ -450,7 +450,6 @@ void rx_loop(void) {
                      * ONE-WIRE COMMANDS
                      */
 
-
                     // FROM 1.2.0
 
                     /*
@@ -461,11 +460,11 @@ void rx_loop(void) {
                     case 'g':   // SET DIGITAL OUT PIN
                         {
                             uint8_t read_value = 0;
-                            uint8_t gpio_pin = (rx_buffer[1] & 0x1F);
+                            uint8_t pin = (rx_buffer[1] & 0x1F);
                             bool is_read = (rx_buffer[1] & 0x20);
 
                             // Make sure the pin's not in use by a bus
-                            if (is_pin_taken(gpio_pin) > 1) {
+                            if (is_pin_taken(pin) > 1) {
                                 last_error_code = GPIO_PIN_ALREADY_IN_USE;
                                 send_err();
                                 break;
@@ -474,7 +473,7 @@ void rx_loop(void) {
                             // FROM 1.2.0
                             // Clear the pin? Check for a postfix byte of the right value
                             if (read_count > 2 && (rx_buffer[2] & 0x80)) {
-                                clear_pin(&gpio_state, gpio_pin);
+                                clear_pin(&gpio_state, pin);
                                 send_ack();
                                 break;
                             }
@@ -489,30 +488,38 @@ void rx_loop(void) {
                         }
                         break;
 
+                    // FROM 1.2.3
+
+                    /*
+                     * BUTTON COMMANDS
+                     */
                     case 'b':   // SET BUTTON ON GPIO
                         {
-                            uint8_t gpio_pin = (rx_buffer[1] & 0x1F);
+                            uint8_t pin = (rx_buffer[1] & 0x1F);
                             bool is_read = (rx_buffer[1] & 0x20);
 
                             // Read operation? Return the four-byte status
                             if (is_read) {
                                 // TODO CHECK BYTE ORDER AT RECEIVE END!!!!
-                                tx((uint8_t*)&btn_state.state, 4);
-                                break;
-                            }
-
-                            // Clear operation? Check for a postfix byte of the right value
-                            if (read_count > 2 && (rx_buffer[2] & 0x80)) {
-                                clear_button(&btn_state, gpio_pin);
-                                send_ack();
+                                btn_state.states = 0x8800880; // REMOVE AFTER CHECK
+                                tx((uint8_t*)&btn_state.states, 4);
+                                // Clear button state register on read
+                                btn_state.states = 0;
                                 break;
                             }
 
                             // If we've got this far, this is a set operation.
                             // Make sure the button's GPIO pin is good to use.
-                            if (is_pin_taken(gpio_pin) > 1) {
+                            if (is_pin_taken(pin) > 0) {
                                 last_error_code = GPIO_PIN_ALREADY_IN_USE;
                                 send_err();
+                                break;
+                            }
+
+                            // Clear operation? Check for a postfix byte of the right value
+                            if (read_count > 2 && (rx_buffer[2] & 0x80)) {
+                                clear_button(&btn_state, pin);
+                                send_ack();
                                 break;
                             }
 
@@ -563,7 +570,8 @@ void rx_loop(void) {
 #endif
 
         // FROM 1.2.3
-        // Button checks
+        // Poll any buttons in use
+        // NOTE Poll state is cleared on read
         if (btn_state.count > 0) poll_buttons(&btn_state);
 
         // Pause? May not be necessary or might be bad
@@ -587,9 +595,10 @@ static inline void send_ack(void) {
     printf("ACK\r\n");
 #else
     putchar(ACK);
+#endif
+
 #ifdef DO_UART_DEBUG
     debug_log("********** ACK **********");
-#endif
 #endif
 }
 
@@ -602,6 +611,10 @@ static inline void send_err(void) {
     printf("ERR\r\n");
 #else
     putchar(ERR);
+#endif
+
+#ifdef DO_UART_DEBUG
+    debug_log("********** ERR **********");
 #endif
 }
 
@@ -628,6 +641,7 @@ static uint32_t rx(uint8_t* buffer) {
 #ifdef DO_UART_DEBUG
     if (buffer_byte_count > 0) debug_log("Bytes received: %i", buffer_byte_count);
 #endif
+
     return buffer_byte_count;
 }
 
@@ -701,6 +715,7 @@ static void sig_handler(int signal) {
  *          Bit 0 - GPIO
  *              1 - I2C
  *              5 - 1-Wire
+ *              6 - Button
  *          All other bits reserved for future use.
  */
 uint8_t is_pin_taken(uint32_t pin) {
@@ -708,5 +723,6 @@ uint8_t is_pin_taken(uint32_t pin) {
     uint8_t bitfield = is_pin_in_use_by_gpio(&gpio_state, pin) ? PIN_USAGE_FIELD_GPIO : 0;
     bitfield |= is_pin_in_use_by_i2c(&i2c_state, pin) ? PIN_USAGE_FIELD_I2C : 0;
     bitfield |= is_pin_in_use_by_ow(&ow_state, pin) ? PIN_USAGE_FIELD_ONEWIRE : 0;
+    bitfield |= is_pin_in_use_by_button(&btn_state, pin) ? PIN_USAGE_FIELD_BUTTON : 0;
     return bitfield;
 }
