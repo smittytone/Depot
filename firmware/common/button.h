@@ -43,7 +43,7 @@ typedef struct {
     bool            polarity;
     bool            trigger_on_release;
     bool            pressed;
-    uint64_t        press_time;
+    uint32_t        press_time;
 } Button;
 
 typedef struct {

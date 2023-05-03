@@ -68,6 +68,22 @@ void poll_buttons(Button_State* bts) {
         // Get the next button to poll
         Button* btn = bts->buttons[i];
         if (btn) {
+            uint64_t now = time_us_32();
+            if (gpio_get(i)) {
+                if (btn->press_time == BUTTON_STATE_READY) {
+                    // Set debounce timer
+                    btn->press_time = now;
+                } else if (now - btn->press_time > 5000) {
+                    btn->press_time = BUTTON_STATE_READY;
+                    btn->pressed = true;
+                    if (!btn->trigger_on_release) bts->states |= (1 << (i - 1));
+                }
+            } else if (btn->pressed) {
+                if (btn->trigger_on_release) bts->states |= (1 << (i - 1));
+                btn->pressed = false;
+            }
+
+            /*
             bool pin_high = gpio_get(i);
             if (!pin_high && btn->pressed) {
                 // BUTTON RELEASED
@@ -90,6 +106,7 @@ void poll_buttons(Button_State* bts) {
                     }
                 }
             }
+            */
         }
     }
 }
