@@ -14,6 +14,7 @@ set(COMMON_CODE_DIRECTORY "${CMAKE_SOURCE_DIR}/../client/common")
 set(I2C_CODE_DIRECTORY "${CMAKE_SOURCE_DIR}/../client/i2c")
 set(ONEWIRE_CODE_DIRECTORY "${CMAKE_SOURCE_DIR}/../client/onewire")
 # FROM 1.2.3
+set(DS18B20_CODE_DIRECTORY "${CMAKE_SOURCE_DIR}/../client/ds18b20")
 set(BUTTONS_CODE_DIRECTORY "${CMAKE_SOURCE_DIR}/../client/buttons")
 
 # Set flags and directory variables
@@ -28,9 +29,10 @@ include_directories(
     ${I2C_CODE_DIRECTORY}
     ${ONEWIRE_CODE_DIRECTORY}
     ${CLI2C_CODE_DIRECTORY}
-    ${MATRIX_CODE_DIRECTORY} 
+    ${MATRIX_CODE_DIRECTORY}
     ${SEGMENT_CODE_DIRECTORY}
     ${CLIWIRE_CODE_DIRECTORY}
+    ${DS18B20_CODE_DIRECTORY}
     ${BUTTONS_CODE_DIRECTORY}
 )
 
@@ -78,6 +80,15 @@ add_executable(cliwire
     ${ONEWIRE_CODE_DIRECTORY}/owdriver.c
 )
 
+# FROM 1.2.3
+add_executable(ds18b20
+    ${DS18B20_CODE_DIRECTORY}/main.c
+    ${COMMON_CODE_DIRECTORY}/serialdriver.c
+    ${COMMON_CODE_DIRECTORY}/utils.c
+    ${ONEWIRE_CODE_DIRECTORY}/owdriver.c
+)
+
+# FROM 1.2.3
 add_executable(buttons
     ${BUTTONS_CODE_DIRECTORY}/main.c
     ${COMMON_CODE_DIRECTORY}/serialdriver.c

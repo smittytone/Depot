@@ -66,12 +66,12 @@ int main(int argc, char* argv[]) {
             // Don't output data we receive from the board
             // NOTE Requires Depot FW 1.2.3
             serial_output_read_data(false);
-            
+
             // Set up delay timings
             struct timespec now, pause;
-            pause.tv_sec = 0.020;
+            pause.tv_sec = 0;
             pause.tv_nsec = 0.020 * 1000000;
-            
+
             /*
             // Configure the buttons remaining commands in sequence
             Button* btn1 = (Button*)malloc(sizeof(Button));
@@ -81,7 +81,7 @@ int main(int argc, char* argv[]) {
             btn1->trigger_on_release = false;
             buttons[button_count] = btn1;
             button_count++;
-            
+
             Button* btn2 = (Button*)malloc(sizeof(Button));
             btn2->gpio = 2;
             btn2->press_time = false;
@@ -89,7 +89,7 @@ int main(int argc, char* argv[]) {
             btn2->trigger_on_release = true;
             buttons[button_count] = btn2;
             button_count++;
-            
+
             // Configure the buttons' GPIO pins
             for (uint32_t i = 0 ; i < button_count ; ++i) {
                 Button* btn = buttons[i];
@@ -99,11 +99,11 @@ int main(int argc, char* argv[]) {
                 }
             }
              */
-            
+
             // pin number, polarity (true for pull up), trigger on release
             create_button(1, false, true);
             create_button(2, false, false);
-            
+
             // Poll the buttons, one by one
             // Button* btn;
             while(1) {
@@ -111,10 +111,10 @@ int main(int argc, char* argv[]) {
                 for (uint32_t i = 0 ; i < button_count ; ++i) {
                     // Get the next button to poll
                     btn = buttons[i];
-                    
+
                     // Set bit 5 for a read op
                     bool pin_high = (gpio_get_pin(&board, (btn->gpio | 0x20)) & 0x80);
-                    
+
                     // Pin state is indicated by bit 7
                     if (!pin_high && btn->pressed) {
                         // BUTTON RELEASED
@@ -139,23 +139,23 @@ int main(int argc, char* argv[]) {
                                 }
                             }
                         }
-                    }   
+                    }
                 }
                 */
-                
-                
+
+
                 if (button_hit(1)) perform_action(1);
                 if (button_hit(2)) perform_action(2);
-            
+
                 // Short ns delay
                 nanosleep(&pause, &pause);
-                
+
                 // Was the exit button pressed?
                 if (do_exit) {
                     //for (uint32_t i = 0 ; i < button_count ; ++i) free(buttons[i]);
                     exit(EXIT_OK);
                 }
-            }   
+            }
         }
     }
 
@@ -165,7 +165,7 @@ int main(int argc, char* argv[]) {
 
 
 static void perform_action(uint32_t btn_number) {
-    
+
     fprintf(stderr, "BUTTON ON GPIO %i TRIGGERED\n", btn_number);
     switch(btn_number) {
         case 1:
@@ -181,7 +181,7 @@ static void perform_action(uint32_t btn_number) {
 
 
 static bool create_button(uint8_t pin, bool polarity_is_up, bool release_to_trigger) {
-    
+
     uint8_t data[2] = {'b', 0};
     data[1] = pin & 0x1F;
     if (polarity_is_up) data[1] |= 0x80;
@@ -192,13 +192,13 @@ static bool create_button(uint8_t pin, bool polarity_is_up, bool release_to_trig
 
 
 static bool button_hit(uint8_t pin) {
-    
+
     uint8_t get_pin_data[4] = {0};
     uint8_t set_pin_data[2] = {'b', 0x20};
     serial_write_to_port(board.file_descriptor, set_pin_data, 2);
     size_t result = serial_read_from_port(board.file_descriptor, get_pin_data, 4);
     if (result == -1) print_error("Could not read back from device");
-    
+
     if (pin == 0) return false;
     if (pin < 8) return (get_pin_data[0] & (1 << (pin - 1)));
     /*

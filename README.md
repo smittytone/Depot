@@ -197,6 +197,7 @@ The 1-Wire driver is based on code I produced for the Twilio Electric Imp IoT pl
 ## Release Notes
 
 - 1.2.3 *Unreleased*
+    - Build a Linux version of `ds18b20`.
     - Remove some delays on UART-over-USB comms.
 - 1.2.2 *23 April 2023*
     - Support the Pico SDK’s `PICO_BOARD` environment variable to select specific firmware targets.
