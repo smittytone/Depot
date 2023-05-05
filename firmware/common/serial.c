@@ -551,19 +551,9 @@ void rx_loop(void) {
                 led_set_state(true);
                 is_on = true;
                 last = now;
-
-#ifdef DO_UART_DEBUG
-                debug_log("LED ON");
-#endif
-
             } else if ((now - last > HEARTBEAT_FLASH_US) && is_on) {
                 led_set_state(false);
                 is_on = false;
-
-#ifdef DO_UART_DEBUG
-                debug_log("LED OFF");
-#endif
-
             }
         }
 #endif

@@ -74,8 +74,9 @@ void poll_buttons(Button_State* bts) {
         if (btn) {
             uint32_t now = time_us_32();
             bool is_pin_high = gpio_get(i);
+            //is_pin_high = (btn->polarity ? is_pin_high : !is_pin_high);
             // Respect the btn's polarity setting
-            if (btn->polarity ? is_pin_high : !is_pin_high) {
+            if (is_pin_high) {
                 if (btn->press_time == BUTTON_STATE_READY) {
                     // Set debounce timer
                     btn->press_time = now;

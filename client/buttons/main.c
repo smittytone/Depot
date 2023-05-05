@@ -100,6 +100,7 @@ int main(int argc, char* argv[]) {
             }
              */
             
+            // pin number, polarity (true for pull up), trigger on release
             create_button(1, false, true);
             create_button(2, false, false);
             
@@ -144,7 +145,7 @@ int main(int argc, char* argv[]) {
                 
                 
                 if (button_hit(1)) perform_action(1);
-                //if (button_hit(2)) perform_action(2);
+                if (button_hit(2)) perform_action(2);
             
                 // Short ns delay
                 nanosleep(&pause, &pause);
@@ -171,6 +172,7 @@ static void perform_action(uint32_t btn_number) {
             do_exit = true;
             break;
         case 2:
+            do_exit = true;
             break;
         default:
             break;
@@ -198,7 +200,7 @@ static bool button_hit(uint8_t pin) {
     if (result == -1) print_error("Could not read back from device");
     
     if (pin == 0) return false;
-    if (pin < 8) return (get_pin_data[0] & (1 << (pin - 1));
+    if (pin < 8) return (get_pin_data[0] & (1 << (pin - 1)));
     /*
     if (pin < 16) return (get_pin_data[1] & (1 << (pin - 8)));
     if (pin < 24) return (get_pin_data[1] & (1 << (pin - 16)));
