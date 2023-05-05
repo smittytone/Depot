@@ -144,7 +144,7 @@ int main(int argc, char* argv[]) {
                 
                 
                 if (button_hit(1)) perform_action(1);
-                if (button_hit(2)) perform_action(2);
+                //if (button_hit(2)) perform_action(2);
             
                 // Short ns delay
                 nanosleep(&pause, &pause);
@@ -165,15 +165,7 @@ int main(int argc, char* argv[]) {
 
 static void perform_action(uint32_t btn_number) {
     
-    /*
-     Button* btn = buttons[btn_number];
-    if (btn->trigger_on_release) {
-        fprintf(stderr, "BUTTON ON GPIO %i RELEASED\n", btn->gpio);
-    } else {
-        fprintf(stderr, "BUTTON ON GPIO %i PRESSED\n", btn->gpio);
-    }
-    */
-    
+    fprintf(stderr, "BUTTON ON GPIO %i TRIGGERED\n", btn_number);
     switch(btn_number) {
         case 1:
             do_exit = true;
@@ -192,7 +184,8 @@ static bool create_button(uint8_t pin, bool polarity_is_up, bool release_to_trig
     data[1] = pin & 0x1F;
     if (polarity_is_up) data[1] |= 0x80;
     if (release_to_trigger) data[1] |= 0x40;
-    return serial_write_to_port(board.file_descriptor, data, 2);
+    serial_write_to_port(board.file_descriptor, data, 2);
+    return serial_ack(&board);
 }
 
 
@@ -205,10 +198,12 @@ static bool button_hit(uint8_t pin) {
     if (result == -1) print_error("Could not read back from device");
     
     if (pin == 0) return false;
-    if (pin < 8) return (get_pin_data[3] & (1 << pin));
-    if (pin < 16) return (get_pin_data[2] & (1 << (pin - 8)));
+    if (pin < 8) return (get_pin_data[0] & (1 << (pin - 1));
+    /*
+    if (pin < 16) return (get_pin_data[1] & (1 << (pin - 8)));
     if (pin < 24) return (get_pin_data[1] & (1 << (pin - 16)));
-    if (pin < 32) return (get_pin_data[0] & (1 << (pin - 24)));
+    if (pin < 32) return (get_pin_data[3] & (1 << (pin - 24)));
+    */
     return false;
 }
 
@@ -220,12 +215,10 @@ static bool button_hit(uint8_t pin) {
  */
 static void show_help(void) {
 
-    fprintf(stderr, "segment {device} [address] [commands]\n\n");
+    fprintf(stderr, "buttons {device} [commands]\n\n");
     fprintf(stderr, "Usage:\n");
     fprintf(stderr, "  {device} is a mandatory device path, eg. /dev/cu.usbmodem-010101.\n");
     fprintf(stderr, "Commands:\n");
-    fprintf(stderr, "  a [on|off]                      Activate/deactivate the display. Default: on.\n");
-    fprintf(stderr, "  b {0-15}                        Set the display brightness from low (0) to high (15).\n");
     fprintf(stderr, "  h                               Help information.\n\n");
 }
 

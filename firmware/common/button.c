@@ -51,6 +51,10 @@ bool set_button(Button_State* bts, uint8_t* data) {
         gpio_pull_down(gpio);
     }
 
+#ifdef DO_UART_DEBUG
+        debug_log("Button %i set (pull %s, trigger: %s)", gpio, (polarity ? "UP" : "DN"), (trigger_on_release ? "REL" : "PRESS"));
+#endif
+
     return true;
 }
 
@@ -68,8 +72,10 @@ void poll_buttons(Button_State* bts) {
         // Get the next button to poll
         Button* btn = bts->buttons[i];
         if (btn) {
-            uint64_t now = time_us_32();
-            if (gpio_get(i)) {
+            uint32_t now = time_us_32();
+            bool is_pin_high = gpio_get(i);
+            // Respect the btn's polarity setting
+            if (btn->polarity ? is_pin_high : !is_pin_high) {
                 if (btn->press_time == BUTTON_STATE_READY) {
                     // Set debounce timer
                     btn->press_time = now;
@@ -82,31 +88,6 @@ void poll_buttons(Button_State* bts) {
                 if (btn->trigger_on_release) bts->states |= (1 << (i - 1));
                 btn->pressed = false;
             }
-
-            /*
-            bool pin_high = gpio_get(i);
-            if (!pin_high && btn->pressed) {
-                // BUTTON RELEASED
-                btn->pressed = false;
-                if (btn->trigger_on_release) bts->states |= (1 << (i - 1));
-            } else if (pin_high) {
-                // BUTTON PRESSED?
-                if (btn->press_time == BUTTON_STATE_READY) {
-                    // No press seen yet, so assume one and start the count
-                    btn->press_time = time_us_64();
-                } else {
-                    // Button has been pressed -- check count
-                    if (!btn->pressed) {
-                        if (time_us_64() - btn->press_time >= BUTTON_DEBOUNCE_PERIOD_US) {
-                            // Still held after debounce period
-                            btn->pressed = true;
-                            btn->press_time = BUTTON_STATE_READY;
-                            if (!btn->trigger_on_release) bts->states |= (1 << (i - 1));
-                        }
-                    }
-                }
-            }
-            */
         }
     }
 }

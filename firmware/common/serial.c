@@ -500,8 +500,7 @@ void rx_loop(void) {
 
                             // Read operation? Return the four-byte status
                             if (is_read) {
-                                // TODO CHECK BYTE ORDER AT RECEIVE END!!!!
-                                btn_state.states = 0x8800880; // REMOVE AFTER CHECK
+                                // Issue bytes LSB first
                                 tx((uint8_t*)&btn_state.states, 4);
                                 // Clear button state register on read
                                 btn_state.states = 0;
