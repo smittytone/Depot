@@ -52,7 +52,7 @@ bool set_button(Button_State* bts, uint8_t* data) {
     }
 
 #ifdef DO_UART_DEBUG
-        debug_log("Button %i set (pull %s, trigger: %s)", gpio, (polarity ? "UP" : "DN"), (trigger_on_release ? "REL" : "PRESS"));
+    debug_log("Button %i set (pull %s, trigger: %s)", gpio, (polarity ? "UP" : "DN"), (trigger_on_release ? "REL" : "PRESS"));
 #endif
 
     return true;
@@ -68,24 +68,26 @@ bool set_button(Button_State* bts, uint8_t* data) {
 void poll_buttons(Button_State* bts) {
 
     // Check each button
-    for (uint8_t i = 0 ; i < GPIO_PIN_MAX + 1 ; ++i) {
+    for (size_t i = 1 ; i < GPIO_PIN_MAX + 1 ; ++i) {
         // Get the next button to poll
         Button* btn = bts->buttons[i];
         if (btn) {
             uint32_t now = time_us_32();
-            bool is_pin_high = gpio_get(i);
-            //is_pin_high = (btn->polarity ? is_pin_high : !is_pin_high);
+            bool is_pin_pushed = gpio_get(i);
             // Respect the btn's polarity setting
-            if (is_pin_high) {
+            is_pin_pushed = (btn->polarity ? !is_pin_pushed : is_pin_pushed);
+            if (is_pin_pushed) {
                 if (btn->press_time == BUTTON_STATE_READY) {
                     // Set debounce timer
                     btn->press_time = now;
                 } else if (now - btn->press_time > 5000) {
                     btn->press_time = BUTTON_STATE_READY;
                     btn->pressed = true;
+                    // Set the button state record (1 = pressed)
                     if (!btn->trigger_on_release) bts->states |= (1 << (i - 1));
                 }
             } else if (btn->pressed) {
+                // Set the button state record (1 = pressed
                 if (btn->trigger_on_release) bts->states |= (1 << (i - 1));
                 btn->pressed = false;
             }

@@ -12,7 +12,8 @@
 #pragma mark - Static Prototypes
 
 static bool         create_button(uint8_t pin, bool polarity_is_up, bool release_to_trigger);
-static bool         button_hit(uint8_t pin);
+static void         get_button_state(uint8_t* pin_data);
+static bool         button_hit(uint8_t pin, uint8_t* pin_data);
 static void         perform_action(uint32_t pin_number);
 static void         show_help(void);
 static inline void  show_version(void);
@@ -72,6 +73,8 @@ int main(int argc, char* argv[]) {
             pause.tv_sec = 0;
             pause.tv_nsec = 0.020 * 1000000;
 
+            uint8_t pin_data[4] = {0};
+    
             /*
             // Configure the buttons remaining commands in sequence
             Button* btn1 = (Button*)malloc(sizeof(Button));
@@ -99,8 +102,9 @@ int main(int argc, char* argv[]) {
                 }
             }
              */
-
-            // pin number, polarity (true for pull up), trigger on release
+            
+            // Set up two buttons
+            // Pin number, polarity (true for pull up), trigger on release
             create_button(1, false, true);
             create_button(2, false, false);
 
@@ -143,9 +147,9 @@ int main(int argc, char* argv[]) {
                 }
                 */
 
-
-                if (button_hit(1)) perform_action(1);
-                if (button_hit(2)) perform_action(2);
+                get_button_state(pin_data);
+                if (button_hit(1, pin_data)) perform_action(1);
+                if (button_hit(2, pin_data)) perform_action(2);
 
                 // Short ns delay
                 nanosleep(&pause, &pause);
@@ -167,12 +171,13 @@ int main(int argc, char* argv[]) {
 static void perform_action(uint32_t btn_number) {
 
     fprintf(stderr, "BUTTON ON GPIO %i TRIGGERED\n", btn_number);
+    
     switch(btn_number) {
         case 1:
             do_exit = true;
             break;
         case 2:
-            do_exit = true;
+            //do_exit = true;
             break;
         default:
             break;
@@ -191,21 +196,25 @@ static bool create_button(uint8_t pin, bool polarity_is_up, bool release_to_trig
 }
 
 
-static bool button_hit(uint8_t pin) {
+static void get_button_state(uint8_t* pin_data) {
 
-    uint8_t get_pin_data[4] = {0};
-    uint8_t set_pin_data[2] = {'b', 0x20};
-    serial_write_to_port(board.file_descriptor, set_pin_data, 2);
-    size_t result = serial_read_from_port(board.file_descriptor, get_pin_data, 4);
+    uint8_t read_cmd[2] = {'b', 0x20};
+    serial_write_to_port(board.file_descriptor, read_cmd, 2);
+    size_t result = serial_read_from_port(board.file_descriptor, pin_data, 4);
     if (result == -1) print_error("Could not read back from device");
+
+    // NOTE This read command zeroes the source, so we have to do it
+    //      once per cycle.
+}
+
+
+static bool button_hit(uint8_t pin, uint8_t* pin_data) {
 
     if (pin == 0) return false;
     if (pin < 8) return (get_pin_data[0] & (1 << (pin - 1)));
-    /*
     if (pin < 16) return (get_pin_data[1] & (1 << (pin - 8)));
     if (pin < 24) return (get_pin_data[1] & (1 << (pin - 16)));
     if (pin < 32) return (get_pin_data[3] & (1 << (pin - 24)));
-    */
     return false;
 }
 

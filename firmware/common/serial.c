@@ -501,7 +501,7 @@ void rx_loop(void) {
                             // Read operation? Return the four-byte status
                             if (is_read) {
                                 // Issue bytes LSB first
-                                tx((uint8_t*)&btn_state.states, 4);
+                                tx((uint8_t*)&btn_state.states, sizeof(btn_state.states));
                                 // Clear button state register on read
                                 btn_state.states = 0;
                                 break;
