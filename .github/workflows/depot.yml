@@ -6,8 +6,6 @@ on:
 
 env:
   BUILD_TYPE: Debug
-  # Needed to install Pico SDK
-  PICO_SDK_FETCH_FROM_GIT: 1
 
 jobs:
   test_linux_build:
