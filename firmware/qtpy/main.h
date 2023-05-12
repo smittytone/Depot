@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - Adafruit QTPy RP2040
  *
- * @version     1.2.3
+ * @version     1.3.0
  * @author      Tony Smith (@smittytone)
  * @copyright   2023
  * @licence     MIT

@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - GPIO functions
  *
- * @version     1.2.3
+ * @version     1.3.0
  * @author      Tony Smith (@smittytone)
  * @copyright   2023
  * @licence     MIT
@@ -38,14 +38,14 @@ bool set_gpio(GPIO_State* gps, uint8_t* read_value, uint8_t* data) {
             gps->state_map[gpio_pin] |= (1 << GPIO_PIN_DIRN_BIT);
             gps->state_map[gpio_pin] |= (1 << GPIO_PIN_STATE_BIT);
         } else {
-            // FROM 1.2.3
+            // FROM 1.3.0
             // Set the pin to revert to GND
             gpio_pull_down(gpio_pin);
         }
 
         if (pin_state) gps->state_map[gpio_pin] |= (1 << GPIO_PIN_STATE_BIT);
     } else {
-        // FROM 1.2.3
+        // FROM 1.3.0
         // Pin registered: check for a direction change
         bool current_dir = (gps->state_map[gpio_pin] & (1 << GPIO_PIN_DIRN_BIT));
         if (current_dir != is_dir_out) {

@@ -1,7 +1,7 @@
 /*
  * I2C driver for an HT16K33 4-digit, 7-segment display
  *
- * Version 1.2.3
+ * Version 1.3.0
  * Copyright © 2023, Tony Smith (@smittytone)
  * Licence: MIT
  *

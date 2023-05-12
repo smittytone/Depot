@@ -1,7 +1,7 @@
 /*
  * Multiple button input
  *
- * Version 1.2.3
+ * Version 1.3.0
  * Copyright © 2023, Tony Smith (@smittytone)
  * Licence: MIT
  *
@@ -27,6 +27,8 @@ SerialDriver board;
 //Button* buttons[8];
 uint32_t button_count = 0;
 bool do_exit = false;
+bool button_two_pressed = false;
+
 
 #pragma mark - Main Function
 
@@ -69,7 +71,7 @@ int main(int argc, char* argv[]) {
             serial_output_read_data(false);
 
             // Set up delay timings
-            struct timespec now, pause;
+            struct timespec now, then, pause;
             pause.tv_sec = 0;
             pause.tv_nsec = 0.020 * 1000000;
 
@@ -149,7 +151,18 @@ int main(int argc, char* argv[]) {
 
                 get_button_state(pin_data);
                 if (button_hit(1, pin_data)) perform_action(1);
-                if (button_hit(2, pin_data)) perform_action(2);
+                
+                if (button_hit(2, pin_data)) {
+                    // PIN 2 is set
+                    if (!button_two_pressed) {
+                        fprintf(stderr, "BUTTON ON GPIO 2 PRESSED\n");
+                        clock_gettime(CLOCK_MONOTONIC_RAW, &then);
+                        button_two_pressed = true;
+                    }
+                } else {
+                    // PIN 2 UNSET
+                    button_two_pressed = false;
+                }
 
                 // Short ns delay
                 nanosleep(&pause, &pause);
@@ -170,16 +183,13 @@ int main(int argc, char* argv[]) {
 
 static void perform_action(uint32_t btn_number) {
 
-    fprintf(stderr, "BUTTON ON GPIO %i TRIGGERED\n", btn_number);
-    
     switch(btn_number) {
         case 1:
+            fprintf(stderr, "BUTTON ON GPIO %i RELEASED\n", btn_number);
             do_exit = true;
             break;
-        case 2:
-            //do_exit = true;
-            break;
         default:
+            // NOP
             break;
     }
 }
@@ -211,10 +221,10 @@ static void get_button_state(uint8_t* pin_data) {
 static bool button_hit(uint8_t pin, uint8_t* pin_data) {
 
     if (pin == 0) return false;
-    if (pin < 8) return (get_pin_data[0] & (1 << (pin - 1)));
-    if (pin < 16) return (get_pin_data[1] & (1 << (pin - 8)));
-    if (pin < 24) return (get_pin_data[1] & (1 << (pin - 16)));
-    if (pin < 32) return (get_pin_data[3] & (1 << (pin - 24)));
+    if (pin < 8) return (pin_data[0] & (1 << (pin - 1)));
+    if (pin < 16) return (pin_data[1] & (1 << (pin - 8)));
+    if (pin < 24) return (pin_data[1] & (1 << (pin - 16)));
+    if (pin < 32) return (pin_data[3] & (1 << (pin - 24)));
     return false;
 }
 

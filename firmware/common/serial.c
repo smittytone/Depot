@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - Primary serial and command functions
  *
- * @version     1.2.3
+ * @version     1.3.0
  * @author      Tony Smith (@smittytone)
  * @copyright   2023
  * @licence     MIT
@@ -36,7 +36,7 @@ char supported_modes[MAX_NUMBER_OF_MODES] = { MODE_CODE_NONE };
 I2C_State i2c_state;
 OneWireState ow_state;
 GPIO_State gpio_state;
-// FROM 1.2.3
+// FROM 1.3.0
 Button_State btn_state;
 
 
@@ -86,7 +86,7 @@ void rx_loop(void) {
     // FROM 1.1.3
     uint last_error_code = GEN_NO_ERROR;
 
-    // FROM 1.2.3
+    // FROM 1.3.0
     // Button variables
     memset(btn_state.buttons, 0x00, sizeof(Button*) * 32);
     btn_state.states = 0;
@@ -488,7 +488,7 @@ void rx_loop(void) {
                         }
                         break;
 
-                    // FROM 1.2.3
+                    // FROM 1.3.0
 
                     /*
                      * BUTTON COMMANDS
@@ -497,7 +497,14 @@ void rx_loop(void) {
                         {
                             uint8_t pin = (rx_buffer[1] & 0x1F);
                             bool is_read = (rx_buffer[1] & 0x20);
-
+                            
+                            // Make sure the pin is in range
+                            if (pin > GPIO_PIN_MAX) {
+                                last_error_code = GPIO_ILLEGAL_PIN;;
+                                send_err();
+                                break;
+                            }
+    
                             // Read operation? Return the four-byte status
                             if (is_read) {
                                 // Issue bytes LSB first
@@ -507,18 +514,18 @@ void rx_loop(void) {
                                 break;
                             }
 
+                            // Clear operation? Check for a postfix byte of the right value
+                            if (read_count > 2 && (rx_buffer[2] & 0x80)) {
+                                clear_button(&btn_state, pin);
+                                send_ack();
+                                break;
+                            }
+
                             // If we've got this far, this is a set operation.
                             // Make sure the button's GPIO pin is good to use.
                             if (is_pin_taken(pin) > 0) {
                                 last_error_code = GPIO_PIN_ALREADY_IN_USE;
                                 send_err();
-                                break;
-                            }
-
-                            // Clear operation? Check for a postfix byte of the right value
-                            if (read_count > 2 && (rx_buffer[2] & 0x80)) {
-                                clear_button(&btn_state, pin);
-                                send_ack();
                                 break;
                             }
 
@@ -558,7 +565,7 @@ void rx_loop(void) {
         }
 #endif
 
-        // FROM 1.2.3
+        // FROM 1.3.0
         // Poll any buttons in use
         // NOTE Poll state is cleared on read
         if (btn_state.count > 0) poll_buttons(&btn_state);
@@ -623,7 +630,7 @@ static uint32_t rx(uint8_t* buffer) {
         c = getchar_timeout_us(1);
         if (c == PICO_ERROR_TIMEOUT) break;
         buffer[buffer_byte_count++] = (uint8_t)c;
-        // FROM 1.2.3 -- remove the delay
+        // FROM 1.3.0 -- remove the delay
         //sleep_ms(UART_LOOP_DELAY_MS);
     }
 
@@ -645,7 +652,7 @@ void tx(uint8_t* buffer, uint32_t byte_count) {
 
     for (uint32_t i = 0 ; i < byte_count ; ++i) {
         putchar((buffer[i]));
-        // FROM 1.2.3 -- remove the delay
+        // FROM 1.3.0 -- remove the delay
         //sleep_ms(UART_LOOP_DELAY_MS);
     }
 }

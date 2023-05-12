@@ -1,7 +1,7 @@
 /*
  * macOS/Linux 1-Wire DS18B20 readout GUI app
  *
- * Version 1.2.3
+ * Version 1.3.0
  * Copyright © 2023, Tony Smith (@smittytone)
  * Licence: MIT
  *

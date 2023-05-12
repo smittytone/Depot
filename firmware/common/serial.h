@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - Primary serial and command functions
  *
- * @version     1.2.3
+ * @version     1.3.0
  * @author      Tony Smith (@smittytone)
  * @copyright   2023
  * @licence     MIT
@@ -84,7 +84,7 @@
 #define PIN_USAGE_FIELD_GPIO                    0x01
 #define PIN_USAGE_FIELD_I2C                     0x02
 #define PIN_USAGE_FIELD_ONEWIRE                 0x10
-// FROM 1.2.3
+// FROM 1.3.0
 #define PIN_USAGE_FIELD_BUTTON                  0x20
 
 

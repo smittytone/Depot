@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - Adafruit QT2040 Trinkey
  *
- * @version     1.2.3
+ * @version     1.3.0
  * @author      Tony Smith (@smittytone)
  * @copyright   2023
  * @licence     MIT

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.18)
 
 # Set project data
 set(PROJECT_NAME "Depot Clients for Linux")
-set(VERSION_NUMBER "1.2.3")
+set(VERSION_NUMBER "1.3.0")
 set(BUILD_NUMBER "44")
 
 # Set app name(s) and version(s)
@@ -13,7 +13,7 @@ set(CLIWIRE_CODE_DIRECTORY "${CMAKE_SOURCE_DIR}/../client/cliwire")
 set(COMMON_CODE_DIRECTORY "${CMAKE_SOURCE_DIR}/../client/common")
 set(I2C_CODE_DIRECTORY "${CMAKE_SOURCE_DIR}/../client/i2c")
 set(ONEWIRE_CODE_DIRECTORY "${CMAKE_SOURCE_DIR}/../client/onewire")
-# FROM 1.2.3
+# FROM 1.3.0
 set(DS18B20_CODE_DIRECTORY "${CMAKE_SOURCE_DIR}/../client/ds18b20")
 set(BUTTONS_CODE_DIRECTORY "${CMAKE_SOURCE_DIR}/../client/buttons")
 
@@ -80,7 +80,7 @@ add_executable(cliwire
     ${ONEWIRE_CODE_DIRECTORY}/owdriver.c
 )
 
-# FROM 1.2.3
+# FROM 1.3.0
 add_executable(ds18b20
     ${DS18B20_CODE_DIRECTORY}/main.c
     ${COMMON_CODE_DIRECTORY}/serialdriver.c
@@ -88,7 +88,7 @@ add_executable(ds18b20
     ${ONEWIRE_CODE_DIRECTORY}/owdriver.c
 )
 
-# FROM 1.2.3
+# FROM 1.3.0
 add_executable(buttons
     ${BUTTONS_CODE_DIRECTORY}/main.c
     ${COMMON_CODE_DIRECTORY}/serialdriver.c

@@ -1,4 +1,4 @@
-# Depot 1.2.3
+# Depot 1.3.0
 
 Multi-bus clients for macOS and Linux, and bus-host adaptor board firmware for the RP2040.
 
@@ -196,7 +196,9 @@ The 1-Wire driver is based on code I produced for the Twilio Electric Imp IoT pl
 
 ## Release Notes
 
-- 1.2.3 *Unreleased*
+- 1.3.0 *Unreleased*
+    - Add button support to firmware.
+    - Add `buttons` app.
     - Build a Linux version of `ds18b20`.
     - Remove some delays on UART-over-USB comms.
 - 1.2.2 *23 April 2023*

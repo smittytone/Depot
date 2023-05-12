@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - Button functions
  *
- * @version     1.2.3
+ * @version     1.3.0
  * @author      Tony Smith (@smittytone)
  * @copyright   2023
  * @licence     MIT
@@ -36,7 +36,7 @@ bool set_button(Button_State* bts, uint8_t* data) {
     btn->pressed = false;
     btn->press_time = BUTTON_STATE_READY;
 
-    // Replacing an existing button? Zap it
+    // Replacing an existing button? Zap the earlier one
     if (bts->buttons[gpio]) free(bts->buttons[gpio]);
     bts->buttons[gpio] = btn;
     bts->count++;
@@ -77,19 +77,24 @@ void poll_buttons(Button_State* bts) {
             // Respect the btn's polarity setting
             is_pin_pushed = (btn->polarity ? !is_pin_pushed : is_pin_pushed);
             if (is_pin_pushed) {
-                if (btn->press_time == BUTTON_STATE_READY) {
-                    // Set debounce timer
-                    btn->press_time = now;
-                } else if (now - btn->press_time > 5000) {
-                    btn->press_time = BUTTON_STATE_READY;
-                    btn->pressed = true;
-                    // Set the button state record (1 = pressed)
-                    if (!btn->trigger_on_release) bts->states |= (1 << (i - 1));
+                if (!btn->pressed) {
+                    if (btn->press_time == BUTTON_STATE_READY) {
+                        // Set debounce timer
+                        btn->press_time = now;
+                    } else if (now - btn->press_time > 5000) {
+                        btn->press_time = BUTTON_STATE_READY;
+                        btn->pressed = true;
+                        // Set the button state record (1 = pressed)
+                        if (!btn->trigger_on_release) bts->states |= (1 << (i - 1));
+                    }
                 }
             } else if (btn->pressed) {
-                // Set the button state record (1 = pressed
-                if (btn->trigger_on_release) bts->states |= (1 << (i - 1));
+                // Button released: set the button state record
                 btn->pressed = false;
+                if (btn->trigger_on_release) {
+                    // Set released trigger-on-release pin
+                    bts->states |= (1 << (i - 1));
+                }
             }
         }
     }
@@ -98,6 +103,7 @@ void poll_buttons(Button_State* bts) {
 
 /**
  * @brief Clear a button.
+ *        NOTE Button's pin value already checked.
  *
  * @param bts: The button state record.
  * @param pin: Pointer to a byte into which to read the pin value, if read.
@@ -106,16 +112,15 @@ void poll_buttons(Button_State* bts) {
  */
 bool clear_button(Button_State* bts, uint8_t pin) {
 
-    // Make sure the pin is in range
-    if (pin > GPIO_PIN_MAX) return false;
-
-    // Clear the pin
-    gpio_deinit(pin);
-
     // Zap the button
-    free(bts->buttons[pin]);
-    bts->buttons[pin] = NULL;
-    bts->count--;
+    if (bts->buttons[pin]) {
+        free(bts->buttons[pin]);
+        bts->buttons[pin] = NULL;
+        bts->count--;
+
+        // Clear the pin
+        gpio_deinit(pin);
+    }
 }
 
 

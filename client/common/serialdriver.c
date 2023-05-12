@@ -1,7 +1,7 @@
 /*
  * macOS/Linux Depot Serial Comms Functions
  *
- * Version 1.2.3
+ * Version 1.3.0
  * Copyright © 2023, Tony Smith (@smittytone)
  * Licence: MIT
  *
@@ -18,7 +18,7 @@ static int serial_open_port(const char *portname);
 
 // Retain the original port settings
 struct termios original_settings;
-// FROM 1.2.3
+// FROM 1.3.0
 bool do_output_read_data = true;
 
 
@@ -451,7 +451,7 @@ void serial_read(SerialDriver *sd, uint8_t bytes[], size_t byte_count) {
  *        which defaults to `true`, to match existing
  *        behaviour.
  *
- *        FROM 1.2.3
+ *        FROM 1.3.0
  *
  * @param sd:         Pointer to a SerialDriver structure.
  * @param bytes:      A buffer for the bytes to read.

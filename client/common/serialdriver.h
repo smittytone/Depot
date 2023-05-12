@@ -1,7 +1,7 @@
 /*
  * macOS/Linux Depot Serial Comms Functions
  *
- * Version 1.2.3
+ * Version 1.3.0
  * Copyright © 2023, Tony Smith (@smittytone)
  * Licence: MIT
  *
@@ -99,7 +99,7 @@ void            serial_read(SerialDriver *sd, uint8_t bytes[], size_t byte_count
 bool            serial_ack(SerialDriver *sd);
 void            serial_send_command(SerialDriver *sd, char c);
 
-// FROM 1.2.3
+// FROM 1.3.0
 bool            serial_output_read_data(bool do_output);
 
 
