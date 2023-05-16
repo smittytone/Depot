@@ -108,7 +108,7 @@ static inline void show_help(void) {
  */
 static inline void show_version(void) {
 
-    fprintf(stderr, "cli2c %s\n", APP_VERSION);
+    fprintf(stderr, "cli2c %s (%s)\n", APP_VERSION, BUILD_NUM);
     fprintf(stderr, "Copyright © 2023, Tony Smith.\n");
 }
 

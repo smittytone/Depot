@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.18)
 
 # Set project data
 set(PROJECT_NAME "Depot Clients for Linux")
-set(VERSION_NUMBER "1.3.0")
-set(BUILD_NUMBER "44")
+set(APP_VERSION_NUMBER "1.3.0")
+set(APP_BUILD_NUMBER "44")
 
 # Set app name(s) and version(s)
 set(CLI2C_CODE_DIRECTORY "${CMAKE_SOURCE_DIR}/../client/cli2c")
@@ -39,13 +39,14 @@ include_directories(
 # Name the project
 project(${PROJECT_NAME}
         LANGUAGES C
-        VERSION ${VERSION_NUMBER}
+        VERSION ${APP_VERSION_NUMBER}
         DESCRIPTION "Command line multi-bus access"
         HOMEPAGE_URL https://smittytone.net/depot
 )
 
 # Set the build version
-add_compile_definitions(APP_VERSION="${VERSION_NUMBER}")
+add_compile_definitions(APP_VERSION="${APP_VERSION_NUMBER}")
+add_compile_definitions(BUILD_NUM="${APP_BUILD_NUMBER}")
 
 # Include app source code file(s)
 add_executable(cli2c

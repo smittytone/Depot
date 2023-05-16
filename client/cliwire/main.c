@@ -115,7 +115,7 @@ static inline void show_help(void) {
  */
 static inline void show_version(void) {
 
-    fprintf(stderr, "cliwire %s\n", APP_VERSION);
+    fprintf(stderr, "cliwire %s (%s)\n", APP_VERSION, BUILD_NUM);
     fprintf(stderr, "Copyright © 2023, Tony Smith.\n");
 }
 
