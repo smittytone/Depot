@@ -7,6 +7,7 @@
  *
  */
 #include "main.h"
+#include "app_version.h"
 
 
 #pragma mark - Static Prototypes

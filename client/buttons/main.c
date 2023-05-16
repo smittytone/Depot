@@ -7,6 +7,9 @@
  *
  */
 #include "main.h"
+#ifdef BUILD_FOR_LINUX
+#include "app_version.h"
+#endif
 
 
 #pragma mark - Static Prototypes

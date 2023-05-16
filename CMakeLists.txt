@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.18)
 # Set project data
 set(PROJECT_NAME "Depot Bus Host Firmware")
 set(FW_VERSION_NUMBER "1.3.0")
-set(FW_BUILD_NUMBER "46")
+set(FW_BUILD_NUMBER "45")
 
 # Set app name(s) and version(s)
 # NOTE Indices changed from 1.2.2
@@ -106,19 +106,15 @@ if(BOARD_INDEX EQUAL -1)
     add_subdirectory(${FW_3_SRC_DIRECTORY}) # Tiny
     add_subdirectory(${FW_4_SRC_DIRECTORY}) # Trinkey
     add_subdirectory(${FW_5_SRC_DIRECTORY}) # Arduino Nano
-    # FROM 1.3.0
-    set(FINAL_DEP "${FW_0_NAME}")
 else()
     list(GET NAME_LIST ${BOARD_INDEX} BOARD)
     message("[DEPOT] Configuring build for ${BOARD}.")
     set(BLD_DIR "FW_${BOARD_INDEX}_SRC_DIRECTORY")
     add_subdirectory("${${BLD_DIR}}")
-    # FROM 1.3.0
-    set(FINAL_DEP "${FW_${BOARD_INDEX}_NAME}")
 endif()
 
 # FROM 1.3.0 -- Auto increment build number
-add_custom_command(OUTPUT INCREMENT_BUILD DEPENDS ${FINAL_DEP}
+add_custom_command(OUTPUT INCREMENT_BUILD
     COMMAND python3 ../scripts/increment.py
 )
 
