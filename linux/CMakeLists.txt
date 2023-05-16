@@ -5,6 +5,9 @@ set(PROJECT_NAME "Depot Clients for Linux")
 set(APP_VERSION_NUMBER "1.3.0")
 set(APP_BUILD_NUMBER "45")
 
+configure_file(app_version.in app_version.h)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})  
+
 # Set app name(s) and version(s)
 set(CLI2C_CODE_DIRECTORY "${CMAKE_SOURCE_DIR}/../client/cli2c")
 set(MATRIX_CODE_DIRECTORY "${CMAKE_SOURCE_DIR}/../client/matrix")
@@ -45,8 +48,8 @@ project(${PROJECT_NAME}
 )
 
 # Set the build version
-add_compile_definitions(APP_VERSION="${APP_VERSION_NUMBER}")
-add_compile_definitions(BUILD_NUM="${APP_BUILD_NUMBER}")
+#add_compile_definitions(APP_VERSION="${APP_VERSION_NUMBER}")
+#add_compile_definitions(BUILD_NUM="${APP_BUILD_NUMBER}")
 
 # Include app source code file(s)
 add_executable(cli2c
