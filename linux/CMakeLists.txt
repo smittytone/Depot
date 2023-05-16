@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.18)
 # Set project data
 set(PROJECT_NAME "Depot Clients for Linux")
 set(APP_VERSION_NUMBER "1.3.0")
-set(APP_BUILD_NUMBER "44")
+set(APP_BUILD_NUMBER "45")
 
 # Set app name(s) and version(s)
 set(CLI2C_CODE_DIRECTORY "${CMAKE_SOURCE_DIR}/../client/cli2c")
@@ -96,3 +96,10 @@ add_executable(buttons
     ${COMMON_CODE_DIRECTORY}/utils.c
     ${COMMON_CODE_DIRECTORY}/gpio.c
 )
+
+# FROM 1.3.0 -- Auto increment build number
+add_custom_command(OUTPUT INCREMENT_BUILD DEPENDS cli2c
+    COMMAND python3 ../../scripts/increment.py
+)
+
+add_custom_target(do_increment ALL DEPENDS INCREMENT_BUILD)
