@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.18)
 # Set project data
 set(PROJECT_NAME "Depot Clients for Linux")
 set(APP_VERSION_NUMBER "1.3.0")
-set(APP_BUILD_NUMBER "45")
+set(APP_BUILD_NUMBER "46")
 
 configure_file(app_version.in app_version.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})  
