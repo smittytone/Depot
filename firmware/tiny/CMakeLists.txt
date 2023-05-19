@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.20)
 
 # Make project data accessible to compiler
 # IMPORTANT `HW_MODEL` must be no more than 24 characters
