@@ -1,0 +1,124 @@
+syntax = "proto3";
+
+package depot;
+
+/*
+ * Generic
+ */
+
+message GenericSetMode {
+    bytes mode = 1;
+}
+
+message GenericGetInfo {}
+
+message GenericDataVersion {
+    uint32 major = 1;
+    uint32 minor = 2;
+    uint32 patch = 3;
+}
+
+message GenericResponseInfo {
+    GenericDataVersion version = 1;
+    uint32 build = 2;
+    bytes rp2040id = 3;
+    string boardType = 4;
+}
+
+message GenericSetLed {
+    bool isOn = 1;
+}
+
+message GenericRespond {}
+
+message GenericResponseRespond {
+    bytes data = 1;
+}
+
+message GenericGetLastError {}
+
+message GenericResponseLastError {
+    uint32 code = 1;
+}
+
+message GenericWriteBytes {
+    uint32 count = 1;
+    bytes data = 2;
+}
+
+/*
+ * I2C
+ */
+
+message I2CDoConfigure {
+    uint32 busIndex = 1;
+    uint32 sdaPin = 2;
+    uint32 sclPin = 3;
+}
+
+message I2CResponseAck {
+    bool success = 1;
+}
+
+message I2CSetFrequency {
+    uint32 frequency = 1;
+}
+
+message I2CDoInitialise {}
+
+message I2CDoReset {}
+
+message I2CDoStop {}
+
+message I2CDoStart {
+    uint32 address = 1;
+    bool isRead = 2;
+}
+
+message I2CDoScan {}
+
+message I2CResponseScan {
+    uint32 count = 1;
+    repeated uint32 addresses = 2;
+}
+
+message I2CGetInfo {}
+
+message I2CResponseInfo {
+    bool isBusReady = 1;
+    bool isBusActive = 2;
+    uint32 busIndex = 3;
+    uint32 sdaPin = 4;
+    uint32 sclPin = 5;
+    uint32 frequency = 6;
+    uint32 currentAddress = 7;
+}
+
+/*
+ * 1-Wire
+ */
+
+message OneWireDoConfigure {
+    uint32 dataPin = 1;
+}
+
+message OneWireDoInitialise {}
+
+message OneWireDoReset {}
+
+message OneWireDoScan {}
+
+/*
+ * GPIO
+ */
+
+message GPIOSetPin {
+    uint32 pin = 1;
+    bool isOut = 2;
+    bool isHigh = 3;
+}
+
+message GPIOGetPin {
+    uint32 pin = 1;
+    bool isRead = 2;
+}
