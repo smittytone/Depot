@@ -497,14 +497,14 @@ void rx_loop(void) {
                         {
                             uint8_t pin = (rx_buffer[1] & 0x1F);
                             bool is_read = (rx_buffer[1] & 0x20);
-                            
+
                             // Make sure the pin is in range
                             if (pin > GPIO_PIN_MAX) {
                                 last_error_code = GPIO_ILLEGAL_PIN;;
                                 send_err();
                                 break;
                             }
-    
+
                             // Read operation? Return the four-byte status
                             if (is_read) {
                                 // Issue bytes LSB first
@@ -568,7 +568,7 @@ void rx_loop(void) {
         // FROM 1.3.0
         // Poll any buttons in use
         // NOTE Poll state is cleared on read
-        if (btn_state.count > 0) poll_buttons(&btn_state);
+        // if (btn_state.count > 0) poll_buttons(&btn_state);
 
         // Pause? May not be necessary or might be bad
         sleep_ms(RX_LOOP_DELAY_MS);

@@ -10,6 +10,12 @@
 #include "button.h"
 
 
+static void     button_debounce(uint gpio, uint32_t event_mask);
+static int64_t  button_get_state(alarm_id_t id, void *user_data);
+
+Button_State* button_state;
+
+
 /**
  * @brief Configure a button.
  *
@@ -35,6 +41,7 @@ bool set_button(Button_State* bts, uint8_t* data) {
     btn->polarity = polarity;
     btn->pressed = false;
     btn->press_time = BUTTON_STATE_READY;
+    button_state = bts;
 
     // Replacing an existing button? Zap the earlier one
     if (bts->buttons[gpio]) free(bts->buttons[gpio]);
@@ -54,6 +61,10 @@ bool set_button(Button_State* bts, uint8_t* data) {
 #ifdef DO_UART_DEBUG
     debug_log("Button %i set (pull %s, trigger: %s)", gpio, (polarity ? "UP" : "DN"), (trigger_on_release ? "REL" : "PRESS"));
 #endif
+
+    // Set the trigger callback
+    uint32_t event_mask = polarity ? GPIO_IRQ_EDGE_FALL : GPIO_IRQ_EDGE_RISE;
+    gpio_set_irq_enabled_with_callback(gpio, event_mask, true, button_debounce);
 
     return true;
 }
@@ -135,4 +146,42 @@ bool clear_button(Button_State* bts, uint8_t pin) {
 bool is_pin_in_use_by_button(Button_State* bts, uint8_t pin) {
 
     return (bts->buttons[pin] != NULL);
+}
+
+
+static void button_debounce(uint gpio, uint32_t event_mask) {
+
+    // Remove IRQ from pin
+    gpio_set_irq_enabled(gpio, event_mask, false);
+
+    // Wait 0.10ms and call the button state handler
+    add_alarm_in_us(1000, button_get_state, &gpio, true);
+}
+
+
+static int64_t button_get_state(alarm_id_t id, void *user_data) {
+
+    uint32_t* gpio_ptr = (uint32_t*)user_data;
+    uint32_t gpio = *gpio_ptr;
+    Button* btn = button_state->buttons[gpio];
+
+    if (btn->polarity == gpio_get(gpio)) {
+        // Pin is back to normal: release
+        if (btn->trigger_on_release) {
+            // Set released trigger-on-release pin
+            button_state->states |= (1 << (gpio - 1));
+        }
+    } else {
+        // Button pressed
+        if (!btn->trigger_on_release) {
+            // Set released trigger-on-release pin
+            button_state->states |= (1 << (gpio - 1));
+        }
+    }
+
+    // Re-enable IRQ
+    uint32_t event_mask = btn->polarity ? GPIO_IRQ_EDGE_FALL : GPIO_IRQ_EDGE_RISE;
+    gpio_set_irq_enabled(gpio, event_mask, true);
+
+    return 0;
 }

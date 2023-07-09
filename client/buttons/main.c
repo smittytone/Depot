@@ -74,7 +74,7 @@ int main(int argc, char* argv[]) {
             serial_output_read_data(false);
 
             // Set up delay timings
-            struct timespec now, then, pause;
+            struct timespec then, pause;
             pause.tv_sec = 0;
             pause.tv_nsec = 0.020 * 1000000;
 
@@ -110,8 +110,8 @@ int main(int argc, char* argv[]) {
             
             // Set up two buttons
             // Pin number, polarity (true for pull up), trigger on release
-            create_button(1, false, true);
-            create_button(2, false, false);
+            create_button(2, false, true);
+            create_button(3, false, false);
 
             // Poll the buttons, one by one
             // Button* btn;
