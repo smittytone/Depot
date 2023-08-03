@@ -162,7 +162,7 @@ static void button_debounce(uint gpio, uint32_t event_mask) {
     add_alarm_in_us(1000, &button_get_state, &gpio, true);
 
 #ifdef DO_UART_DEBUG
-    debug_log("DEBOUNCE"));
+    debug_log("DEBOUNCE");
 #endif 
 }
 
@@ -194,7 +194,7 @@ static int64_t button_get_state(alarm_id_t id, void *user_data) {
     gpio_set_irq_enabled(gpio, event_mask, true);
 
 #ifdef DO_UART_DEBUG
-    debug_log("GET_STATE"));
+    debug_log("GET_STATE");
 #endif
 
     return 0;
