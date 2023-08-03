@@ -13,7 +13,7 @@
 static void     button_debounce(uint gpio, uint32_t event_mask);
 static int64_t  button_get_state(alarm_id_t id, void *user_data);
 
-Button_State* button_state;
+volatile Button_State* button_state;
 
 
 /**
@@ -64,7 +64,7 @@ bool set_button(Button_State* bts, uint8_t* data) {
 
     // Set the trigger callback
     uint32_t event_mask = polarity ? GPIO_IRQ_EDGE_FALL : GPIO_IRQ_EDGE_RISE;
-    gpio_set_irq_enabled_with_callback(gpio, event_mask, true, button_debounce);
+    gpio_set_irq_enabled_with_callback(gpio, event_mask, true, &button_debounce);
 
     return true;
 }
@@ -131,7 +131,11 @@ bool clear_button(Button_State* bts, uint8_t pin) {
 
         // Clear the pin
         gpio_deinit(pin);
-    }
+        return true;
+    } 
+    
+    // Button not yet set
+    return false;
 }
 
 
@@ -155,12 +159,18 @@ static void button_debounce(uint gpio, uint32_t event_mask) {
     gpio_set_irq_enabled(gpio, event_mask, false);
 
     // Wait 0.10ms and call the button state handler
-    add_alarm_in_us(1000, button_get_state, &gpio, true);
+    add_alarm_in_us(1000, &button_get_state, &gpio, true);
+
+#ifdef DO_UART_DEBUG
+    debug_log("DEBOUNCE"));
+#endif 
 }
 
 
 static int64_t button_get_state(alarm_id_t id, void *user_data) {
 
+    // Dereference the `user_data` pointer to get the GPIO
+    // number and thus the button record for this pin
     uint32_t* gpio_ptr = (uint32_t*)user_data;
     uint32_t gpio = *gpio_ptr;
     Button* btn = button_state->buttons[gpio];
@@ -182,6 +192,10 @@ static int64_t button_get_state(alarm_id_t id, void *user_data) {
     // Re-enable IRQ
     uint32_t event_mask = btn->polarity ? GPIO_IRQ_EDGE_FALL : GPIO_IRQ_EDGE_RISE;
     gpio_set_irq_enabled(gpio, event_mask, true);
+
+#ifdef DO_UART_DEBUG
+    debug_log("GET_STATE"));
+#endif
 
     return 0;
 }
