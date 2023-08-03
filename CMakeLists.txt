@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20...3.27)
+cmake_minimum_required(VERSION 3.20...3.99)
 
 # Set project data
 set(PROJECT_NAME "Depot Bus Host Firmware")
