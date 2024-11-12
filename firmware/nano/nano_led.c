@@ -3,11 +3,19 @@
  *
  * @version     1.2.2
  * @author      Tony Smith (@smittytone)
- * @copyright   2023
+ * @copyright   2024
  * @licence     MIT
  *
  */
-#include "main.h"
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+// Pico SDK Includes
+#include "pico/stdlib.h"
+#include "hardware/spi.h"
+// App
+#include "../common/led.h"
+#include "nano_led.h"
 
 
 /*
@@ -88,7 +96,7 @@ void nano_led_off(void) {
     nina_pin_write(NINA_LED_G, 1);
     nina_pin_write(NINA_LED_B, 1);
     */
-    
+
     // Use the mono LED for now
     gpio_put(PIN_MONO_LED, false);
 }
@@ -176,21 +184,21 @@ static void nina_send_cmd(uint8_t cmd, uint8_t pin, uint8_t value) {
 
     uint8_t buffer[8] = {0};
     buffer[0] = NINA_CMD_START;     // Packet start
-    buffer[1] = cmd & 0x7F;         // Command + reply bit (7)  
+    buffer[1] = cmd & 0x7F;         // Command + reply bit (7)
     buffer[2] = 2;                  // Param count
     buffer[3] = 1;                  // Param #1 length
     buffer[4] = pin;                // Param #1
     buffer[5] = 1;                  // Param #2 length
     buffer[6] = value;              // Param #2
     buffer[7] = NINA_CMD_END;       // Packet end
-    
+
     // Select CS
     nina_wait_for_ready();
     gpio_put(NINA_PIN_SPI_CS, false);
 
     // Send Command
     uint32_t bytes_sent = spi_write_blocking(NINA_SPI, buffer, sizeof(buffer));
-    
+
     // Deselect CS
     gpio_put(NINA_PIN_SPI_CS, true);
 }

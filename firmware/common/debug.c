@@ -1,19 +1,24 @@
 /*
  * Depot RP2040 Bus Host Firmware - Debug functions
  *
- * @version     1.2.2
+ * @version     1.2.3
  * @author      Tony Smith (@smittytone)
- * @copyright   2023
+ * @copyright   2024
  * @licence     MIT
  *
  */
+// C
+#include <stdio.h>
+// Pico
+#include "hardware/uart.h"
+// Depot
 #include "debug.h"
 
 
 /**
  * @brief Initialise UART and pins for debugging output.
  */
-void debug_init() {
+void debug_init(void) {
     uart_init(DEBUG_UART, 115200);
     gpio_set_function(DEBUG_UART_RX_GPIO, GPIO_FUNC_UART);
     gpio_set_function(DEBUG_UART_TX_GPIO, GPIO_FUNC_UART);

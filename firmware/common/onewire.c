@@ -3,10 +3,19 @@
  *
  * @version     1.2.2
  * @author      Tony Smith (@smittytone)
- * @copyright   2023
+ * @copyright   2024
  * @licence     MIT
  *
  */
+// C
+#include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
+// Pico
+#include "pico/stdlib.h"
+#include "pico/unique_id.h"
+// Depot
+#include "serial.h"
 #include "onewire.h"
 
 // https://www.analog.com/en/technical-articles/1wire-communication-through-software.html

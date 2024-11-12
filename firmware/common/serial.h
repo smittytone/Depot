@@ -3,7 +3,7 @@
  *
  * @version     1.2.2
  * @author      Tony Smith (@smittytone)
- * @copyright   2023
+ * @copyright   2024
  * @licence     MIT
  *
  */
@@ -14,22 +14,7 @@
 /*
  * INCLUDES
  */
-#include <signal.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <memory.h>
-// Pico SDK Includes
-#include "pico/stdlib.h"
-#include "pico/binary_info.h"
-#include "hardware/i2c.h"
-#include "pico/unique_id.h"
-// App Includes
-#include "led.h"
-#include "gpio.h"
-#include "i2c.h"
-#include "errors.h"
-#include "onewire.h"
+#include <stdint.h>
 
 #ifdef DO_UART_DEBUG
 #include "debug.h"

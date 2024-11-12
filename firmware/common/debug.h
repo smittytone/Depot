@@ -3,7 +3,7 @@
  *
  * @version     1.2.2
  * @author      Tony Smith (@smittytone)
- * @copyright   2023
+ * @copyright   2024
  * @licence     MIT
  *
  */
@@ -11,16 +11,7 @@
 #define _DEBUG_HEADER_
 
 
-/*
- * INCLUDES
- */
-#include <string.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include <time.h>
-#include "hardware/uart.h"
-#include "pico/stdlib.h"
-#include "pico/time.h"
+
 
 /*
  * CONSTANTS
@@ -33,7 +24,7 @@
 /*
  * PROTOTYPES
  */
-void    debug_init();
+void    debug_init(void);
 void    debug_log(char* format_string, ...);
 void    debug_log_bytes(uint8_t* bytes, size_t count);
 

@@ -3,10 +3,16 @@
  *
  * @version     1.2.2
  * @author      Tony Smith (@smittytone)
- * @copyright   2023
+ * @copyright   2024
  * @licence     MIT
  *
  */
+// C
+#include <stdbool.h>
+// Pico
+#include "pico/stdlib.h"
+// Depot
+#include "serial.h"
 #include "gpio.h"
 
 

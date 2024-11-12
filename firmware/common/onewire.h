@@ -3,7 +3,7 @@
  *
  * @version     1.2.2
  * @author      Tony Smith (@smittytone)
- * @copyright   2023
+ * @copyright   2024
  * @licence     MIT
  *
  */
@@ -15,12 +15,6 @@
  * INCLUDES
  */
 #include <stdint.h>
-#include <stdbool.h>
-#include <string.h>
-// Pico SDK Includes
-#include "pico/stdlib.h"
-// App Includes
-#include "serial.h"
 
 
 /*

@@ -3,10 +3,28 @@
  *
  * @version     1.2.2
  * @author      Tony Smith (@smittytone)
- * @copyright   2023
+ * @copyright   2024
  * @licence     MIT
  *
  */
+// C
+#include <signal.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <memory.h>
+// Pico
+#include "pico/stdlib.h"
+#include "pico/binary_info.h"
+#include "pico/unique_id.h"
+#include "hardware/gpio.h"
+#include "hardware/i2c.h"
+// Depot
+#include "led.h"
+#include "gpio.h"
+#include "i2c.h"
+#include "errors.h"
+#include "onewire.h"
 #include "serial.h"
 
 

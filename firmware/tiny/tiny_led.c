@@ -3,11 +3,20 @@
  *
  * @version     1.2.2
  * @author      Tony Smith (@smittytone)
- * @copyright   2023
+ * @copyright   2024
  * @licence     MIT
  *
  */
-#include "main.h"
+
+// C
+#include <stdbool.h>
+#include <stdint.h>
+// Pico
+#include "pico/stdlib.h"
+#include "hardware/pwm.h"
+// Depot
+#include "../common/led.h"
+#include "tiny_led.h"
 
 
 RGB_LED_colour colour;
@@ -33,7 +42,7 @@ void tiny_led_init(void) {
  *
  * @param pin: The GPIO pin to provision.
  */
-void tiny_pwm_init(uint pin) {
+void tiny_pwm_init(unsigned int pin) {
 
     // Set the pin's function
     gpio_set_function(pin, GPIO_FUNC_PWM);

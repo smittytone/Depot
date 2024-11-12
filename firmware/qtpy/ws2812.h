@@ -31,13 +31,8 @@
 /*
  *  INCLUDES
  */
-#include <pico/stdlib.h>
 #include <stdint.h>
-#include <stdlib.h>
-
-#include "pico/stdlib.h"
-#include "hardware/pio.h"
-#include "ws2812.pio.h"
+#include <stdbool.h>
 
 
 /*

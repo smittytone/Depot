@@ -3,7 +3,7 @@
  *
  * @version     1.2.2
  * @author      Tony Smith (@smittytone)
- * @copyright   2023
+ * @copyright   2024
  * @licence     MIT
  *
  */
@@ -15,15 +15,7 @@
  * INCLUDES
  */
 #include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-// Pico SDK Includes
-#include "pico/stdlib.h"
-#include "pico/binary_info.h"
-#include "hardware/gpio.h"
-#include "hardware/pwm.h"
+#include <stdint.h>
 
 
 /*
@@ -40,7 +32,7 @@
  * PROTOTYPES
  */
 void    tiny_led_init(void);
-void    tiny_pwm_init(uint pin);
+void    tiny_pwm_init(unsigned int pin);
 void    tiny_led_off(void);
 void    tiny_led_on(void);
 void    tiny_led_set_state(bool is_on);

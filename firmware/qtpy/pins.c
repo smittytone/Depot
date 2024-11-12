@@ -3,11 +3,12 @@
  *
  * @version     1.2.2
  * @author      Tony Smith (@smittytone)
- * @copyright   2023
+ * @copyright   2024
  * @licence     MIT
  *
  */
 #include <stdint.h>
+
 
 uint8_t I2C_PIN_PAIRS_BUS_0[] = {   4, 5,
                                     24, 25,

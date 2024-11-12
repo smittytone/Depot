@@ -3,11 +3,23 @@
  *
  * @version     1.2.2
  * @author      Tony Smith (@smittytone)
- * @copyright   2023
+ * @copyright   2024
  * @licence     MIT
  *
  */
-#include "main.h"
+
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+// Pico
+#include "pico/stdlib.h"
+#include "pico/binary_info.h"
+#include "hardware/gpio.h"
+// Depot
+#include "nano_led.h"
+#include "../common/serial.h"
 
 
 /*
@@ -20,7 +32,7 @@ int main(void) {
 
     // Enable STDIO and allow 2s for the board to come up
     if (stdio_usb_init()) {
-        stdio_set_translate_crlf(&stdio_usb, false);;
+        stdio_set_translate_crlf(&stdio_usb, false);
         stdio_flush();
 
         // Start the loop

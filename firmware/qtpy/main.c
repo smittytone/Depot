@@ -3,11 +3,17 @@
  *
  * @version     1.2.2
  * @author      Tony Smith (@smittytone)
- * @copyright   2023
+ * @copyright   2024
  * @licence     MIT
  *
  */
-#include "main.h"
+// C
+#include <stdbool.h>
+// Pico
+#include "pico/stdlib.h"
+// Depot
+#include "../common/serial.h"
+#include "ws2812.h"
 
 
 /*
@@ -19,7 +25,7 @@ int main(void) {
 
     // Enable STDIO and allow 2s for the board to come up
     if (stdio_usb_init()) {
-        stdio_set_translate_crlf(&stdio_usb, false);;
+        stdio_set_translate_crlf(&stdio_usb, false);
         stdio_flush();
 
         // Start the loop

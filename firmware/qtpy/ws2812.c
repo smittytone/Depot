@@ -23,7 +23,13 @@
  * THE SOFTWARE.
  *
  */
-#include "main.h"
+// C
+// Pico
+#include "pico/stdlib.h"
+#include "hardware/pio.h"
+// Depot
+#include "ws2812.pio.h"
+#include "ws2812.h"
 
 
 /*
@@ -70,7 +76,7 @@ void ws2812_pixel(uint32_t colour) {
 
 
 void ws2812_set_state(bool state) {
-    
+
     ws2812_pixel(state ? colour : 0x00);
 }
 

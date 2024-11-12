@@ -3,7 +3,7 @@
  *
  * @version     1.2.2
  * @author      Tony Smith (@smittytone)
- * @copyright   2023
+ * @copyright   2024
  * @licence     MIT
  *
  */
@@ -11,17 +11,7 @@
 #define _GPIO_HEADER_
 
 
-/*
- * INCLUDES
- */
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-// Pico SDK Includes
-#include "pico/stdlib.h"
-// App Includes
-#include "serial.h"
+#include <stdint.h>
 
 
 /*
@@ -30,6 +20,7 @@
 #define GPIO_PIN_DIRN_BIT                       1
 #define GPIO_PIN_STATE_BIT                      0
 #define GPIO_PIN_MAX                            31
+
 
 /*
  * STRUCTURES

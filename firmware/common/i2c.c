@@ -3,10 +3,19 @@
  *
  * @version     1.2.2
  * @author      Tony Smith (@smittytone)
- * @copyright   2023
+ * @copyright   2024
  * @licence     MIT
  *
  */
+// C
+#include <string.h>
+#include <stdio.h>
+// Pico
+#include "pico/unique_id.h"
+#include "hardware/gpio.h"
+#include "hardware/i2c.h"
+// Depot
+#include "serial.h"
 #include "i2c.h"
 
 

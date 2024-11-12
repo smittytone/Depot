@@ -3,11 +3,15 @@
  *
  * @version     1.2.2
  * @author      Tony Smith (@smittytone)
- * @copyright   2023
+ * @copyright   2024
  * @licence     MIT
  *
  */
-#include "main.h"
+// Pico
+#include "pico/stdlib.h"
+#include "hardware/gpio.h"
+// Depot
+#include "pico_led.h"
 
 
 /**
