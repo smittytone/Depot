@@ -195,6 +195,7 @@ The 1-Wire driver is based on code I produced for the Twilio Electric Imp IoT pl
 ## Release Notes
 
 - 1.2.4 *Unreleased*
+    - Interrim release with minor changes as I get back into the codebase.
     - Refactor firmware’s excessive use of `#include` statements.
 - 1.2.2 *23 April 2023*
     - Support the Pico SDK’s `PICO_BOARD` environment variable to select specific firmware targets.
