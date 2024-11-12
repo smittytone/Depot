@@ -1,7 +1,14 @@
 #!/bin/bash
 
-# Deploy compiled firmare to RP2040-based board
-# as a cli2c USB-to-I2C hardware bridge
+# Deploy compiled firmware to an RP2040-based board operating
+# as a Depot USB-to-I2C hardware bridge
+#
+# Version 1.2.3
+#
+# NOTE For this to work, the RP2040 must be running code that uses
+#      calls `stdio_usb_init()` (as Depot firmware does). Once that is
+#      the case, the RP2040 board will appear under macOS and Linux as
+#      a device in `/dev`, eg. `/dev/cu.usbmodem.1` under macOS.
 #
 # Usage:
 #   ./deploy.sh {path/to/device} {path/to/uf2}
@@ -9,6 +16,7 @@
 # Examples:
 #   macOS: ./deploy.sh /dev/cu.usbmodem1.1 /build/firmware/pico/firmware_pico.uf2
 #   Linux RPiOS: ./deploy.sh /dev/ttyACMO /build/firmware/pico/firmware_pico.uf2
+
 
 show_error_and_exit() {
     echo "[ERROR] $1"
@@ -54,7 +62,7 @@ else
 
         sudo mkdir ${pico_path} || show_error_and_exit "Could not make mount point ${pico_path}"
         sudo mount ${rp2_disk} ${pico_path} -o rw || show_error_and_exit "Could not mount device ${1}"
-    fi    
+    fi
 fi
 
 echo "Waiting for Pico to mount..."
