@@ -10,7 +10,8 @@ pipeline {
         }
         stage('Linux Test Build') {
             steps {
-                cmakeBuild buildDir: 'linux/build', cleanBuild: true, installation: 'InSearchPath', sourceDir: 'linux', steps: [[withCmake: true]]
+                sh 'ls $PWD'
+                cmakeBuild buildDir: 'linux/build', cleanBuild: true, cmakeArgs: '-S', installation: 'InSearchPath', sourceDir: 'linux', steps: [[withCmake: true]]
             }
         }
         stage('Firmware Test Build') {
