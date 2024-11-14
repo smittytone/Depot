@@ -5,7 +5,7 @@ pipeline {
             steps {
                 checkout poll: false, scm: scmGit(branches: [[name: '*/develop']], userRemoteConfigs: [[url: 'https://github.com/smittytone/Depot.git']])
                 checkout poll: false, scm: scmGit(branches: [[name: '*/master']], extensions: [submodule(recursiveSubmodules: true, reference: '')], userRemoteConfigs: [[url: 'https://github.com/raspberrypi/pico-sdk.git']])
-                sh 'echo $PWD'
+                sh 'ls $PWD'
             }
         }
         stage('Linux Test Build') {
