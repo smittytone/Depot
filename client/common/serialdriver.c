@@ -1,12 +1,16 @@
 /*
  * macOS/Linux Depot Serial Comms Functions
  *
- * Version 1.2.2
- * Copyright © 2023, Tony Smith (@smittytone)
+ * Version 1.2.3
+ * Copyright © 2024, Tony Smith (@smittytone)
  * Licence: MIT
  *
  */
-#include "main.h"
+
+#pragma mark - Includes
+
+#include "serialdriver.h"
+#include "utils.h"
 
 
 #pragma mark - Static Function Prototypes

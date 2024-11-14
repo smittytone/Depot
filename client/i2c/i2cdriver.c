@@ -1,15 +1,24 @@
 /*
  * Generic macOS I2C driver
  *
- * Version 1.2.2
- * Copyright © 2023, Tony Smith (@smittytone)
+ * Version 1.2.3
+ * Copyright © 2024, Tony Smith (@smittytone)
  * Licence: MIT
  *
  */
-#include "main.h"
+#pragma mark - Includes
 
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <inttypes.h>
+// App
+#include "i2cdriver.h"
+#include "utils.h"
 
 #pragma mark - Global Vars
+
 I2CData i2c;
 
 

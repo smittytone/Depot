@@ -1,8 +1,8 @@
 /*
  * HT16K33 4-digit, 7-segment driver
  *
- * Version 1.2.2
- * Copyright © 2023, Tony Smith (@smittytone)
+ * Version 1.2.3
+ * Copyright © 2024, Tony Smith (@smittytone)
  * Licence: MIT
  *
  */
@@ -13,19 +13,12 @@
 /*
  * INCLUDES
  */
-#include <string.h>
-#include <stdio.h>
 #include <stdbool.h>
-#include <stdlib.h>
-#include <stdarg.h>
 #include <stdint.h>
 #include <unistd.h>
-#include <errno.h>
-#include <time.h>
-#include <assert.h>
-#include <inttypes.h>
-// FROM 1.1.2
-#include <limits.h>
+// App
+#include "serialdriver.h"
+#include "i2cdriver.h"
 
 
 /*

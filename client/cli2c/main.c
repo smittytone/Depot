@@ -1,12 +1,18 @@
 /*
  * Generic macOS/Linux I2C driver
  *
- * Version 1.2.2
- * Copyright © 2023, Tony Smith (@smittytone)
+ * Version 1.2.3
+ * Copyright © 2024, Tony Smith (@smittytone)
  * Licence: MIT
  *
  */
-#include "main.h"
+
+#pragma mark - Includes
+
+#include "serialdriver.h"
+#include "utils.h"
+#include "gpio.h"
+#include "i2cdriver.h"
 
 
 #pragma mark - Static Prototypes
@@ -109,7 +115,7 @@ static inline void show_help(void) {
 static inline void show_version(void) {
 
     fprintf(stderr, "cli2c %s\n", APP_VERSION);
-    fprintf(stderr, "Copyright © 2023, Tony Smith.\n");
+    fprintf(stderr, "Copyright © 2024, Tony Smith.\n");
 }
 
 
@@ -220,7 +226,7 @@ static int process_commands(SerialDriver *sd, int argc, char *argv[], uint32_t d
 
                                 bool result = i2c_set_bus(sd, (uint8_t)bus_id, (uint8_t)sda_pin, (uint8_t)scl_pin);
                                 if (!result) {
-                                    // FROM 1.2.2 -- Get and present error
+                                    // FROM 1.2.3 -- Get and present error
                                     print_error("I2C bus config un-ACK’d");
                                     serial_get_last_error(sd);
                                     return EXIT_ERR;
@@ -251,7 +257,7 @@ static int process_commands(SerialDriver *sd, int argc, char *argv[], uint32_t d
                         if (speed == 1 || speed == 4) {
                             bool result = i2c_set_speed(sd, speed);
                             if (!result) {
-                                // FROM 1.2.2 -- Get and present error
+                                // FROM 1.2.3 -- Get and present error
                                 print_error("Frequency set un-ACK’d");
                                 serial_get_last_error(sd);
                                 return EXIT_ERR;

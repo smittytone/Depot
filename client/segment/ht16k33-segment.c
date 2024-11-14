@@ -1,12 +1,26 @@
 /*
  * HT16K33 4-digit, 7-segment driver
  *
- * Version 1.2.2
- * Copyright © 2023, Tony Smith (@smittytone)
+ * Version 1.2.3
+ * Copyright © 2024, Tony Smith (@smittytone)
  * Licence: MIT
  *
  */
-#include "main.h"
+#pragma mark - Includes
+
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdarg.h>
+#include <unistd.h>
+#include <errno.h>
+#include <time.h>
+#include <assert.h>
+#include <inttypes.h>
+// FROM 1.1.2
+#include <limits.h>
+// App
+#include "ht16k33-segment.h"
 
 
 #pragma mark - Static Prototypes
