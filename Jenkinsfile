@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        PICO_SDK_PATH = $PWD/pico-sdk
+        PICO_SDK_PATH = "$PWD/pico-sdk"
     }
     stages {
         stage('Linux Apps Test Build') {
