@@ -9,6 +9,12 @@
 
 #pragma mark - Includes
 
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
+#include <time.h>
+// App
 #include "serialdriver.h"
 #include "utils.h"
 #include "gpio.h"
