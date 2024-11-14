@@ -25,10 +25,10 @@ pipeline {
     }
     post {
         success {
-            slackSend botUser: true, channel: '#build-infra', color: 'good', message: "Job Name: ${JOB_BASE_NAME}\nStatus: Successful", tokenCredentialId: 'fb68b79f-65a8-40be-9913-57eb7e8d8206'
+            slackSend botUser: true, channel: '#build-results', color: 'good', message: "Job Name: ${JOB_BASE_NAME}\nStatus: Successful", tokenCredentialId: 'fb68b79f-65a8-40be-9913-57eb7e8d8206'
         }
         failure {
-            slackSend botUser: true, channel: '#build-infra', color: 'danger', message: "Job Name: ${JOB_BASE_NAME}\nStatus: Failed", tokenCredentialId: 'fb68b79f-65a8-40be-9913-57eb7e8d8206'
+            slackSend botUser: true, channel: '#build-results', color: 'danger', message: "Job Name: ${JOB_BASE_NAME}\nStatus: Failed", tokenCredentialId: 'fb68b79f-65a8-40be-9913-57eb7e8d8206'
         }
     }
 }
