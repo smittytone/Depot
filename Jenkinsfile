@@ -1,7 +1,10 @@
 pipeline {
     agent any
+    environment {
+        PICO_SDK_PATH = $PWD/pico-sdk
+    }
     stages {
-        stage('Git Prep') {
+        stage('Linux Apps Test Build') {
             steps {
                 checkout poll: false, scm: scmGit(branches: [[name: '*/develop']], userRemoteConfigs: [[url: 'https://github.com/smittytone/Depot.git']])
                 sh 'ls linux'
@@ -10,7 +13,10 @@ pipeline {
         }
         stage('Firmware Test Build') {
             steps {
-                cmakeBuild buildDir: 'build', cleanBuild: true, installation: 'InSearchPath', steps: [[withCmake: true]]
+                dir('pico-sdk') {
+                    checkout poll: false, scm: scmGit(branches: [[name: '*/master']], extensions: [submodule(recursiveSubmodules: true, reference: '')], userRemoteConfigs: [[url: 'https://github.com/raspberrypi/pico-sdk.git']])
+                }
+                cmakeBuild buildDir: 'build', cleanBuild: true, cmakeArgs: '-S', installation: 'InSearchPath', steps: [[withCmake: true]]
             }
         }
     }
