@@ -13,30 +13,10 @@
 /*
  * INCLUDES
  */
-#include <string.h>
-#include <stdio.h>
 #include <stdbool.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <stdint.h>
-#include <unistd.h>
 #include <inttypes.h>
-#include <errno.h>
-#include <time.h>
-#include <assert.h>
-#include <memory.h>
-#include <fcntl.h>
-#include <termios.h>
-#include <sys/ioctl.h>
-// FROM 1.1.2
-#include <limits.h>
-
-#ifndef BUILD_FOR_LINUX
-#include <IOKit/serial/ioss.h>
-#endif
 
 #define __STDC_FORMAT_MACROS
-
 
 
 /*

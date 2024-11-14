@@ -1,8 +1,8 @@
 /*
  * macOS/Linux 1-Wire CLI DS18B20 readout utility
  *
- * Version 1.2.2
- * Copyright © 2023, Tony Smith (@smittytone)
+ * Version 1.2.3
+ * Copyright © 2024, Tony Smith (@smittytone)
  * Licence: MIT
  *
  */
@@ -140,14 +140,14 @@ if (board.is_connected) {
     while true {
         // Send the convert command
         one_wire_reset(&board)
-        one_wire_write_bytes(&board, &cmd_bytes_convert, 2)
+        one_wire_write_bytes(&board, &cmd_bytes_convert[0], 2)
         
         // Wait 750ms
         usleep(750 * 1000)
         
         // Send the read command
         one_wire_reset(&board)
-        one_wire_write_bytes(&board, &cmd_bytes_read_scratch, 2)
+        one_wire_write_bytes(&board, &cmd_bytes_read_scratch[0], 2)
         
         // Read back the data
         one_wire_read_bytes(&board, &result, 2)

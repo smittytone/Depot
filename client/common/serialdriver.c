@@ -9,8 +9,27 @@
 
 #pragma mark - Includes
 
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdarg.h>
+#include <unistd.h>
+#include <errno.h>
+#include <time.h>
+#include <assert.h>
+#include <memory.h>
+#include <fcntl.h>
+#include <termios.h>
+#include <sys/ioctl.h>
+// FROM 1.1.2
+#include <limits.h>
+// App
 #include "serialdriver.h"
 #include "utils.h"
+
+#ifndef BUILD_FOR_LINUX
+#include <IOKit/serial/ioss.h>
+#endif
 
 
 #pragma mark - Static Function Prototypes

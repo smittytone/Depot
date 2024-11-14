@@ -1,12 +1,23 @@
 /*
  * macOS/Linux 1-Wire CLI utility
  *
- * Version 1.2.2
- * Copyright © 2023, Tony Smith (@smittytone)
+ * Version 1.2.3
+ * Copyright © 2024, Tony Smith (@smittytone)
  * Licence: MIT
  *
  */
-#include "main.h"
+#pragma mark - Includes
+
+#include <signal.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+// App
+#include "serialdriver.h"
+#include "utils.h"
+#include "gpio.h"
+#include "owdriver.h"
 
 
 #pragma mark - Static Prototypes
@@ -116,7 +127,7 @@ static inline void show_help(void) {
 static inline void show_version(void) {
 
     fprintf(stderr, "cliwire %s\n", APP_VERSION);
-    fprintf(stderr, "Copyright © 2023, Tony Smith.\n");
+    fprintf(stderr, "Copyright © 2024, Tony Smith.\n");
 }
 
 

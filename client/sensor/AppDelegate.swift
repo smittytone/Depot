@@ -1,8 +1,8 @@
 /*
  * macOS/Linux 1-Wire DS18B20 readout GUI app
  *
- * Version 1.2.2
- * Copyright © 2023, Tony Smith (@smittytone)
+ * Version 1.2.3
+ * Copyright © 2024, Tony Smith (@smittytone)
  * Licence: MIT
  *
  */
@@ -357,7 +357,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSAnimationDelegate {
         // Send the convert command
         self.check = one_wire_reset(&board)
         if !self.check { return }
-        one_wire_write_bytes(&board, &cmd_bytes_convert_temp, 2)
+        one_wire_write_bytes(&board, &cmd_bytes_convert_temp![0], 2)
 
         // Wait 750ms -- too small to worry about UI?
         usleep(750 * 1000)
@@ -365,7 +365,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSAnimationDelegate {
         // Send the read command
         self.check = one_wire_reset(&board)
         if !self.check { return }
-        one_wire_write_bytes(&board, &cmd_bytes_read_scratch, 2)
+        one_wire_write_bytes(&board, &cmd_bytes_read_scratch![0], 2)
 
         // Read back the data
         one_wire_read_bytes(&board, &reading, 2)

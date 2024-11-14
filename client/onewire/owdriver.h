@@ -1,8 +1,8 @@
 /*
  * macOS/Linux Depot 1-Wire driver
  *
- * Version 1.2.2
- * Copyright © 2023, Tony Smith (@smittytone)
+ * Version 1.2.3
+ * Copyright © 2024, Tony Smith (@smittytone)
  * Licence: MIT
  *
  */
@@ -13,16 +13,10 @@
 /*
  * INCLUDES
  */
-#include <string.h>
-#include <stdio.h>
 #include <stdbool.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <unistd.h>
 #include <inttypes.h>
-
+// App
 #include "serialdriver.h"
-#include "utils.h"
 
 
 /*

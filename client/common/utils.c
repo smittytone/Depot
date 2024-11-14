@@ -6,6 +6,12 @@
  * Licence: MIT
  *
  */
+
+#include <stdio.h>
+#include <string.h>
+#include <signal.h>
+#include <stdarg.h>
+#include <stdlib.h>
 #include "utils.h"
 
 

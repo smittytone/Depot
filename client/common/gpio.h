@@ -13,14 +13,9 @@
 /*
  * INCLUDES
  */
-#include <string.h>
-#include <stdio.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <stdint.h>
-
+#include <inttypes.h>
+// App
 #include "serialdriver.h"
-#include "utils.h"
 
 
 /*

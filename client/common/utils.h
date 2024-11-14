@@ -13,7 +13,7 @@
 /*
  * INCLUDES
  */
-#include <signal.h>
+#include <inttypes.h>
 #include "serialdriver.h"
 
 

@@ -1,12 +1,20 @@
 /*
  * macOS/Linux Depot 1-Wire driver
  *
- * Version 1.2.2
- * Copyright © 2023, Tony Smith (@smittytone)
+ * Version 1.2.3
+ * Copyright © 2024, Tony Smith (@smittytone)
  * Licence: MIT
  *
  */
+
+#pragma mark - Includes
+
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+// App
 #include "owdriver.h"
+#include "utils.h"
 
 
 #pragma mark -  1-Wire Setup Functions
