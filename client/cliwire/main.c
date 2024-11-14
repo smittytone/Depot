@@ -6,6 +6,7 @@
  * Licence: MIT
  *
  */
+
 #pragma mark - Includes
 
 #include <signal.h>

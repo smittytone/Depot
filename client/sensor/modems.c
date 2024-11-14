@@ -6,6 +6,9 @@
  * Licence: MIT
  *
  */
+
+#pragma mark - Includes
+
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>

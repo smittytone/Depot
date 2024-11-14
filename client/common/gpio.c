@@ -6,6 +6,10 @@
  * Licence: MIT
  *
  */
+
+#pragma mark - Includes
+
+#include "serialdriver.h"
 #include "gpio.h"
 
 

@@ -14,6 +14,7 @@
  * INCLUDES
  */
 #include <stdbool.h>
+#include <stdlib.h>
 #include <inttypes.h>
 
 #define __STDC_FORMAT_MACROS
