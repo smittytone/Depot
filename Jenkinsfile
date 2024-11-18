@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label "pico"
+    }
     environment {
         PICO_SDK_PATH = "${WORKSPACE}/pico-sdk"
     }
@@ -25,10 +27,10 @@ pipeline {
     }
     post {
         success {
-            slackSend botUser: true, channel: '#build-results', color: 'good', message: "Job Name: ${JOB_BASE_NAME}\nStatus: Successful"
+            slackSend botUser: true, color: 'good', message: "Job Name: ${JOB_BASE_NAME}\nStatus: Successful"
         }
         failure {
-            slackSend botUser: true, channel: '#build-results', color: 'danger', message: "Job Name: ${JOB_BASE_NAME}\nStatus: Failed"
+            slackSend botUser: true, color: 'danger', message: "Job Name: ${JOB_BASE_NAME}\nStatus: Failed"
         }
     }
 }
