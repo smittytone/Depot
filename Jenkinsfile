@@ -29,5 +29,8 @@ pipeline {
         failure {
             slackSend botUser: true, color: 'danger', message: "Job Name: ${JOB_BASE_NAME}\nStatus: Failed"
         }
+        success {
+            slackSend botUser: true, color: 'good', message: "Job Name: ${JOB_BASE_NAME}\nStatus: Succeeded"
+        }
     }
 }
