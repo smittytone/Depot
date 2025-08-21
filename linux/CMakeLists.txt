@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.18)
 
 # Set project data
 set(PROJECT_NAME "Depot Clients for Linux")
-set(VERSION_NUMBER "1.2.2")
+set(VERSION_NUMBER "1.2.3")
 set(BUILD_NUMBER "43")
 
 # Set app name(s) and version(s)
@@ -26,7 +26,7 @@ include_directories(
     ${I2C_CODE_DIRECTORY}
     ${ONEWIRE_CODE_DIRECTORY}
     ${CLI2C_CODE_DIRECTORY}
-    ${MATRIX_CODE_DIRECTORY} 
+    ${MATRIX_CODE_DIRECTORY}
     ${SEGMENT_CODE_DIRECTORY}
     ${CLIWIRE_CODE_DIRECTORY})
 

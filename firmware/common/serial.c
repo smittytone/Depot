@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - Primary serial and command functions
  *
- * @version     1.2.2
+ * @version     1.2.3
  * @author      Tony Smith (@smittytone)
  * @copyright   2025
  * @licence     MIT
@@ -83,7 +83,7 @@ void rx_loop(void) {
     i2c_state.scl_pin = DEFAULT_SCL_PIN;                  // The I2C SCL pin
 
     // FROM 1.1.0 -- record GPIO pin state
-    memset(gpio_state.state_map, 0, GPIO_PIN_MAX + 1);
+    memset(gpio_state.state_map, 0x00, GPIO_PIN_MAX + 1);
 
     // FROM 1.2.0 -- record OneWire state
     ow_state.is_ready = false;

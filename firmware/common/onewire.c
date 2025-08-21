@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - 1-Wire functions
  *
- * @version     1.2.2
+ * @version     1.2.3
  * @author      Tony Smith (@smittytone)
  * @copyright   2025
  * @licence     MIT
@@ -328,7 +328,6 @@ void ow_send_state(OneWireState* ows) {
     );
 
     char model[HW_MODEL_NAME_SIZE_MAX + 1] = {0};
-    //strncpy(model, model, HW_MODEL_NAME_SIZE_MAX);
     strncat(model, HW_MODEL, HW_MODEL_NAME_SIZE_MAX);
 
     // Generate and return the status data string.

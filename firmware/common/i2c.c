@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - I2C functions
  *
- * @version     1.2.2
+ * @version     1.2.3
  * @author      Tony Smith (@smittytone)
  * @copyright   2025
  * @licence     MIT
@@ -31,6 +31,7 @@ static bool pin_check(uint8_t* pins, uint8_t pin);
  */
 // FROM 1.1.3
 // Access individual boards' pin arrays
+// (see, for example, `firmware/pico/pins.c`)
 extern uint8_t I2C_PIN_PAIRS_BUS_0[];
 extern uint8_t I2C_PIN_PAIRS_BUS_1[];
 

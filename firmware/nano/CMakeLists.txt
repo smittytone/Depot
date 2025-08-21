@@ -25,8 +25,7 @@ add_executable(${FW_5_NAME}
     ${COMMON_CODE_DIRECTORY}/led.c
     ${COMMON_CODE_DIRECTORY}/gpio.c
     ${COMMON_CODE_DIRECTORY}/i2c.c
-    ${COMMON_CODE_DIRECTORY}/onewire.c
-)
+    ${COMMON_CODE_DIRECTORY}/onewire.c)
 
 # Compile debug sources
 target_sources(${FW_5_NAME} PRIVATE "$<$<CONFIG:Debug>:${COMMON_CODE_DIRECTORY}/debug.c>")
