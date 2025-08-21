@@ -2,7 +2,7 @@
  * macOS/Linux 1-Wire CLI utility
  *
  * Version 1.2.3
- * Copyright © 2024, Tony Smith (@smittytone)
+ * Copyright © 2025, Tony Smith (@smittytone)
  * Licence: MIT
  *
  */
@@ -128,7 +128,7 @@ static inline void show_help(void) {
 static inline void show_version(void) {
 
     fprintf(stderr, "cliwire %s\n", APP_VERSION);
-    fprintf(stderr, "Copyright © 2024, Tony Smith.\n");
+    fprintf(stderr, "Copyright © 2025, Tony Smith.\n");
 }
 
 

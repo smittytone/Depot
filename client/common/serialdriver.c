@@ -2,7 +2,7 @@
  * macOS/Linux Depot Serial Comms Functions
  *
  * Version 1.2.3
- * Copyright © 2024, Tony Smith (@smittytone)
+ * Copyright © 2025, Tony Smith (@smittytone)
  * Licence: MIT
  *
  */
@@ -248,7 +248,7 @@ void serial_flush_and_close_port(SerialDriver *sd) {
         print_log("Port closed");
 #endif
     }
-    
+
     // Mark the connection as broken
     sd->is_connected = false;
 }

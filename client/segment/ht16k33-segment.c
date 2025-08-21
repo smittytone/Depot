@@ -2,7 +2,7 @@
  * HT16K33 4-digit, 7-segment driver
  *
  * Version 1.2.3
- * Copyright © 2024, Tony Smith (@smittytone)
+ * Copyright © 2025, Tony Smith (@smittytone)
  * Licence: MIT
  *
  */

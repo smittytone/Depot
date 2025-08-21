@@ -3,7 +3,7 @@
  *
  * @version     1.2.2
  * @author      Tony Smith (@smittytone)
- * @copyright   2024
+ * @copyright   2025
  * @licence     MIT
  *
  */

@@ -2,7 +2,7 @@
  * I2C driver for an HT16K33 4-digit, 7-segment display
  *
  * Version 1.2.3
- * Copyright © 2024, Tony Smith (@smittytone)
+ * Copyright © 2025, Tony Smith (@smittytone)
  * Licence: MIT
  *
  */
@@ -476,5 +476,5 @@ static void show_help(void) {
 static inline void show_version(void) {
 
     fprintf(stderr, "segment %s\n", APP_VERSION);
-    fprintf(stderr, "Copyright © 2024, Tony Smith.\n");
+    fprintf(stderr, "Copyright © 2025, Tony Smith.\n");
 }

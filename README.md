@@ -147,7 +147,7 @@ The contents of this repo are:
 
 ## Devices
 
-Under macOS, RP2040-based boards will appear in `/dev` as `cu.usbmodemXXXXX` or `cpu_chart_ltp305_cli2c.py`. You can use my [`dlist()`](https://blog.smittytone.net/2022/09/08/how-to-manage-serial-devices-on-mac/) shell function to save looking up and keying in these names, which can vary across boots.
+Under macOS, RP2040-based boards will appear in `/dev` as `cu.usbmodemXXXXX` or `cpu_chart_ltp305_cli2c.py`. You can use my [`dlist`](https://github.com/smittytone/dlist) utility to save looking up and keying in these names, which can vary across boots.
 
 Under Linux, specifically Raspberry Pi OS, boards appear as `/dev/ttyACM0`. You may need to add your user account to the group `dialout` in order to access the port:
 
@@ -194,8 +194,8 @@ The 1-Wire driver is based on code I produced for the Twilio Electric Imp IoT pl
 
 ## Release Notes
 
-- 1.2.4 *Unreleased*
-    - Interrim release with minor changes as I get back into the codebase.
+- 1.2.3 *Unreleased*
+    - Interim release with minor changes as I get back into the codebase.
     - Refactor firmware’s excessive use of `#include` statements.
 - 1.2.2 *23 April 2023*
     - Support the Pico SDK’s `PICO_BOARD` environment variable to select specific firmware targets.
@@ -215,6 +215,6 @@ The 1-Wire driver is based on code I produced for the Twilio Electric Imp IoT pl
 
 ## Licences and Copyright
 
-All client apps are © 2024 Tony Smith (@smittytone) and licensed under the terms of the MIT Licence.
+All client apps are © 2025 Tony Smith (@smittytone) and licensed under the terms of the MIT Licence.
 
-The RP2040 firmware is © 2024, Tony Smith (@smittytone). It is licensed under the terms of the MIT Licence.
+The RP2040 firmware is © 2025, Tony Smith (@smittytone). It is licensed under the terms of the MIT Licence.

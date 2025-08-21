@@ -2,7 +2,7 @@
  *  macOS/Linux Depot Utility Functions
  *
  * Version 1.2.3
- * Copyright © 2024, Tony Smith (@smittytone)
+ * Copyright © 2025, Tony Smith (@smittytone)
  * Licence: MIT
  *
  */
@@ -75,7 +75,7 @@ void print_output(uint32_t type, char* format_string, va_list args) {
     // Write the message type to the message
     char buffer[1024] = {0};
     uint32_t delta = 0;
-    
+
     switch(type) {
         case LOG_TYPE_ERROR:
             sprintf(buffer, "[ERROR] ");
