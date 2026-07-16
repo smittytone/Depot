@@ -2,7 +2,7 @@
  * macOS/Linux Depot Serial Comms Functions
  *
  * Version 1.2.3
- * Copyright © 2025, Tony Smith (@smittytone)
+ * Copyright © 2026, Tony Smith (@smittytone)
  * Licence: MIT
  *
  */

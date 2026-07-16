@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.18)
 # Set project data
 set(PROJECT_NAME "Depot Clients for Linux")
 set(VERSION_NUMBER "1.2.3")
-set(BUILD_NUMBER "43")
+set(BUILD_NUMBER "44")
 
 # Set app name(s) and version(s)
 set(CLI2C_CODE_DIRECTORY "${CMAKE_SOURCE_DIR}/../client/cli2c")
