@@ -1,6 +1,6 @@
 # Release Notes
 
-- 1.2.3 *Unreleased*
+- 1.2.3 *16 July 2026*
     - Interim release with minor changes as I get back into the codebase.
     - Add provisional Pico 2 support.
     - Refactor firmware’s excessive use of `#include` statements.
