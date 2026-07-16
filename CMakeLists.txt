@@ -26,6 +26,10 @@ set(FW_4_SRC_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/trinkey")
 set(FW_5_NAME "firmware_arduino_nano")
 set(FW_5_SRC_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/nano")
 
+# FROM 1.2.3
+set(FW_6_NAME "firmware_pico2")
+set(FW_6_SRC_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/pico2")
+
 # FROM 1.2.2
 # Create a list of Depot-supported PICO_BOARD values
 set(BOARD_LIST  "pico"
@@ -33,13 +37,15 @@ set(BOARD_LIST  "pico"
                 "sparkfun_promicro"
                 "pimoroni_tiny2040"
                 "adafruit_trinkey_qt2040"
-                "arduino_nano_rp2040_connect")
+                "arduino_nano_rp2040_connect"
+                "pico2")
 set(NAME_LIST   "Pico"
                 "Adafruit QTPy RP2040"
                 "SparkFun ProMicro"
                 "Pimoroni Tiny 2040"
                 "Adafruit Trinkey QT2040"
-                "Arduino Nano RP2040 Connect")
+                "Arduino Nano RP2040 Connect"
+                "Pico 2")
 
 # Move common source code to a separate directory
 set(COMMON_CODE_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/common")
@@ -84,12 +90,12 @@ if(DEFINED ENV{PICO_BOARD})
     set(PICO_BOARD $ENV{PICO_BOARD})
     list(FIND BOARD_LIST ${PICO_BOARD} BOARD_INDEX)
     if(BOARD_INDEX EQUAL -1)
-        message("[DEPOT] Environmemnt variable PICO_BOARD set to unsupported board '${PICO_BOARD}'.")
+        message("[DEPOT] Environment variable PICO_BOARD set to unsupported board '${PICO_BOARD}'.")
     else()
-        message("[DEPOT] Environmemnt variable PICO_BOARD set to supported board '${PICO_BOARD}'.")
+        message("[DEPOT] Environment variable PICO_BOARD set to supported board '${PICO_BOARD}'.")
     endif()
 else()
-    message("[DEPOT] Environmemnt variable PICO_BOARD undefined.")
+    message("[DEPOT] Environment variable PICO_BOARD undefined.")
 endif()
 
 # Initialise the Pico SDK
@@ -106,6 +112,8 @@ if(BOARD_INDEX EQUAL -1)
     add_subdirectory(${FW_3_SRC_DIRECTORY}) # Tiny
     add_subdirectory(${FW_4_SRC_DIRECTORY}) # Trinkey
     add_subdirectory(${FW_5_SRC_DIRECTORY}) # Arduino Nano
+    # FROM 1.2.3
+    add_subdirectory(${FW_6_SRC_DIRECTORY}) # Pico2
 else()
     list(GET NAME_LIST ${BOARD_INDEX} BOARD)
     message("[DEPOT] Configuring build for ${BOARD}.")
