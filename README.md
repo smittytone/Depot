@@ -184,13 +184,13 @@ python examples/cpu_chart_ltp305_cli2c.py /dev/cu.usbserial-0101 0x63
 
 This work was inspired by James Bowman’s ([@jamesbowman](https://github.com/jamesbowman)) [`i2ccl` tool](https://github.com/jamesbowman/i2cdriver), which was written as a macOS/Linux/Windows command line tool to connect to his [I2CMini board](https://i2cdriver.com/mini.html).
 
-My own I&sup2;C driver code started out based on James’ but involves numerous changes and (I think) improvements. I also removed the Windows code removed and some unneeded functionality that I don’t need (I&sup2;C capture, monitoring). Finally, it targets fresh firmware I wrote from the ground up to run on an RP2040-based board, not the I2CMini.
+My own I&sup2;C driver code started out based on James’ but involves numerous changes and (I think) improvements. I also removed the Windows code and some ctionality that I don’t need (I&sup2;C capture, monitoring). Finally, it targets fresh firmware I wrote from the ground up to run on an RP2040-based board, not the I2CMini.
 
-Why? Originally I was writing an HT16K33 driver based directly on James’ code, but I accidentally broke the pins off my I2CMini — only to find it is very hard to find new ones. James’ firmware is written in a modern version of Forth, so I can no choice but to learn Forth, or write code of my own. I chose the latter.
+Why? Originally I was writing an HT16K33 driver based directly on James’ code, but I accidentally broke the pins off my I2CMini — only to find it is very hard to find new boards. James’ firmware is written in a modern version of Forth, so I had no choice but to learn Forth, or write code of my own. I chose the latter.
 
 Thanks are also due to Hermann Stamm-Wilbrandt ([@Hermann-SW](https://github.com/Hermann-SW)) for the basis for the [deploy script](#deploy-the-firmware).
 
-The 1-Wire driver is based on code I produced for the Twilio Electric Imp IoT platform some years ago.
+The 1-Wire driver is based on code I produced for the ~~Twilio~~KORE Wireless Electric Imp IoT platform some years ago.
 
 ## Release Notes
 
