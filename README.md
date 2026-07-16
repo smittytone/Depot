@@ -194,27 +194,12 @@ The 1-Wire driver is based on code I produced for the Twilio Electric Imp IoT pl
 
 ## Release Notes
 
-- 1.2.3 *Unreleased*
-    - Interim release with minor changes as I get back into the codebase.
-    - Refactor firmware’s excessive use of `#include` statements.
-- 1.2.2 *23 April 2023*
-    - Support the Pico SDK’s `PICO_BOARD` environment variable to select specific firmware targets.
-    - Support the Arduino Nano RP2040 Connect.
-- 1.2.1 *21 March 2023*
-    - Add LTP305 LED matrix example.
-    - Add example instructions.
-- 1.2.0 *17 March 2023*
-    - Rename project to `Depot`.
-    - Add 1-Wire support to adaptor firmware.
-    - Add 1-Wire centric client apps: `cliwire` for generic use, `ds18b20` to read a single DS18B20 sensor, `sensor` to read a single DS18B20 sensor and display the output in a GUI.
-    - Use CMake’s `CMAKE_BUILD_TYPE` variable to choose build types when building at the command line.
-    - Migrate client app documentation from Read Me to my documentation site.
-    - Remove early debug code outputting to a connected segment display.
+See [CHANGELOG.md](CHANGELOG.md).
 
 *You can find release notes for previous versions [here](https://github.com/smittytone/cli2c)*
 
 ## Licences and Copyright
 
-All client apps are © 2025 Tony Smith (@smittytone) and licensed under the terms of the MIT Licence.
+All client apps are © 2026 Tony Smith (@smittytone) and licensed under the terms of the MIT Licence.
 
-The RP2040 firmware is © 2025, Tony Smith (@smittytone). It is licensed under the terms of the MIT Licence.
+The RP2040 firmware is © 2026, Tony Smith (@smittytone). It is licensed under the terms of the MIT Licence.
