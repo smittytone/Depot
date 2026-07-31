@@ -197,7 +197,7 @@ void send_i2c_status(I2C_State* its) {
     // Get the RP2040 unique ID
     char pid[2 * PICO_UNIQUE_BOARD_ID_SIZE_BYTES + 1] = {0};
     pico_get_unique_board_id_string(pid, 2 * PICO_UNIQUE_BOARD_ID_SIZE_BYTES + 1);
-    // eg. DF6050788B3E1A2E
+    // e.g., DF6050788B3E1A2E
 
     // Get the firmware version as integers
     int major, minor, patch;

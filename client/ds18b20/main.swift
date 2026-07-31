@@ -79,7 +79,7 @@ func writeToStderr(_ message: String) {
  Write a string to the specified file handle.
 
  - Parameters:
-    - fileHandle: The target file handle, eg. `STDERR`.
+    - fileHandle: The target file handle, e.g., `STDERR`.
     - message:    The string to be written.
  */
 func writeOut(_ fileHandle: FileHandle, _ message: String) {

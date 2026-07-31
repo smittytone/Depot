@@ -398,7 +398,7 @@ static void show_help(void) {
 
     fprintf(stderr, "matrix {device} [address] [commands]\n\n");
     fprintf(stderr, "Usage:\n");
-    fprintf(stderr, "  {device} is a mandatory device path, eg. /dev/cu.usbmodem-010101.\n");
+    fprintf(stderr, "  {device} is a mandatory device path, e.g., /dev/cu.usbmodem-010101.\n");
     fprintf(stderr, "  [address] is an optional display I2C address. Default: 0x70.\n");
     fprintf(stderr, "  [commands] are optional HT16K33 matrix commands:\n\n");
     fprintf(stderr, "Commands:\n");
@@ -408,7 +408,7 @@ static void show_help(void) {
     fprintf(stderr, "  c {ascii} [true|false] Draw the Ascii character on the screen, and optionally\n");
     fprintf(stderr, "                         set it to be centred (true).\n");
     fprintf(stderr, "  g {glyph}              Draw the user-defined character on the screen. The definition\n");
-    fprintf(stderr, "                         is a string of eight comma-separated 8-bit hex values, eg.\n");
+    fprintf(stderr, "                         is a string of eight comma-separated 8-bit hex values, e.g.,\n");
     fprintf(stderr, "                         '0x3C,0x42,0xA9,0x85,0x85,0xA9,0x42,0x3C'.\n");
     fprintf(stderr, "  p {x} {y} [1|0]        Set or clear the specified pixel. X and Y coordinates are in\n");
     fprintf(stderr, "                         the range 0-7.\n");

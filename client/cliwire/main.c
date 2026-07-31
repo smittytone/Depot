@@ -116,7 +116,7 @@ static inline void show_help(void) {
 
     fprintf(stderr, "cliwire {device} [commands]\n\n");
     fprintf(stderr, "Usage:\n");
-    fprintf(stderr, "  {device} is a mandatory device path, eg. /dev/cu.usbmodem-101.\n");
+    fprintf(stderr, "  {device} is a mandatory device path, e.g., /dev/cu.usbmodem-101.\n");
     fprintf(stderr, "  [commands] are optional commands, as shown below.\n\n");
     show_commands();
 }

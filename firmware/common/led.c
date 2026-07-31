@@ -12,7 +12,7 @@
 
 /*
  * This file maps calls from serial.c to the various supported boards'
- * LED implementations — eg. Neopixel, monochrome LED or RGB LED.
+ * LED implementations — e.g., Neopixel, monochrome LED or RGB LED.
  *
  * It relies on defines set in the boards' respective CMakeList.txt
  * files.

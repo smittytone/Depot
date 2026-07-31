@@ -48,7 +48,7 @@ struct termios original_settings;
 /**
  * @brief Open a serial port.
  *`
- * @param device_path: The target port file, eg. `/dev/cu.usb-modem-10100`
+ * @param device_path: The target port file, e.g., `/dev/cu.usb-modem-10100`
  *
  * @returns The OS file descriptor, or -1 on error.
  */

@@ -37,11 +37,11 @@ From version 1.2.2, the build system will use the standard Pico SDK environment 
 
 ## Build the Client Apps
 
-#### macOS
+### macOS
 
 You can build the code from the accompanying Xcode project files:
 
-* `cli2c.xcodeproj` — Contains `cli2c`. `segment` and `matrix`.
+* `cli2c.xcodeproj` — Contains `cli2c`, `segment` and `matrix`.
 * `cliwire.xcodeproj` — Contains `cliwire`, `ds18b20` and `sensor` (GUI).
 
 In each case:
@@ -50,11 +50,11 @@ In each case:
 1. Save the build products on the desktop.
 1. Copy the binary artifacts to your preferred location listed in `$PATH`.
 
-#### Linux
+### Linux
 
 1. Navigate to the repo directory.
 1. `cd linux`
-1. `cmake -S . -B build -D`
+1. `cmake -S . -B build`
 1. `cmake --build build`
 1. Copy the binary artifacts to your preferred location listed in `$PATH`.
 
@@ -72,13 +72,13 @@ In each case:
     * `./deploy.sh /path/to/device firmwarebuild/firmware/promicro/firmware_promicro.uf2`
     * `./deploy.sh /path/to/device firmwarebuild/firmware/tiny/firmware_tiny2040.uf2`
     * `./deploy.sh /path/to/device firmwarebuild/firmware/trinkey/firmware_trinkey2040.uf2`
-    * `./deploy.sh /path/to/device firmwarebuild/firmware/nano/firmware_arduino_nano.uf2.uf2`
+    * `./deploy.sh /path/to/device firmwarebuild/firmware/nano/firmware_arduino_nano.uf2`
 
-The deploy script tricks the RP2040-based board into booting into disk mode, then copies over the newly build firmware. When the copy completes, the RP2040 automatically reboots. This saves of a lot of tedious power-cycling with the BOOT button held down.
+The deploy script tricks the RP2040-based board into booting into disk mode, then copies over the newly build firmware. When the copy completes, the RP2040 automatically reboots. This saves a lot of tedious power-cycling with the BOOT button held down.
 
-#### Debug vs Release
+### Debug vs Release
 
-You can switch between build types when you make the `cmake` call in step 2, above. A debug build is made by default, but you can make this explicit with
+You can switch between build types when you make the `cmake` call in step 3, above. A debug build is made by default, but you can make this explicit with
 
 ```shell
 cmake -S . -B firmwarebuild -D CMAKE_BUILD_TYPE=Debug
@@ -112,7 +112,7 @@ The contents of this repo are:
 |   |___/i2c                        // I2C driver code
 |   |___/onewire                    // 1-Wire driver code
 |   |___/ds18b20                    // A DS18B20-oriented version of cliwire
-|   |___/sensor                     // A macOS GUI app the uses the 1-Wire and serial driver code.
+|   |___/sensor                     // A macOS GUI app that uses the 1-Wire and serial driver code.
 |
 |___/firmware                       // The RP2040 host firmware, written in C
 |   |___/pico                       // The Raspberry Pi Pico version
@@ -124,12 +124,12 @@ The contents of this repo are:
 |   |___/common                     // Code common to all versions
 |
 |___/examples                       // Demo apps
-|   |___cpu_chart_matrix.py         // CPU utilization display for 8x8 matrix LEDs
-|   |___cpu_chart_segment.py        // CPU utilization display for 4-digit segment LEDs
-|   |___cpu_chart_ltp305_cli2c.py   // CPU utilization display for twin LTP305 matrices
-|   |___mcp9809_temp.py             // Periodic temperature reports from an MCP9808 sensor
+|   |___cpu_chart_matrix.py         // CPU utilisation display for 8x8 matrix LEDs
+|   |___cpu_chart_segment.py        // CPU utilisation display for 4-digit segment LEDs
+|   |___cpu_chart_ltp305_cli2c.py   // CPU utilisation display for twin LTP305 matrices
+|   |___mcp9808_temp_cli2c.py       // Periodic temperature reports from an MCP9808 sensor
 |
-|___/linux                          // Linux build settings (Cmake) for the client apps
+|___/linux                          // Linux build settings (CMake) for the client apps
 |
 |___CMakeLists.txt                  // Top-level firmware project CMake config file
 |___pico_sdk_import.cmake           // Raspberry Pi Pico SDK CMake import script
@@ -147,7 +147,7 @@ The contents of this repo are:
 
 ## Devices
 
-Under macOS, RP2040-based boards will appear in `/dev` as `cu.usbmodemXXXXX` or `cpu_chart_ltp305_cli2c.py`. You can use my [`dlist`](https://github.com/smittytone/dlist) utility to save looking up and keying in these names, which can vary across boots.
+Under macOS, RP2040-based boards will appear in `/dev` as `cu.usbmodemXXXXX` or similar. You can use my [`dlist`](https://github.com/smittytone/dlist) utility to save looking up and keying in these names, which can vary across boots.
 
 Under Linux, specifically Raspberry Pi OS, boards appear as `/dev/ttyACM0`. You may need to add your user account to the group `dialout` in order to access the port:
 
@@ -167,11 +167,11 @@ The following client apps are included in the repo. They are documented [on my d
 
 ## Full Examples
 
-The [`examples`](examples/) folder contains Python scripts that make use the above apps.
+The [`examples`](examples/) folder contains Python scripts that make use of the above apps:
 
 * `cpu_chart_matrix.py` — A rudimentary side-scrolling CPU activity chart. Requires an HT16K33-based 8x8 matrix LED.
 * `cpu_chart_segment.py` — A CPU activity numerical percentage readout. Requires an HT16K33-based 4-digit, 7-segment matrix LED.
-* `mcp9809_temp_cli2c.py` — Second-by-second temperature readout. Requires an MCP98008 temperature sensor breakout.
+* `mcp9808_temp_cli2c.py` — Second-by-second temperature readout. Requires an MCP9808 temperature sensor breakout.
 * `cpu_chart_ltp305_cli2c.py` — A version of the side-scrolling CPU activity chart. Requires a [Pimoroni LED Matrices + Driver](https://shop.pimoroni.com/products/led-dot-matrix-breakout).
 
 All the examples run at the command line and take the path to the adaptor device as a required argument and a I&sup2;C address as a second, optional address (if you are not using each device’s standard address). For example:
@@ -188,7 +188,7 @@ My own I&sup2;C driver code started out based on James’ but involves numerous 
 
 Why? Originally I was writing an HT16K33 driver based directly on James’ code, but I accidentally broke the pins off my I2CMini — only to find it is very hard to find new boards. James’ firmware is written in a modern version of Forth, so I had no choice but to learn Forth, or write code of my own. I chose the latter.
 
-Thanks are also due to Hermann Stamm-Wilbrandt ([@Hermann-SW](https://github.com/Hermann-SW)) for the basis for the [deploy script](#deploy-the-firmware).
+Thanks are also due to Hermann Stamm-Wilbrandt ([@Hermann-SW](https://github.com/Hermann-SW)) for the basis for the [deploy script](#build-and-deploy-the-bus-host-firmware).
 
 The 1-Wire driver is based on code I produced for the ~~Twilio~~KORE Wireless Electric Imp IoT platform some years ago.
 

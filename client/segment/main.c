@@ -451,7 +451,7 @@ static void show_help(void) {
 
     fprintf(stderr, "segment {device} [address] [commands]\n\n");
     fprintf(stderr, "Usage:\n");
-    fprintf(stderr, "  {device} is a mandatory device path, eg. /dev/cu.usbmodem-010101.\n");
+    fprintf(stderr, "  {device} is a mandatory device path, e.g., /dev/cu.usbmodem-010101.\n");
     fprintf(stderr, "  [address] is an optional display I2C address. Default: 0x70.\n");
     fprintf(stderr, "  [commands] are optional HT16K33 segment commands.\n\n");
     fprintf(stderr, "Commands:\n");

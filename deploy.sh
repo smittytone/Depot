@@ -8,7 +8,7 @@
 # NOTE For this to work, the RP2040 must be running code that uses
 #      calls `stdio_usb_init()` (as Depot firmware does). Once that is
 #      the case, the RP2040 board will appear under macOS and Linux as
-#      a device in `/dev`, eg. `/dev/cu.usbmodem.1` under macOS.
+#      a device in `/dev`, e.g., `/dev/cu.usbmodem.1` under macOS.
 #
 # Usage:
 #   ./deploy.sh {path/to/device} {path/to/uf2}
@@ -50,7 +50,7 @@ else
     pico_path="/media/$USER/RPI-RP2"
     stty -F ${1} 1200 || show_error_and_exit "Could not connect to device ${1}"
 
-    # Allow for command line usage -- ie. not in a GUI terminal
+    # Allow for command line usage -- i.e., not in a GUI terminal
     # Command line is SHLVL 1, so script is SHLVL 2 (under the GUI we'd be a SHLVL 3)
     if [[ $SHLVL -eq 2 ]]; then
         # Mount the disk, but allow time for it to appear (not immediate on RPi)
