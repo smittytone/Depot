@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - Debug functions
  *
- * @version     1.2.3
+ * @version     1.2.4
  * @author      Tony Smith (@smittytone)
  * @copyright   2026
  * @licence     MIT
@@ -35,10 +35,10 @@ void debug_init(void) {
 void debug_log(char* format_string, ...) {
 
     va_list args;
-    char buffer[DEBUG_MESSAGE_MAX_B] = {0};
+    char buffer[DEBUG_MESSAGE_MAX_B + 1] = {0};
 
     uint32_t ts = to_ms_since_boot(get_absolute_time());
-    sprintf(buffer, "%i ", ts);
+    snprintf(buffer, DEBUG_MESSAGE_MAX_B, "%i ", ts);
     size_t len = strlen(buffer);
 
     // Compile the string
@@ -58,11 +58,11 @@ void debug_log_bytes(uint8_t* data, size_t count) {
     int j = 0;
 
     uint32_t ts = to_ms_since_boot(get_absolute_time());
-    sprintf(buffer, "%i ", ts);
+    snprintf(buffer, DEBUG_MESSAGE_MAX_B, "%i ", ts);
     size_t len = strlen(buffer);
 
     for (size_t i = 0 ; i < count ; ++i) {
-        j += sprintf(&buffer[i * 2 + len], "%02X", data[i]);
+        j += snprintf(&buffer[i * 2 + len], DEBUG_MESSAGE_MAX_B, "%02X", data[i]);
     }
 
     // sprintf(buffer, "%04x", j);

@@ -1,4 +1,4 @@
-# Depot 1.2.3
+# Depot 1.2.4
 
 Multi-bus clients for macOS and Linux, and bus-host adaptor board firmware for the RP2040.
 

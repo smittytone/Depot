@@ -3,7 +3,7 @@
 # Deploy compiled firmware to an RP2040-based board operating
 # as a Depot USB-to-I2C hardware bridge
 #
-# Version 1.2.3
+# Version 1.2.4
 #
 # NOTE For this to work, the RP2040 must be running code that uses
 #      calls `stdio_usb_init()` (as Depot firmware does). Once that is

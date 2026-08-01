@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - GPIO functions
  *
- * @version     1.2.3
+ * @version     1.2.4
  * @author      Tony Smith (@smittytone)
  * @copyright   2026
  * @licence     MIT
@@ -25,7 +25,7 @@
  *
  * @returns Whether the operation was successful (`true`) or not (`false`).
  */
-bool set_gpio(GPIO_State* gps, uint8_t* read_value, uint8_t* data) {
+void set_gpio(GPIO_State* gps, uint8_t* read_value, uint8_t* data) {
 
     uint8_t gpio_pin = (data[1] & 0x1F);
     bool pin_state   = ((data[1] & 0x80) > 0);
@@ -51,8 +51,6 @@ bool set_gpio(GPIO_State* gps, uint8_t* read_value, uint8_t* data) {
 #ifdef DO_UART_DEBUG
         debug_log("Pin %i read value: %i", gpio_pin, *read_value);
 #endif
-
-        return true;
     } else if (is_dir_out) {
         // Pin is DIGITAL_OUT, so just set the state
         gpio_put(gpio_pin, pin_state);
@@ -60,19 +58,13 @@ bool set_gpio(GPIO_State* gps, uint8_t* read_value, uint8_t* data) {
 #ifdef DO_UART_DEBUG
         debug_log("Pin %i state set: %i", gpio_pin, (pin_state ? 1 : 0));
 #endif
-
-        return true;
     } else {
         // Pin is DIGITAL_IN, but we're just setting it
 
 #ifdef DO_UART_DEBUG
         debug_log("Pin %i set to input", gpio_pin);
 #endif
-
-        return true;
     }
-
-    return false;
 }
 
 

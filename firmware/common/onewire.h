@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - 1-Wire functions
  *
- * @version     1.2.3
+ * @version     1.2.4
  * @author      Tony Smith (@smittytone)
  * @copyright   2026
  * @licence     MIT
@@ -15,6 +15,7 @@
  * INCLUDES
  */
 #include <stdint.h>
+#include <stdbool.h>
 
 
 /*
@@ -53,6 +54,8 @@
 
 #define     DEFAULT_DATA_PIN                10
 
+#define     OW_MAX_DEVICE_COUNT             64
+
 
 /*
  * STRUCTURES
@@ -64,7 +67,7 @@ typedef struct {
     uint32_t    write_byte_count;
     uint32_t    read_byte_count;
     uint32_t    current_device;             // Index into following array
-    uint64_t    device_ids[64];
+    uint64_t    device_ids[OW_MAX_DEVICE_COUNT];
 } OneWireState;
 
 

@@ -1,7 +1,7 @@
 /*
  * macOS/Linux 1-Wire CLI DS18B20 readout utility
  *
- * Version 1.2.3
+ * Version 1.2.4
  * Copyright © 2026, Tony Smith (@smittytone)
  * Licence: MIT
  *

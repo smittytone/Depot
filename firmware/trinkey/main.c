@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - Adafruit QT2040 Trinkey
  *
- * @version     1.2.3
+ * @version     1.2.4
  * @author      Tony Smith (@smittytone)
  * @copyright   2026
  * @licence     MIT
@@ -25,7 +25,7 @@ int main(void) {
 
     // Enable STDIO and allow 2s for the board to come up
     if (stdio_usb_init()) {
-        stdio_set_translate_crlf(&stdio_usb, false);;
+        stdio_set_translate_crlf(&stdio_usb, false);
         stdio_flush();
 
         // Start the loop

@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - I2C functions
  *
- * @version     1.2.3
+ * @version     1.2.4
  * @author      Tony Smith (@smittytone)
  * @copyright   2026
  * @licence     MIT
@@ -46,14 +46,14 @@ typedef struct {
 /*
  * PROTOTYPES
  */
-void    init_i2c(I2C_State* itr);
+void    init_i2c(I2C_State* its);
 void    deinit_i2c(I2C_State* its);
-void    reset_i2c(I2C_State* itr);
+void    reset_i2c(I2C_State* its);
 void    set_i2c_frequency(I2C_State* its, uint32_t frequency_khz);
 bool    configure_i2c(I2C_State* its, uint8_t* data);
-void    send_i2c_scan(I2C_State* itr);
-void    send_i2c_status(I2C_State* itr);
+void    send_i2c_scan(I2C_State* its);
+void    send_i2c_status(I2C_State* its);
 bool    is_pin_in_use_by_i2c(I2C_State* its, uint8_t pin);
 
 
-#endif  // _HEADER_LED_
+#endif  // _HEADER_I2C_

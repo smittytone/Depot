@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - Debug functions
  *
- * @version     1.2.3
+ * @version     1.2.4
  * @author      Tony Smith (@smittytone)
  * @copyright   2026
  * @licence     MIT
@@ -9,7 +9,8 @@
  */
 #ifndef _DEBUG_HEADER_
 #define _DEBUG_HEADER_
-
+#include <stdarg.h>
+#include <string.h>
 
 
 

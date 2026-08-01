@@ -1,14 +1,14 @@
 /*
- * Depot RP2040 Bus Host Firmware - GPIIO functions
+ * Depot RP2040 Bus Host Firmware - GPIO functions
  *
- * @version     1.2.3
+ * @version     1.2.4
  * @author      Tony Smith (@smittytone)
  * @copyright   2026
  * @licence     MIT
  *
  */
-#ifndef _GPIO_HEADER_
-#define _GPIO_HEADER_
+#ifndef _HEADER_GPIO_
+#define _HEADER_GPIO_
 
 
 #include <stdint.h>
@@ -33,8 +33,8 @@ typedef struct {
 /*
  * PROTOTYPES
  */
-bool    set_gpio(GPIO_State* gps, uint8_t* read_value, uint8_t* data);
+void    set_gpio(GPIO_State* gps, uint8_t* read_value, uint8_t* data);
 void    clear_pin(GPIO_State* gps, uint32_t pin);
 bool    is_pin_in_use_by_gpio(GPIO_State* gps, uint8_t pin);
 
-#endif  // _GPIO_HEADER_
+#endif  // _HEADER_GPIO_

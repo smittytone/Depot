@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - 1-Wire functions
  *
- * @version     1.2.3
+ * @version     1.2.4
  * @author      Tony Smith (@smittytone)
  * @copyright   2026
  * @licence     MIT
@@ -36,7 +36,7 @@ static void     ow_discover_devices(OneWireState* ows);
 void ow_init(OneWireState* ows) {
 
     // Clear device store
-    memset(ows->device_ids, 0x00, 64 << 3);
+    memset(ows->device_ids, 0x00, OW_MAX_DEVICE_COUNT << 3);
     ows->device_count = 0;
     ows->current_device = 0;
 
@@ -94,24 +94,24 @@ bool ow_reset(OneWireState* ows) {
 static void ow_discover_devices(OneWireState* ows) {
 
 #ifdef DO_UART_DEBUG
-    debug_log("Discovering...");;
+    debug_log("Discovering...");
 #endif
 
     // Clear device store
-    memset(ows->device_ids, 0x00, 64 * 8);
+    memset(ows->device_ids, 0x00, OW_MAX_DEVICE_COUNT * 8);
     ows->current_device = 0;
 
     uint64_t current_id = 0;
     uint32_t device_count = 0;
 
     // Begin the enumeration at address 65
-    uint32_t next_device = 65;
+    uint32_t next_device = OW_MAX_DEVICE_COUNT + 1;
 
     // This is the pointer to the device in the devices space
-    while (next_device > 0) {
+    // FROM 1.2.4 -- guard against `device_count` overflow
+    while (next_device > 0 && device_count < OW_MAX_DEVICE_COUNT) {
         next_device = ow_search(ows, next_device, &current_id);
-        ows->device_ids[device_count] = current_id;
-        device_count++;
+        ows->device_ids[device_count++] = current_id;
     }
 
     ows->device_count = device_count;
@@ -157,13 +157,13 @@ static void ow_bit_out(OneWireState* ows, uint8_t bit_value) {
 
     // Line hold period
     bit_value &= 0x01;
-    sleep_us(bit_value == BIT_VALUE_1 ? DELAY_STANDARD_A_US : DELAY_STANDARD_C_US);;
+    sleep_us(bit_value == BIT_VALUE_1 ? DELAY_STANDARD_A_US : DELAY_STANDARD_C_US);
 
     // Float HI
     gpio_set_dir(ows->data_pin, GPIO_IN);
 
     // Wait period
-    sleep_us(bit_value == BIT_VALUE_1 ? DELAY_STANDARD_B_US : DELAY_STANDARD_D_US);;
+    sleep_us(bit_value == BIT_VALUE_1 ? DELAY_STANDARD_B_US : DELAY_STANDARD_D_US);
 
     // Recovery period (min)
     sleep_us(DELAY_STANDARD_R_US);
@@ -357,7 +357,8 @@ void ow_send_state(OneWireState* ows) {
  */
 void ow_send_scan(OneWireState* ows) {
 
-    char scan_buffer[1025] = {0};
+    // FROM 1.2.4 -- increase buffer size to 64 * 16 + 3
+    char scan_buffer[OW_MAX_DEVICE_COUNT * 16 + 1] = {0};
 
     // Bus not yet primed? Do so now
     if (!ows->is_ready) ow_init(ows);

@@ -1,7 +1,7 @@
 /*
  * I2C driver for an HT16K33 8x8 Matrix Display
  *
- * Version 1.2.3
+ * Version 1.2.4
  * Copyright © 2026, Tony Smith (@smittytone)
  * Licence: MIT
  *

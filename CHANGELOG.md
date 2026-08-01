@@ -1,5 +1,7 @@
 # Release Notes
 
+- 1.2.4 *Unreleased*
+    - Bug fixes.
 - 1.2.3 *16 July 2026*
     - Interim release with minor changes as I get back into the codebase.
     - Add provisional Pico 2 support.

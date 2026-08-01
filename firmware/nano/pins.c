@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - Arduino Nano 2040 Connect
  *
- * @version     1.2.3
+ * @version     1.2.4
  * @author      Tony Smith (@smittytone)
  * @copyright   2026
  * @licence     MIT

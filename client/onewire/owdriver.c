@@ -1,7 +1,7 @@
 /*
  * macOS/Linux Depot 1-Wire driver
  *
- * Version 1.2.3
+ * Version 1.2.4
  * Copyright © 2026, Tony Smith (@smittytone)
  * Licence: MIT
  *

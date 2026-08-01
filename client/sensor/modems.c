@@ -1,7 +1,7 @@
 /*
  * macOS/Linux 1-Wire DS18B20 readout GUI app - board discovery functions
  *
- * Version 1.2.3
+ * Version 1.2.4
  * Copyright © 2026, Tony Smith (@smittytone)
  * Licence: MIT
  *
@@ -86,7 +86,7 @@ char* find_boards(unsigned int* board_total) {
             // If we have a valid path, and the path is not for Mac BLE devices,
             // or AirPods etc., add it to the data string.
             if (result && strstr(bsd_path, "usbmodem") != NULL) {
-                sprintf(store_ptr, "%s|", bsd_path);
+                snprintf(store_ptr, 3, "%s|", bsd_path);
                 store_ptr += (strlen(bsd_path) + 1);
                 board_count++;
                 if (board_count > 9) break;

@@ -1,7 +1,7 @@
 /*
  *  macOS/Linux Depot Utility Functions
  *
- * Version 1.2.3
+ * Version 1.2.4
  * Copyright © 2026, Tony Smith (@smittytone)
  * Licence: MIT
  *
@@ -78,12 +78,12 @@ void print_output(uint32_t type, char* format_string, va_list args) {
 
     switch(type) {
         case LOG_TYPE_ERROR:
-            sprintf(buffer, "[ERROR] ");
             delta = 8;
+            snprintf(buffer, delta,"[ERROR] ");
             break;
         case LOG_TYPE_WARNING:
-            sprintf(buffer, "[WARNING] ");
             delta = 10;
+            snprintf(buffer, delta, "[WARNING] ");
             break;
         default:
             break;

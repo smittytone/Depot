@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - I2C functions
  *
- * @version     1.2.3
+ * @version     1.2.4
  * @author      Tony Smith (@smittytone)
  * @copyright   2026
  * @licence     MIT
@@ -41,21 +41,21 @@ extern uint8_t I2C_PIN_PAIRS_BUS_1[];
  *
  * @param its: The I2C state record.
  */
-void init_i2c(I2C_State* itr) {
+void init_i2c(I2C_State* its) {
 
     // Initialise I2C via SDK
-    i2c_init(itr->bus, itr->frequency * 1000);
+    i2c_init(its->bus, its->frequency * 1000);
 
     // Initialise pins
     // The values of SDA_PIN and SCL_PIN are set
     // in the board's individual CMakeLists.txt file.
-    gpio_set_function(itr->sda_pin, GPIO_FUNC_I2C);
-    gpio_set_function(itr->scl_pin, GPIO_FUNC_I2C);
-    gpio_pull_up(itr->sda_pin);
-    gpio_pull_up(itr->scl_pin);
+    gpio_set_function(its->sda_pin, GPIO_FUNC_I2C);
+    gpio_set_function(its->scl_pin, GPIO_FUNC_I2C);
+    gpio_pull_up(its->sda_pin);
+    gpio_pull_up(its->scl_pin);
 
     // Mark bus as ready for use
-    itr->is_ready = true;
+    its->is_ready = true;
 
 #ifdef DO_UART_DEBUG
     debug_log("I2C activated");
@@ -162,7 +162,7 @@ void send_i2c_scan(I2C_State* its) {
     uint8_t rx_data;
     int reading;
     char scan_buffer[1024] = {0};
-    uint32_t device_count = 0;;
+    uint32_t device_count = 0;
 
     // Generate a list if devices by their addresses.
     // List in the form "13.71.A0."

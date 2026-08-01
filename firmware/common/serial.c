@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - Primary serial and command functions
  *
- * @version     1.2.3
+ * @version     1.2.4
  * @author      Tony Smith (@smittytone)
  * @copyright   2026
  * @licence     MIT
@@ -66,7 +66,13 @@ void rx_loop(void) {
 #endif
 
     // Trap certain signals
-    signal(SIGABRT | SIGSEGV | SIGBUS | SIGTRAP | SIGSYS, sig_handler);
+    //signal(SIGABRT | SIGSEGV | SIGBUS | SIGTRAP | SIGSYS, sig_handler);
+    // FROM 1.2.4 -- Separate calls and update
+    signal(SIGABRT, sig_handler);
+    signal(SIGSEGV, sig_handler);
+    signal(SIGBUS, sig_handler);
+    signal(SIGTRAP, sig_handler);
+    signal(SIGSYS, sig_handler);
 
     // Prepare a UART RX buffer
     uint8_t rx_buffer[RX_BUFFER_LENGTH_B] = {0};
@@ -140,10 +146,14 @@ void rx_loop(void) {
                                     send_ack();
                                     break;
                                 }
+
+                                last_error_code = I2C_COULD_NOT_WRITE;
+                                send_err();
+                                break;
                             }
 
                             // Error
-                            last_error_code = I2C_COULD_NOT_WRITE;
+                            last_error_code = I2C_NOT_STARTED;
                             send_err();
                             break;
                         case MODE_CODE_ONE_WIRE:
@@ -160,10 +170,12 @@ void rx_loop(void) {
                                 }
 
                                 send_ack();
-                            } else {
-                                last_error_code = OW_NOT_READY;
-                                send_err();
+                                break;
                             }
+
+                            // FROM 1.2.4 -- Include error condition
+                            last_error_code = OW_NOT_READY;
+                            send_err();
                             break;
                         default:
                             last_error_code = GEN_UNKNOWN_MODE;
@@ -184,8 +196,14 @@ void rx_loop(void) {
                                     tx(bus_rx_buffer, i2c_state.read_byte_count);
                                     break;
                                 }
+
+                                last_error_code = I2C_COULD_NOT_READ;
+                                send_err();
+                                break;
                             }
-                            last_error_code = I2C_COULD_NOT_READ;
+
+                            last_error_code = I2C_NOT_STARTED;
+                            send_err();
                             break;
                         case MODE_CODE_ONE_WIRE:
                             if (ow_state.is_ready) {
@@ -199,7 +217,11 @@ void rx_loop(void) {
                                 }
 
                                 tx(bus_rx_buffer, ow_state.read_byte_count);
+                                break;
                             }
+
+                            last_error_code = OW_NOT_READY;
+                            send_err();
                             break;
                         default:
                             last_error_code = GEN_UNKNOWN_MODE;
@@ -475,7 +497,8 @@ void rx_loop(void) {
                             uint8_t gpio_pin = (rx_ptr[1] & 0x1F);
 
                             // Make sure the pin's not in use by a bus
-                            if (is_pin_taken(gpio_pin) > 1) {
+                            // FROM 1.2.4 -- Make this comparison more resilient and consistent
+                            if ((is_pin_taken(gpio_pin) & ~PIN_USAGE_FIELD_GPIO) > 0) {
                                 last_error_code = GPIO_PIN_ALREADY_IN_USE;
                                 send_err();
                                 break;
@@ -489,12 +512,8 @@ void rx_loop(void) {
                                 break;
                             }
 
-                            if (!set_gpio(&gpio_state, &read_value, rx_ptr)) {
-                                last_error_code = GPIO_CANT_SET_PIN;
-                                send_err();
-                                break;
-                            }
-
+                            // Set pin operation
+                            set_gpio(&gpio_state, &read_value, rx_ptr);
                             bool is_read = ((rx_ptr[1] & 0x20) > 0);
                             putchar(is_read ? read_value : ACK);
                         }

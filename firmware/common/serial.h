@@ -1,14 +1,14 @@
 /*
  * Depot RP2040 Bus Host Firmware - Primary serial and command functions
  *
- * @version     1.2.3
+ * @version     1.2.4
  * @author      Tony Smith (@smittytone)
  * @copyright   2026
  * @licence     MIT
  *
  */
-#ifndef _MONITOR_HEADER_
-#define _MONITOR_HEADER_
+#ifndef _HEADER_SERIAL_
+#define _HEADER_SERIAL_
 
 
 /*
@@ -77,4 +77,4 @@ void        tx(uint8_t* buffer, uint32_t byte_count);
 uint8_t     is_pin_taken(uint32_t pin);
 
 
-#endif  // _MONITOR_HEADER_
+#endif  // _HEADER_SERIAL_
