@@ -51,6 +51,7 @@ target_sources(${FW_2_NAME} PRIVATE "$<$<CONFIG:Debug>:${COMMON_CODE_DIRECTORY}/
 
 # Set the stack size
 target_compile_definitions(${FW_2_NAME} PRIVATE
+    PICO_CRT0_ALLOCATE_SPACERS=0
     PICO_HEAP_SIZE=8192
     PICO_STACK_SIZE=8192)
 
