@@ -56,8 +56,10 @@ target_link_libraries(${FW_4_NAME} LINK_PUBLIC
     hardware_i2c
     hardware_pio)
 
-target_sources(${FW_4_NAME} PRIVATE ${FW_1_SRC_DIRECTORY}/ws2812.c)
-pico_generate_pio_header(${FW_4_NAME} ${FW_1_SRC_DIRECTORY}/ws2812.pio)
+# NOTE This driver is shared with the QTPy and ProMicro boards,
+#      so it lives under the common code directory
+target_sources(${FW_4_NAME} PRIVATE ${COMMON_CODE_DIRECTORY}/ws2812.c)
+pico_generate_pio_header(${FW_4_NAME} ${COMMON_CODE_DIRECTORY}/ws2812.pio)
 
 # Enable/disable STDIO via USB and UART
 pico_enable_stdio_usb(${FW_4_NAME} 1)

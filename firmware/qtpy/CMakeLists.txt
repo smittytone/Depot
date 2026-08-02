@@ -62,8 +62,10 @@ target_link_libraries(${FW_1_NAME} LINK_PUBLIC
     hardware_pio)
 
 # Compile WS2828 sources
-target_sources(${FW_1_NAME} PRIVATE ws2812.c)
-pico_generate_pio_header(${FW_1_NAME} ${FW_1_SRC_DIRECTORY}/ws2812.pio)
+# NOTE This driver is shared with the ProMicro and Trinkey boards,
+#      so it lives under the common code directory
+target_sources(${FW_1_NAME} PRIVATE ${COMMON_CODE_DIRECTORY}/ws2812.c)
+pico_generate_pio_header(${FW_1_NAME} ${COMMON_CODE_DIRECTORY}/ws2812.pio)
 
 # Enable/disable STDIO via USB and UART
 pico_enable_stdio_usb(${FW_1_NAME} 1)

@@ -15,7 +15,7 @@
  * CONSTANTS
  */
 #ifdef NEO_BUILD
-#include "../qtpy/ws2812.h"
+#include "ws2812.h"
 #endif
 
 #ifdef LED_BUILD

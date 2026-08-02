@@ -13,7 +13,7 @@
 #include "pico/stdlib.h"
 // Depot
 #include "../common/serial.h"
-#include "ws2812.h"
+#include "../common/ws2812.h"
 
 
 /*

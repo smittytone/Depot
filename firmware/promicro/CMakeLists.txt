@@ -61,8 +61,10 @@ target_link_libraries(${FW_2_NAME} LINK_PUBLIC
     hardware_i2c
     hardware_pio)
 
-target_sources(${FW_2_NAME} PRIVATE ${FW_1_SRC_DIRECTORY}/ws2812.c)
-pico_generate_pio_header(${FW_2_NAME} ${FW_1_SRC_DIRECTORY}/ws2812.pio)
+# NOTE This driver is shared with the QTPy and Trinkey boards,
+#      so it lives under the common code directory
+target_sources(${FW_2_NAME} PRIVATE ${COMMON_CODE_DIRECTORY}/ws2812.c)
+pico_generate_pio_header(${FW_2_NAME} ${COMMON_CODE_DIRECTORY}/ws2812.pio)
 
 # Enable/disable STDIO via USB and UART
 pico_enable_stdio_usb(${FW_2_NAME} 1)

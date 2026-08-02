@@ -14,7 +14,7 @@
 #include "pico/stdlib.h"
 // Depot
 #include "../common/serial.h"
-#include "../qtpy/ws2812.h"
+#include "../common/ws2812.h"
 
 
 /*
