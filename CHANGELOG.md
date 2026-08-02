@@ -1,7 +1,14 @@
 # Release Notes
 
 - 1.2.4 *Unreleased*
-    - Bug fixes.
+    - Firmware: fixed an incorrect handling of signal.
+    - Firmware: fixed some potential buffer overflows in the I2C and 1-Wire pathways.
+    - Firmware: switched from `sprintf()` to `snprintf()` for greater resilience.
+    - Firmware: removed dead lines, unnecessary comments, extra semi-colons.
+    - Firmware: applied consistent variable naming.
+    - Firmware: reduced cross-directory coupling.
+    - Firmware: replaced literals with `#define`s.
+    - Firmware: removed duplication across the various `CMakeLists.txt` files.
 - 1.2.3 *16 July 2026*
     - Interim release with minor changes as I get back into the codebase.
     - Add provisional Pico 2 support.

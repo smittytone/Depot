@@ -121,7 +121,7 @@ The contents of this repo are:
 |   |___/qtpy                       // An Adafruit QTPy RP2040 version
 |   |___/tiny                       // A Pimoroni Tiny 2040 version
 |   |___/trinkey                    // An Adafruit QT2040 Trinkey version
-|   |___/common                     // Code common to all versions
+|   |___/common                     // Code common to multiple versions
 |
 |___/examples                       // Demo apps
 |   |___cpu_chart_matrix.py         // CPU utilisation display for 8x8 matrix LEDs
@@ -172,7 +172,7 @@ The [`examples`](examples/) folder contains Python scripts that make use of the 
 * `cpu_chart_matrix.py` — A rudimentary side-scrolling CPU activity chart. Requires an HT16K33-based 8x8 matrix LED.
 * `cpu_chart_segment.py` — A CPU activity numerical percentage readout. Requires an HT16K33-based 4-digit, 7-segment matrix LED.
 * `mcp9808_temp_cli2c.py` — Second-by-second temperature readout. Requires an MCP9808 temperature sensor breakout.
-* `cpu_chart_ltp305_cli2c.py` — A version of the side-scrolling CPU activity chart. Requires a [Pimoroni LED Matrices + Driver](https://shop.pimoroni.com/products/led-dot-matrix-breakout).
+* `cpu_chart_ltp305_cli2c.py` — A version of the side-scrolling CPU activity chart. Requires a [Pimoroni LED Matrices + Driver](https://shop.pimoroni.com/products/led-dot-matrix-breakout).
 
 All the examples run at the command line and take the path to the adaptor device as a required argument and a I&sup2;C address as a second, optional address (if you are not using each device’s standard address). For example:
 
