@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.30)
 
 # Set project data
 set(PROJECT_NAME "Depot Bus Host Firmware")
@@ -49,6 +49,32 @@ set(NAME_LIST   "Pico"
 
 # Move common source code to a separate directory
 set(COMMON_CODE_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/common")
+
+# FROM 1.2.4
+# Apply the build configuration common to every board's firmware target.
+# NOTE Stack/heap-related `target_compile_definitions()` calls are
+#      deliberately left in each board's own CMakeLists.txt, since
+#      these may need to vary on a per-device basis in future.
+function(depot_configure_firmware TARGET_NAME)
+    # Common source code, shared by every board
+    target_sources(${TARGET_NAME} PRIVATE
+        ${COMMON_CODE_DIRECTORY}/serial.c
+        ${COMMON_CODE_DIRECTORY}/led.c
+        ${COMMON_CODE_DIRECTORY}/gpio.c
+        ${COMMON_CODE_DIRECTORY}/i2c.c
+        ${COMMON_CODE_DIRECTORY}/onewire.c)
+
+    # Compile debug sources
+    # Uses CMake generator expression to extract config type
+    target_sources(${TARGET_NAME} PRIVATE "$<$<CONFIG:Debug>:${COMMON_CODE_DIRECTORY}/debug.c>")
+
+    # Enable/disable STDIO via USB and UART
+    pico_enable_stdio_usb(${TARGET_NAME} 1)
+    pico_enable_stdio_uart(${TARGET_NAME} 0)
+
+    # Enable extra build products
+    pico_add_extra_outputs(${TARGET_NAME})
+endfunction()
 
 # Set app-side debugging on debug builds
 # Now uses CMake generator expression to extract config type

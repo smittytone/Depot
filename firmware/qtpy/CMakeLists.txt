@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.30)
 
 # Uncomment the following line to use the STEMMA
 #set(USE_STEMMA 1)
@@ -38,18 +38,10 @@ add_compile_definitions(
 # Include app source code file(s)
 add_executable(${FW_1_NAME}
     ${FW_1_SRC_DIRECTORY}/main.c
-    ${FW_1_SRC_DIRECTORY}/pins.c
-    ${COMMON_CODE_DIRECTORY}/serial.c
-    ${COMMON_CODE_DIRECTORY}/led.c
-    ${COMMON_CODE_DIRECTORY}/gpio.c
-    ${COMMON_CODE_DIRECTORY}/i2c.c
-    ${COMMON_CODE_DIRECTORY}/onewire.c)
-
-# Compile debug sources
-# Now uses CMake generator expression to extract config type
-target_sources(${FW_1_NAME} PRIVATE "$<$<CONFIG:Debug>:${COMMON_CODE_DIRECTORY}/debug.c>")
+    ${FW_1_SRC_DIRECTORY}/pins.c)
 
 # Set the stack size
+# NOTE Kept per-board as this may vary by device in future
 target_compile_definitions(${FW_1_NAME} PRIVATE
     PICO_CRT0_ALLOCATE_SPACERS=0
     PICO_HEAP_SIZE=8192
@@ -67,9 +59,6 @@ target_link_libraries(${FW_1_NAME} LINK_PUBLIC
 target_sources(${FW_1_NAME} PRIVATE ${COMMON_CODE_DIRECTORY}/ws2812.c)
 pico_generate_pio_header(${FW_1_NAME} ${COMMON_CODE_DIRECTORY}/ws2812.pio)
 
-# Enable/disable STDIO via USB and UART
-pico_enable_stdio_usb(${FW_1_NAME} 1)
-pico_enable_stdio_uart(${FW_1_NAME} 0)
-
-# Enable extra build products
-pico_add_extra_outputs(${FW_1_NAME})
+# Apply the common firmware build configuration (common sources,
+# debug sources, STDIO and extra build products)
+depot_configure_firmware(${FW_1_NAME})

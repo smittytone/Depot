@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.30)
 
 # Make project data accessible to compiler
 # IMPORTANT `HW_MODEL` must be no more than 24 characters
@@ -19,18 +19,10 @@ add_compile_definitions(
 add_executable(${FW_3_NAME}
     ${FW_3_SRC_DIRECTORY}/main.c
     ${FW_3_SRC_DIRECTORY}/tiny_led.c
-    ${FW_3_SRC_DIRECTORY}/pins.c
-    ${COMMON_CODE_DIRECTORY}/serial.c
-    ${COMMON_CODE_DIRECTORY}/led.c
-    ${COMMON_CODE_DIRECTORY}/gpio.c
-    ${COMMON_CODE_DIRECTORY}/i2c.c
-    ${COMMON_CODE_DIRECTORY}/onewire.c)
-
-# Compile debug sources
-# Now uses CMake generator expression to extract config type
-target_sources(${FW_3_NAME} PRIVATE "$<$<CONFIG:Debug>:${COMMON_CODE_DIRECTORY}/debug.c>")
+    ${FW_3_SRC_DIRECTORY}/pins.c)
 
 # Set the stack size
+# NOTE Kept per-board as this may vary by device in future
 target_compile_definitions(${FW_3_NAME} PRIVATE
     PICO_CRT0_ALLOCATE_SPACERS=0
     PICO_HEAP_SIZE=8192
@@ -42,9 +34,6 @@ target_link_libraries(${FW_3_NAME} LINK_PUBLIC
     hardware_i2c
     hardware_pwm)
 
-# Enable/disable STDIO via USB and UART
-pico_enable_stdio_usb(${FW_3_NAME} 1)
-pico_enable_stdio_uart(${FW_3_NAME} 0)
-
-# Enable extra build products
-pico_add_extra_outputs(${FW_3_NAME})
+# Apply the common firmware build configuration (common sources,
+# debug sources, STDIO and extra build products)
+depot_configure_firmware(${FW_3_NAME})
