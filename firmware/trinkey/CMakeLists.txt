@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.30)
 
-# Uncomment the following line to use the STEMMA
+# STEMMA connector use is mandatory on the Trinkey for I2C. Do not change this value.
 set(USE_STEMMA 1)
 
 # Make project data accessible to compiler

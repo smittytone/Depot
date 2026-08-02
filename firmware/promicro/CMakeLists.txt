@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.30)
 
-# Uncomment the following line to use the STEMMA
+# Uncomment the following line to use the STEMMA connector for I2C.
 #set(USE_STEMMA 1)
 
 # Make project data accessible to compiler
@@ -13,9 +13,10 @@ add_compile_definitions(
     HW_MODEL="SF-PRO-MICRO")
 
 # Set the device's I2C pins
-# These are for the board pins 5 (GPIO 2) and 6 (GPIO 3)
-# You can set these to other I2C pins but make sure
-# you select pins on I2C1
+# These are for the board pins 5 (GPIO 2, SDA) and 6 (GPIO 3, SCL)
+# You can set these to other I2C pins,
+# but make sure you select pins on I2C1.
+# The STEMMA connector's I2C pins are GPIO 16 (SDA) and 17 (SCL).
 if (USE_STEMMA)
     add_compile_definitions(
         DEFAULT_SDA_PIN=16

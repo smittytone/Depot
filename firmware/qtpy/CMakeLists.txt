@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.30)
 
-# Uncomment the following line to use the STEMMA
+# Uncomment the following line to use the STEMMA connector for I2C
 #set(USE_STEMMA 1)
 
 # Make project data accessible to compiler
@@ -13,20 +13,20 @@ add_compile_definitions(
     HW_MODEL="ADA-QTPY-RP2040")
 
 # Set the device's I2C pins
-# These are for the board pins A2 (SCL) and A3 (SDA)
-# NOT SDA and SCL. This is to ensure compatibility with
-# the STEMMA port -- both A2,A3,STEMMA all used i2c1.
+# These are for the board pins A2 (GPIO 27, SCL) and A3 (GPIO 26, SDA)
+# NOT SDA and SCL. This is to ensure compatibility with the STEMMA port.
+# The STEMMA port uses GPIO 22 (SDA) and 23 (SCL).
+# Both A2, A3 and STEMMA all used i2c1.
+add_compile_definitions(DEFAULT_I2C_BUS=1)
 if (USE_STEMMA)
     add_compile_definitions(
-        DEFAULT_SDA_PIN=26
-        DEFAULT_SCL_PIN=27
-        DEFAULT_I2C_BUS=1)
+        DEFAULT_SDA_PIN=22
+        DEFAULT_SCL_PIN=23)
     unset(USE_STEMMA)
 else()
     add_compile_definitions(
-        DEFAULT_SDA_PIN=22
-        DEFAULT_SCL_PIN=23
-        DEFAULT_I2C_BUS=1)
+        DEFAULT_SDA_PIN=26
+        DEFAULT_SCL_PIN=27)
 endif()
 
 # NeoPixel
