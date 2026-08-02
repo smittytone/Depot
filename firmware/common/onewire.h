@@ -53,9 +53,8 @@
 #define     OW_CMD_MATCH_ROM                0x55
 
 #define     DEFAULT_DATA_PIN                10
-
 #define     OW_MAX_DEVICE_COUNT             64
-
+#define     OW_STATUS_BUFFER_SIZE           129
 
 /*
  * STRUCTURES

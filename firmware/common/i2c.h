@@ -21,10 +21,11 @@
 /*
  * CONSTANTS
  */
-#ifndef DEFAULT_I2C_BUS
-#define DEFAULT_I2C_BUS                         1
+#ifndef     DEFAULT_I2C_BUS
+#define     DEFAULT_I2C_BUS                         1
 #endif
-
+#define     I2C_SCAN_BUFFER_SIZE                    512
+#define     I2C_STATUS_BUFFER_SIZE                  129
 
 /*
  * STRUCTURES

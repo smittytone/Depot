@@ -332,8 +332,8 @@ void ow_send_state(OneWireState* ows) {
 
     // Generate and return the status data string.
     // Data in the form: "1.1.100.110.QTPY-RP2040" or "1.1.100.110.PI-PICO"
-    char status_buffer[129] = {0};
-    sprintf(status_buffer, "%s.%i.%i.%i.%i.%i.%i.%s.%s\r\n",
+    char status_buffer[OW_STATUS_BUFFER_SIZE] = {0};
+    snprintf(status_buffer, OW_STATUS_BUFFER_SIZE - 1, "%s.%i.%i.%i.%i.%i.%i.%s.%s\r\n",
             (ows->is_ready   ? "1" : "0"),          // 2 chars
             ows->data_pin,                          // 2-3 chars
             ows->device_count,                      // 2-3 chars
@@ -346,7 +346,7 @@ void ow_send_state(OneWireState* ows) {
                                                     // == 41-68 chars
 
     // Send the data
-    tx(status_buffer, strlen(status_buffer));
+    tx((uint8_t*)status_buffer, strlen(status_buffer));
 }
 
 
@@ -358,7 +358,9 @@ void ow_send_state(OneWireState* ows) {
 void ow_send_scan(OneWireState* ows) {
 
     // FROM 1.2.4 -- increase buffer size to 64 * 16 + 3
-    char scan_buffer[OW_MAX_DEVICE_COUNT * 16 + 1] = {0};
+    char scan_buffer[OW_MAX_DEVICE_COUNT * 16 + 3] = {0};
+    size_t scan_buffer_size = sizeof(scan_buffer);
+    size_t offset = 0;
 
     // Bus not yet primed? Do so now
     if (!ows->is_ready) ow_init(ows);
@@ -366,19 +368,19 @@ void ow_send_scan(OneWireState* ows) {
     // Write 'Z' if there are no devices,
     // or send the device list string
     if (ows->device_count == 0) {
-        sprintf(scan_buffer, "Z\r\n");
+        snprintf(scan_buffer, scan_buffer_size, "Z\r\n");
     } else {
         // The string comprises 16 bytes per device: eight hex pairs
         // for the device’s eight bytes of ID.
         for (uint32_t i = 0 ; i < ows->device_count ; ++i) {
-            sprintf(scan_buffer + (i << 4), "%016llX", ows->device_ids[i]);
+            offset += snprintf(scan_buffer + offset, scan_buffer_size - offset, "%016llX", ows->device_ids[i]);
         }
 
-        sprintf(scan_buffer + (ows->device_count << 4), "\r\n");
+        snprintf(scan_buffer + offset, scan_buffer_size - offset, "\r\n");
     }
 
     // Send the scan data back
-    tx(scan_buffer, strlen(scan_buffer));
+    tx((uint8_t *)scan_buffer, strlen(scan_buffer));
 }
 
 

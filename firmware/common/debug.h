@@ -10,6 +10,7 @@
 #ifndef _DEBUG_HEADER_
 #define _DEBUG_HEADER_
 #include <stdarg.h>
+#include <stdint.h>
 #include <string.h>
 
 

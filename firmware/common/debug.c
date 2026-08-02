@@ -35,15 +35,16 @@ void debug_init(void) {
 void debug_log(char* format_string, ...) {
 
     va_list args;
-    char buffer[DEBUG_MESSAGE_MAX_B + 1] = {0};
+    char buffer[DEBUG_MESSAGE_MAX_B] = {0};
+    size_t buffer_size = sizeof(buffer) - 1;
 
     uint32_t ts = to_ms_since_boot(get_absolute_time());
-    snprintf(buffer, DEBUG_MESSAGE_MAX_B, "%i ", ts);
+    snprintf(buffer, buffer_size, "%i ", ts);
     size_t len = strlen(buffer);
 
     // Compile the string
     va_start(args, format_string);
-    vsnprintf(buffer + len, sizeof(buffer) - 2 - len, format_string, args);
+    vsnprintf(buffer + len, buffer_size - 2 - len, format_string, args);
     va_end(args);
 
     // Issue the compiled string and EOL markers to UART
@@ -55,17 +56,16 @@ void debug_log(char* format_string, ...) {
 void debug_log_bytes(uint8_t* data, size_t count) {
 
     char buffer[DEBUG_MESSAGE_MAX_B] = {0};
-    int j = 0;
+    size_t buffer_size = sizeof(buffer) - 1;
 
     uint32_t ts = to_ms_since_boot(get_absolute_time());
-    snprintf(buffer, DEBUG_MESSAGE_MAX_B, "%i ", ts);
+    snprintf(buffer, buffer_size, "%i ", ts);
     size_t len = strlen(buffer);
 
     for (size_t i = 0 ; i < count ; ++i) {
-        j += snprintf(&buffer[i * 2 + len], DEBUG_MESSAGE_MAX_B, "%02X", data[i]);
+        size_t offset = i * 2 + len;
+        snprintf(buffer + offset, buffer_size - offset, "%02X", data[i]);
     }
-
-    // sprintf(buffer, "%04x", j);
 
     // Issue the compiled string and EOL markers to UART
     uart_puts(DEBUG_UART, buffer);

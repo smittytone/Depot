@@ -161,29 +161,29 @@ void send_i2c_scan(I2C_State* its) {
 
     uint8_t rx_data;
     int reading;
-    char scan_buffer[1024] = {0};
-    uint32_t device_count = 0;
+    char scan_buffer[I2C_SCAN_BUFFER_SIZE] = {0};
+    size_t offset = 0;
 
     // Generate a list if devices by their addresses.
     // List in the form "13.71.A0."
     for (uint32_t i = 0 ; i < 0x78 ; ++i) {
         reading = i2c_read_timeout_us(its->bus, i, &rx_data, 1, false, 1000);
         if (reading > 0) {
-            sprintf(scan_buffer + (device_count * 3), "%02X.", i);
-            device_count++;
+            //sprintf(scan_buffer + (device_count * 3), "%02X.", i);
+            offset += snprintf(scan_buffer + offset, I2C_SCAN_BUFFER_SIZE - offset, "%02X.", i);
         }
     }
 
     // Write 'Z' if there are no devices,
     // or send the device list string
-    if (strlen(scan_buffer) == 0) {
-        sprintf(scan_buffer, "Z\r\n");
+    if (offset == 0) {
+        snprintf(scan_buffer, I2C_SCAN_BUFFER_SIZE, "Z\r\n");
     } else {
-        sprintf(scan_buffer + (device_count * 3), "\r\n");
+        snprintf(scan_buffer + offset, I2C_SCAN_BUFFER_SIZE - offset, "\r\n");
     }
 
     // Send the scan data back
-    tx(scan_buffer, strlen(scan_buffer));
+    tx((uint8_t *)scan_buffer, strlen(scan_buffer));
 }
 
 
@@ -212,9 +212,8 @@ void send_i2c_status(I2C_State* its) {
 
     // Generate and return the status data string.
     // Data in the form: "1.1.100.110.QTPY-RP2040" or "1.1.100.110.PI-PICO"
-    char status_buffer[129] = {0};
-
-    sprintf(status_buffer, "%s.%s.%s.%i.%i.%i.%i.%i.%i.%i.%i.%s.%s\r\n",
+    char status_buffer[I2C_STATUS_BUFFER_SIZE] = {0};
+    snprintf(status_buffer, I2C_STATUS_BUFFER_SIZE - 1, "%s.%s.%s.%i.%i.%i.%i.%i.%i.%i.%i.%s.%s\r\n",
             (its->is_ready   ? "1" : "0"),          // 2 chars
             (its->is_started ? "1" : "0"),          // 2 chars
             (its->bus == i2c0 ? "0" : "1"),         // 2 chars
@@ -231,7 +230,7 @@ void send_i2c_status(I2C_State* its) {
                                                     // == 41-68 chars
 
     // Send the data
-    tx(status_buffer, strlen(status_buffer));
+    tx((uint8_t*)status_buffer, strlen(status_buffer));
 }
 
 
