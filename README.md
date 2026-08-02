@@ -16,17 +16,18 @@ Why Depot? Because it’s a place in which you’ll find lots of buses.
 
 ### Bus Host Board
 
-The bus host board is a [Raspberry Pi Pico](https://www.raspberrypi.com/documentation/microcontrollers/raspberry-pi-pico.html), [Adafruit QTPy RP2040](https://www.adafruit.com/product/4900), [Adafruit QT2040 Trinkey](https://www.adafruit.com/product/5056), [SparkFun ProMicro RP2040](https://www.sparkfun.com/products/18288), [Pimoroni Tiny 2040](https://shop.pimoroni.com/products/tiny-2040?variant=39560012234835) or [Arduino Nano RP2040 Connect](https://store.arduino.cc/products/arduino-nano-rp2040-connect-with-headers).
+The bus host board is a [Raspberry Pi Pico](https://www.raspberrypi.com/documentation/microcontrollers/raspberry-pi-pico.html), [Raspberry Pi Pico 2](https://www.raspberrypi.com/documentation/microcontrollers/pico-series.html#pico2), [Adafruit QTPy RP2040](https://www.adafruit.com/product/4900), [Adafruit QT2040 Trinkey](https://www.adafruit.com/product/5056), [SparkFun ProMicro RP2040](https://www.sparkfun.com/products/18288), [Pimoroni Tiny 2040](https://shop.pimoroni.com/products/tiny-2040?variant=39560012234835) or [Arduino Nano RP2040 Connect](https://store.arduino.cc/products/arduino-nano-rp2040-connect-with-headers).
 
 It runs the included firmware and connects to a host computer via USB.
 
 ![Driving a segment display with the Arduino Nano](images/nano_seg.webp)
 
-From version 1.2.2, the build system will use the standard Pico SDK environment variable `PICO_BOARD`, if set, to configure compilation for a particular supported board. If the variable is undefined, or set to a board not yet supported by Depot, the firmware will be built for all supported boards.
+The build system will use the standard Pico SDK environment variable `PICO_BOARD`, if set, to configure compilation for a particular supported board. If the variable is undefined, or set to a board not yet supported by Depot, the firmware will be built for all supported boards.
 
 | Board | `PICO_BOARD` Value |
 | :-- | :-- |
 | Pico | `pico` |
+| Pico | `pico2` |
 | QTPy | `adafruit_qtpy_rp2040` |
 | ProMicro | `sparkfun_promicro` |
 | Tiny | `pimoroni_tiny2040` |
@@ -64,15 +65,15 @@ In each case:
 
 1. Navigate to the repo directory.
 1. Optionally enter `export PICO_BOARD=x`, where x is a board name ([see above](#bus-host-board)).
-1. `cmake -S . -B firmwarebuild`
-1. `cmake --build firmwarebuild`
+1. `cmake -S . -B build`
+1. `cmake --build build`
 1. Write the firmware depending on which board you are using:
-    * `./deploy.sh /path/to/device firmwarebuild/firmware/pico/firmware_pico_rp2040.uf2`
-    * `./deploy.sh /path/to/device firmwarebuild/firmware/qtpy/firmware_qtpy_rp2040.uf2`
-    * `./deploy.sh /path/to/device firmwarebuild/firmware/promicro/firmware_promicro.uf2`
-    * `./deploy.sh /path/to/device firmwarebuild/firmware/tiny/firmware_tiny2040.uf2`
-    * `./deploy.sh /path/to/device firmwarebuild/firmware/trinkey/firmware_trinkey2040.uf2`
-    * `./deploy.sh /path/to/device firmwarebuild/firmware/nano/firmware_arduino_nano.uf2`
+    * `./deploy.sh /path/to/device build/firmware/pico/firmware_pico_rp2040.uf2`
+    * `./deploy.sh /path/to/device build/firmware/qtpy/firmware_qtpy_rp2040.uf2`
+    * `./deploy.sh /path/to/device build/firmware/promicro/firmware_promicro.uf2`
+    * `./deploy.sh /path/to/device build/firmware/tiny/firmware_tiny2040.uf2`
+    * `./deploy.sh /path/to/device build/firmware/trinkey/firmware_trinkey2040.uf2`
+    * `./deploy.sh /path/to/device build/firmware/nano/firmware_arduino_nano.uf2`
 
 The deploy script tricks the RP2040-based board into booting into disk mode, then copies over the newly build firmware. When the copy completes, the RP2040 automatically reboots. This saves a lot of tedious power-cycling with the BOOT button held down.
 
@@ -81,19 +82,19 @@ The deploy script tricks the RP2040-based board into booting into disk mode, the
 You can switch between build types when you make the `cmake` call in step 3, above. A debug build is made by default, but you can make this explicit with
 
 ```shell
-cmake -S . -B firmwarebuild -D CMAKE_BUILD_TYPE=Debug
+cmake -S . -B build -D CMAKE_BUILD_TYPE=Debug
 ```
 
 For a release build, which among various optimisations omits UART debugging code, call:
 
 ```shell
-cmake -S . -B firmwarebuild -D CMAKE_BUILD_TYPE=Release
+cmake -S . -B build -D CMAKE_BUILD_TYPE=Release
 ```
 
 Follow both of these commands with the usual
 
 ```shell
-cmake --build firmwarebuild
+cmake --build build
 ```
 
 ## What’s What
@@ -116,6 +117,7 @@ The contents of this repo are:
 |
 |___/firmware                       // The RP2040 host firmware, written in C
 |   |___/pico                       // The Raspberry Pi Pico version
+|   |___/pico2                      // The Raspberry Pi Pico 2 version
 |   |___/nano                       // An Arduino Nano RP2040 Connect version
 |   |___/promicro                   // A SparkFun ProMicro RP2040 version
 |   |___/qtpy                       // An Adafruit QTPy RP2040 version
@@ -139,7 +141,8 @@ The contents of this repo are:
 |___cliwire.xcodeproj               // Xcode project for cliwire
 |
 |___deploy.sh                       // A .uf2 deployment script that saves pressing
-|                                   // RESET/BOOTSEL buttons.
+|                                   // RESET/BOOTSEL buttons. LEGACY: now largely replaced
+|                                   // by the official picotool
 |
 |___README.md
 |___LICENSE.md

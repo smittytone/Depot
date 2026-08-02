@@ -9,6 +9,7 @@
     - Firmware: reduced cross-directory coupling.
     - Firmware: replaced literals with `#define`s.
     - Firmware: removed duplication across the various `CMakeLists.txt` files.
+    - Firmware: correct STEMMA usage and `CMakeLists.txt` notes.
 - 1.2.3 *16 July 2026*
     - Interim release with minor changes as I get back into the codebase.
     - Add provisional Pico 2 support.
