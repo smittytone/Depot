@@ -15,9 +15,6 @@ add_compile_definitions(
     DEFAULT_SCL_PIN=7
     DEFAULT_I2C_BUS=1)
 
-set(PICO_BOARD=pimoroni_tiny_2040)
-set(PICO_STDIO_USB_CONNECT_WAIT_TIMEOUT_MS=2000)
-
 # Include app source code file(s)
 add_executable(${FW_3_NAME}
     ${FW_3_SRC_DIRECTORY}/main.c

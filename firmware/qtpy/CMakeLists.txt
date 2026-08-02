@@ -14,7 +14,7 @@ add_compile_definitions(
 
 # Set the device's I2C pins
 # These are for the board pins A2 (SCL) and A3 (SDA)
-# NOT SDA and SCL. This is to ensure comptatibility with
+# NOT SDA and SCL. This is to ensure compatibility with
 # the STEMMA port -- both A2,A3,STEMMA all used i2c1.
 if (USE_STEMMA)
     add_compile_definitions(
@@ -34,9 +34,6 @@ add_compile_definitions(
     PIN_NEO_DATA=12
     PIN_NEO_PWR=11
     NEO_COLOUR=0x100010)    # Magenta
-
-set(PICO_BOARD=adafruit_qtpy_rp2040)
-set(PICO_STDIO_USB_CONNECT_WAIT_TIMEOUT_MS=2000)
 
 # Include app source code file(s)
 add_executable(${FW_1_NAME}
