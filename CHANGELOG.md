@@ -12,18 +12,18 @@
     - Firmware: correct STEMMA usage and `CMakeLists.txt` notes.
 - 1.2.3 *16 July 2026*
     - Interim release with minor changes as I get back into the codebase.
-    - Add provisional Pico 2 support.
-    - Refactor firmware’s excessive use of `#include` statements.
+    - Firmware: add provisional Pico 2 support.
+    - Firmware: refactor excessive use of `#include` statements.
 - 1.2.2 *23 April 2023*
-    - Support the Pico SDK’s `PICO_BOARD` environment variable to select specific firmware targets.
-    - Support the Arduino Nano RP2040 Connect.
+    - Firmware: support the Pico SDK’s `PICO_BOARD` environment variable to select specific firmware targets.
+    - Firmware: support the Arduino Nano RP2040 Connect.
 - 1.2.1 *21 March 2023*
     - Add LTP305 LED matrix example.
     - Add example instructions.
 - 1.2.0 *17 March 2023*
     - Rename project to `Depot`.
-    - Add 1-Wire support to adaptor firmware.
+    - Firmware: add 1-Wire support.
     - Add 1-Wire centric client apps: `cliwire` for generic use, `ds18b20` to read a single DS18B20 sensor, `sensor` to read a single DS18B20 sensor and display the output in a GUI.
-    - Use CMake’s `CMAKE_BUILD_TYPE` variable to choose build types when building at the command line.
+    - Firmware: use CMake’s `CMAKE_BUILD_TYPE` variable to choose build types when building at the command line.
     - Migrate client app documentation from Read Me to my documentation site.
     - Remove early debug code outputting to a connected segment display.
