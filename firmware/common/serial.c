@@ -527,10 +527,19 @@ static inline void send_ack(void) {
 }
 
 
+/**
+ * @brief Convenience function to relay an error code and
+ *        issue a single-byte ERR message.
+ *
+ * @param errorCode: An error code.
+ *
+ * @returns The error code.
+ */
 static uint32_t issue_err(uint32_t errorCode) {
     send_err();
     return errorCode;
 }
+
 
 /**
  * @brief Send a single-byte ERR.
