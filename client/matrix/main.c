@@ -1,7 +1,7 @@
 /*
  * I2C driver for an HT16K33 8x8 Matrix Display
  *
- * Version 1.2.4
+ * Version 1.3.0
  * Copyright © 2026, Tony Smith (@smittytone)
  * Licence: MIT
  *
@@ -61,8 +61,7 @@ int main(int argc, char* argv[]) {
                 return EXIT_OK;
             }
 
-            if (strcasecmp(argv[i], "v") == 0 ||
-                strcasecmp(argv[i], "--version") == 0 ||
+            if (strcasecmp(argv[i], "--version") == 0 ||
                 strcasecmp(argv[i], "-v") == 0) {
                 show_version();
                 return EXIT_OK;
@@ -396,26 +395,26 @@ static int process_commands(SerialDriver* sd, int argc, char* argv[], int delta)
  */
 static void show_help(void) {
 
-    fprintf(stderr, "matrix {device} [address] [commands]\n\n");
+    fprintf(stderr, "matrix device [address] [commands]\n\n");
     fprintf(stderr, "Usage:\n");
-    fprintf(stderr, "  {device} is a mandatory device path, e.g., /dev/cu.usbmodem-010101.\n");
+    fprintf(stderr, "  device is a mandatory device path, e.g., /dev/cu.usbmodem-010101.\n");
     fprintf(stderr, "  [address] is an optional display I2C address. Default: 0x70.\n");
     fprintf(stderr, "  [commands] are optional HT16K33 matrix commands:\n\n");
     fprintf(stderr, "Commands:\n");
-    fprintf(stderr, "  a [on|off]             Activate/deactivate the display. Default: on.\n");
-    fprintf(stderr, "  b {0-15}               Set the display brightness from low (0) to high (15).\n");
-    fprintf(stderr, "  r {0-3}                Rotate the display. Angle supplied as a multiple of 90 degrees.\n");
-    fprintf(stderr, "  c {ascii} [true|false] Draw the Ascii character on the screen, and optionally\n");
-    fprintf(stderr, "                         set it to be centred (true).\n");
-    fprintf(stderr, "  g {glyph}              Draw the user-defined character on the screen. The definition\n");
-    fprintf(stderr, "                         is a string of eight comma-separated 8-bit hex values, e.g.,\n");
-    fprintf(stderr, "                         '0x3C,0x42,0xA9,0x85,0x85,0xA9,0x42,0x3C'.\n");
-    fprintf(stderr, "  p {x} {y} [1|0]        Set or clear the specified pixel. X and Y coordinates are in\n");
-    fprintf(stderr, "                         the range 0-7.\n");
-    fprintf(stderr, "  t {string} [delay]     Scroll the specified string. The second argument is an optional\n");
-    fprintf(stderr, "                         delay be between column shifts in milliseconds. Default: 250ms.\n");
-    fprintf(stderr, "  w                      Wipe (clear) the display.\n");
-    fprintf(stderr, "  h                      Help information.\n\n");
+    fprintf(stderr, "  a [on|off]               A ctivate/deactivate the display. Default: on.\n");
+    fprintf(stderr, "  b 0-15                   Set the display brightness from low (0) to high (15).\n");
+    fprintf(stderr, "  r 0-3                    Rotate the display. Angle supplied as a multiple of 90 degrees.\n");
+    fprintf(stderr, "  c ascii [true|false]     Draw the Ascii character on the screen, and optionally\n");
+    fprintf(stderr, "                           set it to be centred (true).\n");
+    fprintf(stderr, "  g glyph                  Draw the user-defined character on the screen. The definition\n");
+    fprintf(stderr, "                           is a string of eight comma-separated 8-bit hex values, e.g.,\n");
+    fprintf(stderr, "                           '0x3C,0x42,0xA9,0x85,0x85,0xA9,0x42,0x3C'.\n");
+    fprintf(stderr, "  p x y [1|0]              Set or clear the specified pixel. X and Y coordinates are in\n");
+    fprintf(stderr, "                           the range 0-7.\n");
+    fprintf(stderr, "  t string [delay]         Scroll the specified string. The second argument is an optional\n");
+    fprintf(stderr, "                           delay be between column shifts in milliseconds. Default: 250ms.\n");
+    fprintf(stderr, "  w                        Wipe (clear) the display.\n");
+    fprintf(stderr, "  h                        Help information.\n\n");
 }
 
 

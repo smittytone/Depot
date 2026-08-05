@@ -1,7 +1,7 @@
 /*
  * I2C driver for an HT16K33 4-digit, 7-segment display
  *
- * Version 1.2.4
+ * Version 1.3.0
  * Copyright © 2026, Tony Smith (@smittytone)
  * Licence: MIT
  *
@@ -61,8 +61,7 @@ int main(int argc, char* argv[]) {
                 return EXIT_OK;
             }
 
-            if (strcasecmp(argv[i], "v") == 0 ||
-                strcasecmp(argv[i], "--version") == 0 ||
+            if (strcasecmp(argv[i], "--version") == 0 ||
                 strcasecmp(argv[i], "-v") == 0) {
                 show_version();
                 return EXIT_OK;
@@ -449,24 +448,24 @@ static int process_commands(SerialDriver* sd, int argc, char* argv[], int delta)
  */
 static void show_help(void) {
 
-    fprintf(stderr, "segment {device} [address] [commands]\n\n");
+    fprintf(stderr, "segment device [address] [commands]\n\n");
     fprintf(stderr, "Usage:\n");
-    fprintf(stderr, "  {device} is a mandatory device path, e.g., /dev/cu.usbmodem-010101.\n");
+    fprintf(stderr, "  device is a mandatory device path, e.g., /dev/cu.usbmodem-010101.\n");
     fprintf(stderr, "  [address] is an optional display I2C address. Default: 0x70.\n");
     fprintf(stderr, "  [commands] are optional HT16K33 segment commands.\n\n");
     fprintf(stderr, "Commands:\n");
-    fprintf(stderr, "  a [on|off]                      Activate/deactivate the display. Default: on.\n");
-    fprintf(stderr, "  b {0-15}                        Set the display brightness from low (0) to high (15).\n");
-    fprintf(stderr, "  f                               Flip the display vertically.\n");
-    fprintf(stderr, "  n {number}                      Draw the decimal number on the screen.\n");
-    fprintf(stderr, "                                  Range -999 to 9999.\n");
-    fprintf(stderr, "  v {value} {digit} [true|false]  Draw the value on the screen at the specified digit\n");
-    fprintf(stderr, "                                  (0-15/0x00-0x0F) and optionally set its decimal point.\n");
-    fprintf(stderr, "  g {glyph} {digit} [true|false]  Draw the user-defined character on the screen at the\n");
-    fprintf(stderr, "                                  specified digit. The glyph definition is a byte with bits\n");
-    fprintf(stderr, "                                  set for each of the digit’s segments.\n");
-    fprintf(stderr, "  w                               Wipe (clear) the display.\n");
-    fprintf(stderr, "  h                               Help information.\n\n");
+    fprintf(stderr, "  a [on|off]                   Activate/deactivate the display. Default: on.\n");
+    fprintf(stderr, "  b 0-15                       Set the display brightness from low (0) to high (15).\n");
+    fprintf(stderr, "  f                            Flip the display vertically.\n");
+    fprintf(stderr, "  n number                     Draw the decimal number on the screen.\n");
+    fprintf(stderr, "                               Range -999 to 9999.\n");
+    fprintf(stderr, "  v value digit [true|false]   Draw the value on the screen at the specified digit\n");
+    fprintf(stderr, "                               (0-15/0x00-0x0F) and optionally set its decimal point.\n");
+    fprintf(stderr, "  g glyph digit [true|false]   Draw the user-defined character on the screen at the\n");
+    fprintf(stderr, "                               specified digit. The glyph definition is a byte with bits\n");
+    fprintf(stderr, "                               set for each of the digit’s segments.\n");
+    fprintf(stderr, "  w                            Wipe (clear) the display.\n");
+    fprintf(stderr, "  h                            Help information.\n\n");
 }
 
 
