@@ -170,17 +170,29 @@ The following client apps are included in the repo. They are documented [on my d
 
 ## Full Examples
 
-The [`examples`](examples/) folder contains Python scripts that make use of the above apps:
+The [`examples`](examples/) folder contains Python 3.x scripts that make use of the above apps:
 
-* `cpu_chart_matrix.py` — A rudimentary side-scrolling CPU activity chart. Requires an HT16K33-based 8x8 matrix LED.
-* `cpu_chart_segment.py` — A CPU activity numerical percentage readout. Requires an HT16K33-based 4-digit, 7-segment matrix LED.
-* `mcp9808_temp_cli2c.py` — Second-by-second temperature readout. Requires an MCP9808 temperature sensor breakout.
-* `cpu_chart_ltp305_cli2c.py` — A version of the side-scrolling CPU activity chart. Requires a [Pimoroni LED Matrices + Driver](https://shop.pimoroni.com/products/led-dot-matrix-breakout).
+* `cpu_chart_matrix.py` — A rudimentary side-scrolling CPU activity chart. Requires an HT16K33-based 8x8 matrix LED. Requires the `matrix` CLI tool in your `$PATH` (see above).
+* `cpu_chart_segment.py` — A CPU activity numerical percentage readout. Requires an HT16K33-based 4-digit, 7-segment matrix LED. Requires the `segment` CLI tool in your `$PATH` (see above).
+* `mcp9808_temp_cli2c.py` — Second-by-second temperature readout. Requires an MCP9808 temperature sensor breakout. Requires the `cli2x` CLI tool in your `$PATH` (see above).
+* `cpu_chart_ltp305_cli2c.py` — A version of the side-scrolling CPU activity chart. Requires a [Pimoroni LED Matrices + Driver](https://shop.pimoroni.com/products/led-dot-matrix-breakout). Requires the `cli2x` CLI tool in your `$PATH` (see above).
 
 All the examples run at the command line and take the path to the adaptor device as a required argument and a I&sup2;C address as a second, optional address (if you are not using each device’s standard address). For example:
 
 ```shell
 python examples/cpu_chart_ltp305_cli2c.py /dev/cu.usbserial-0101 0x63
+```
+
+**Note** These Python examples use the `psutil` library, which is not provided as standard. To try the examples, set up a virtual environment:
+
+```shell
+cd depot
+python -m venv .python
+source .python/bin/activate
+pip install psutil
+python examples/cpu_chart_ltp305_cli2c.py /dev/cu.usbserial-0101 0x63
+...
+deactivate
 ```
 
 ## Acknowledgements
