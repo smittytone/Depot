@@ -7,7 +7,7 @@ add_compile_definitions(
     FW_VERSION="${FW_VERSION_NUMBER}"
     BUILD_NUM=${FW_BUILD_NUMBER}
     NANO_BUILD=1
-    HW_MODEL="ARDUINO-NANO")
+    HW_MODEL="ARDUINO-NANO") # 24 characters max.
 
 # Set the device's I2C pins
 # These are for the board pins 1 (GPIO 0) and 2 (GPIO 1)

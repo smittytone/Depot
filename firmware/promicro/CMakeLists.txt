@@ -10,7 +10,7 @@ add_compile_definitions(
     FW_VERSION="${FW_VERSION_NUMBER}"
     BUILD_NUM=${FW_BUILD_NUMBER}
     NEO_BUILD=1
-    HW_MODEL="SF-PRO-MICRO")
+    HW_MODEL="SPARKFUN-PRO-MICRO") # 24 characters max.
 
 # Set the device's I2C pins
 # These are for the board pins 5 (GPIO 2, SDA) and 6 (GPIO 3, SCL)

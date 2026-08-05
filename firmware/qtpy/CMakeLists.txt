@@ -10,7 +10,7 @@ add_compile_definitions(
     FW_VERSION="${FW_VERSION_NUMBER}"
     BUILD_NUM=${FW_BUILD_NUMBER}
     NEO_BUILD=1
-    HW_MODEL="ADA-QTPY-RP2040")
+    HW_MODEL="ADAFRUIT-QTPY-RP2040") # 24 characters max.
 
 # Set the device's I2C pins
 # These are for the board pins A2 (GPIO 27, SCL) and A3 (GPIO 26, SDA)

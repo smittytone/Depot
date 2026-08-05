@@ -10,7 +10,7 @@ add_compile_definitions(
     FW_VERSION="${FW_VERSION_NUMBER}"
     BUILD_NUM=${FW_BUILD_NUMBER}
     NEO_BUILD=1
-    HW_MODEL="ADA-TRINKEY-2040")
+    HW_MODEL="ADAFRUIT-TRINKEY-2040") # 24 characters max.
 
 # Set the device's I2C pins
 # These are for the board pins 5 (GPIO 2) and 6 (GPIO 3)

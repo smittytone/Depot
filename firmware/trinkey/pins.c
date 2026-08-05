@@ -9,6 +9,7 @@
  */
 #include <stdint.h>
 
+// Lists of I2C pin pairs, SDA then SCL
 
 uint8_t I2C_PIN_PAIRS_BUS_0[] = {   6, 17,
                                     255, 255};

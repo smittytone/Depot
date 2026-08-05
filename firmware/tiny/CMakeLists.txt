@@ -7,7 +7,7 @@ add_compile_definitions(
     FW_VERSION="${FW_VERSION_NUMBER}"
     BUILD_NUM=${FW_BUILD_NUMBER}
     TINY_BUILD=1
-    HW_MODEL="PIMORONI-TINY")
+    HW_MODEL="PIMORONI-TINY") # 24 characters max.
 
 # Set the device's I2C pins
 add_compile_definitions(
