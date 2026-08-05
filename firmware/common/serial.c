@@ -10,6 +10,7 @@
 // C
 #include <signal.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
@@ -36,9 +37,10 @@ static void         sig_handler(int signal);
 // FROM 1.1.2 -- make ack and err sends inline
 static inline void  send_ack(void);
 static inline void  send_err(void);
+static uint32_t     issue_err(uint32_t errorCode);
 static uint32_t     rx(uint8_t *buffer);
 // FROM 1.1.3
-static void         set_mode(char mode_key);
+static char         set_mode(char mode_key);
 
 
 /*
@@ -100,13 +102,12 @@ void rx_loop(void) {
     // FROM 1.1.3
     // Default current mode to I2C, for backwards compatibility
     // NOTE Call the function so the LED colour is correctly set
-    uint8_t current_mode = MODE_CODE_I2C;
+    uint8_t current_mode = set_mode(MODE_CODE_I2C);
     supported_modes[0] = MODE_CODE_I2C;
     supported_modes[1] = MODE_CODE_ONE_WIRE;
-    set_mode(MODE_CODE_I2C);
 
     // FROM 1.1.3
-    uint last_error_code = GEN_NO_ERROR;
+    uint32_t last_error_code = GEN_NO_ERROR;
 
     // Heartbeat variables
     uint64_t last = time_us_64();
@@ -147,14 +148,12 @@ void rx_loop(void) {
                                     break;
                                 }
 
-                                last_error_code = I2C_COULD_NOT_WRITE;
-                                send_err();
+                                last_error_code = issue_err(I2C_COULD_NOT_WRITE);
                                 break;
                             }
 
                             // Error
-                            last_error_code = I2C_NOT_STARTED;
-                            send_err();
+                            last_error_code = issue_err(I2C_NOT_STARTED);
                             break;
                         case MODE_CODE_ONE_WIRE:
                             if (ow_state.is_ready) {
@@ -174,12 +173,10 @@ void rx_loop(void) {
                             }
 
                             // FROM 1.2.4 -- Include error condition
-                            last_error_code = OW_NOT_READY;
-                            send_err();
+                            last_error_code = issue_err(OW_NOT_READY);
                             break;
                         default:
-                            last_error_code = GEN_UNKNOWN_MODE;
-                            send_err();
+                            last_error_code = issue_err(GEN_UNKNOWN_MODE);
                     }
                 } else {
                     // Read length received only
@@ -197,13 +194,11 @@ void rx_loop(void) {
                                     break;
                                 }
 
-                                last_error_code = I2C_COULD_NOT_READ;
-                                send_err();
+                                last_error_code = issue_err(I2C_COULD_NOT_READ);
                                 break;
                             }
 
-                            last_error_code = I2C_NOT_STARTED;
-                            send_err();
+                            last_error_code = issue_err(I2C_NOT_STARTED);
                             break;
                         case MODE_CODE_ONE_WIRE:
                             if (ow_state.is_ready) {
@@ -220,12 +215,10 @@ void rx_loop(void) {
                                 break;
                             }
 
-                            last_error_code = OW_NOT_READY;
-                            send_err();
+                            last_error_code = issue_err(OW_NOT_READY);
                             break;
                         default:
-                            last_error_code = GEN_UNKNOWN_MODE;
-                            send_err();
+                            last_error_code = issue_err(GEN_UNKNOWN_MODE);
                     }
                 }
             } else {
@@ -237,13 +230,7 @@ void rx_loop(void) {
 #endif
 
                 switch(cmd) {
-                    /*
-                     * FIRMWARE COMMANDS
-                     */
-
-                    // FROM 1.1.1 -- change command from z to !
-                    case 'z':   // REMOVE IN 1.2.0
-                    case '!':   // RESPOND TO CONNECTION REQUEST
+                    case CMD_REQUEST_CONN:
                         // FROM 1.2.0
                         // Replace the 'hello' string with backwards compatible
                         // data that includes a firmware version indicator.
@@ -252,21 +239,19 @@ void rx_loop(void) {
                         // This will be useful for future apps to detect which
                         // firmware they're talking to.
                         // TODO Automate from cmake
-                        tx("OK12", 4);
+                        tx((uint8_t*)"OK12", 4);
                         break;
 
-                    // FROM 1.1.0
-                    case '*':   // SET LED STATE
+                    case CMD_SET_LED_STATE:
                         do_use_led = rx_buffer[1] == 1 ? true : false;
 #ifdef SHOW_HEARTBEAT
                         send_ack();
 #else
-                        last_error_code = GEN_LED_NOT_ENABLED;
-                        send_err();
+                        last_error_code = issue_err(GEN_LED_NOT_ENABLED);
 #endif
                         break;
 
-                    case '?':   // GET STATUS
+                    case CMD_GET_STATUS:
                         switch(current_mode) {
                             case MODE_CODE_I2C:
                                 send_i2c_status(&i2c_state);
@@ -275,24 +260,21 @@ void rx_loop(void) {
                                 ow_send_state(&ow_state);
                                 break;
                             default:
-                                last_error_code = GEN_UNKNOWN_MODE;
-                                send_err();
+                                last_error_code = issue_err(GEN_UNKNOWN_MODE);
                         }
                         break;
 
-                    // FROM 1.1.3
-                    case '$':   // GET LAST ERROR
+                    case CMD_GET_LAST_ERROR:
                         {
-                            uint8_t err_buffer[3] = {(uint8_t)last_error_code, '\r', '\n'};
-                            tx(err_buffer, 3);
+                            uint8_t err_buffer[ERR_MSG_SIZE_BYTES] = {(uint8_t)last_error_code, '\r', '\n'};
+                            tx(err_buffer, ERR_MSG_SIZE_BYTES);
 #ifdef DO_UART_DEBUG
                             debug_log("Error code reported: %02X", last_error_code);
 #endif
                         }
                         break;
 
-                    // FROM 1.2.0
-                    case '#':   // SET CURRENT MODE
+                    case CMD_SET_MODE:
                         {
                             char new_mode = rx_ptr[1];
                             bool is_mode_supported = false;
@@ -304,25 +286,18 @@ void rx_loop(void) {
                             }
 
                             if (is_mode_supported) {
-                                current_mode = new_mode;
-                                set_mode(new_mode);
+                                current_mode = set_mode(new_mode);
                                 send_ack();
 #ifdef DO_UART_DEBUG
                                 debug_log("Mode set to: %02X", current_mode);
 #endif
                             } else {
-                                last_error_code = GEN_UNKNOWN_MODE;
-                                send_err();
+                                last_error_code = issue_err(GEN_UNKNOWN_MODE);
                             }
-
                             break;
                         }
-                    /*
-                     * MULTI-BUS COMMANDS
-                     */
 
-                    // FROM 1.1.0
-                    case 'c':   // CONFIGURE THE BUS AND PINS
+                    case CMD_MULTIBUS_CONFIGURE_BUS:    // BUSES SUPPORTED: I2C, ONE-WIRE
                         {
                             bool success = false;
                             uint32_t possible_error = GEN_NO_ERROR;
@@ -336,21 +311,18 @@ void rx_loop(void) {
                                     possible_error = OW_COULD_NOT_CONFIGURE;
                                     break;
                                 default:
-                                    last_error_code = GEN_UNKNOWN_MODE;
-                                    send_err();
+                                    possible_error = issue_err(GEN_UNKNOWN_MODE);
                             }
 
                             if (success) {
                                 send_ack();
                             } else {
-                                last_error_code = possible_error;
-                                send_err();
+                                last_error_code = issue_err(possible_error);
                             }
                         }
                         break;
 
-                    case 'd':   // SCAN THE CURRENT BUS FOR DEVICES
-                                // BUSES SUPPORTED: I2C, ONE-WIRE
+                    case CMD_MULTIBUS_DEVICE_SCAN:  // BUSES SUPPORTED: I2C, ONE-WIRE
                         switch(current_mode) {
                             case MODE_CODE_I2C:
                                 if (!i2c_state.is_ready) init_i2c(&i2c_state);
@@ -360,13 +332,11 @@ void rx_loop(void) {
                                 ow_send_scan(&ow_state);
                                 break;
                             default:
-                                last_error_code = GEN_UNKNOWN_MODE;
-                                send_err();
+                                last_error_code = issue_err(GEN_UNKNOWN_MODE);
                         }
                         break;
 
-                    case 'i':   // INITIALISE THE CURRENT BUS:
-                                // BUSES SUPPORTED: I2C, ONE-WIRE
+                    case CMD_MULTIBUS_INIT_BUS:     // BUSES SUPPORTED: I2C, ONE-WIRE
                         switch(current_mode) {
                             case MODE_CODE_I2C:
                                 // No need it initialise if we already have
@@ -374,8 +344,7 @@ void rx_loop(void) {
                                     // Are the pins already taken?
                                     if ((is_pin_taken(i2c_state.scl_pin) & ~PIN_USAGE_FIELD_I2C) > 0 ||
                                         (is_pin_taken(i2c_state.sda_pin) & ~PIN_USAGE_FIELD_I2C) > 0) {
-                                        last_error_code = I2C_PINS_ALREADY_IN_USE;
-                                        send_err();
+                                        last_error_code = issue_err(I2C_PINS_ALREADY_IN_USE);
                                         break;
                                     }
 
@@ -387,8 +356,7 @@ void rx_loop(void) {
                             case MODE_CODE_ONE_WIRE:
                                 // Is the data pin already taken?
                                 if ((is_pin_taken(ow_state.data_pin) & ~PIN_USAGE_FIELD_ONEWIRE) > 0) {
-                                    last_error_code = OW_PIN_ALREADY_IN_USE;
-                                    send_err();
+                                    last_error_code = issue_err(OW_PIN_ALREADY_IN_USE);
                                     break;
                                 }
 
@@ -397,17 +365,15 @@ void rx_loop(void) {
                                 if (ow_state.is_ready) {
                                     send_ack();
                                 } else {
-                                    last_error_code = OW_NO_DEVICES_FOUND;
-                                    send_err();
+                                    last_error_code = issue_err(OW_NO_DEVICES_FOUND);
                                 }
                                 break;
                             default:
-                                last_error_code = GEN_UNKNOWN_MODE;
-                                send_err();
+                                last_error_code = issue_err(GEN_UNKNOWN_MODE);
                         }
                         break;
 
-                    case 'x':   // RESET BUS
+                    case CMD_MULTIBUS_RESET_BUS:    // BUSES SUPPORTED: I2C, ONE-WIRE
                         switch(current_mode) {
                             case MODE_CODE_I2C:
                                 i2c_state.is_started = false;
@@ -419,38 +385,32 @@ void rx_loop(void) {
                                 send_ack();
                                 break;
                             default:
-                                last_error_code = GEN_UNKNOWN_MODE;
-                                send_err();
+                                last_error_code = issue_err(GEN_UNKNOWN_MODE);
                         }
                         break;
 
-                    // FROM 1.1.3
-                    case 'k':   // DEINIT BUS
+                    case CMD_MULTIBUS_DEINIT_BUS:   // BUSES SUPPORTED: I2C
                         switch(current_mode) {
                             case MODE_CODE_I2C:
                                 deinit_i2c(&i2c_state);
                                 send_ack();
                                 break;
                             default:
-                                last_error_code = GEN_UNKNOWN_MODE;
-                                send_err();
+                                last_error_code = issue_err(GEN_UNKNOWN_MODE);
                         }
                         break;
 
-                    /*
-                     * I2C-SPECIFIC COMMANDS
-                     */
-                    case '1':   // SET BUS TO 100kHz
+                    case CMD_I2C_SET_100KHZ:
                         set_i2c_frequency(&i2c_state, 100);
                         send_ack();
                         break;
 
-                    case '4':   // SET BUS TO 400kHZ
+                    case CMD_I2C_SET_400KHZ:
                         set_i2c_frequency(&i2c_state, 400);
                         send_ack();
                         break;
 
-                    case 'p':   // SEND AN I2C STOP
+                    case CMD_I2C_STOP:
                         if (i2c_state.is_ready && i2c_state.is_started) {
                             // Send no bytes and STOP
                             uint8_t data = 0;
@@ -461,12 +421,11 @@ void rx_loop(void) {
                             i2c_state.is_read_op = false;
                             send_ack();
                         } else {
-                            last_error_code = I2C_ALREADY_STOPPED;
-                            send_err();
+                            last_error_code = issue_err(I2C_ALREADY_STOPPED);
                         }
                         break;
 
-                    case 's':   // START AN I2C TRANSACTION
+                    case CMD_I2C_START:
                         if (i2c_state.is_ready) {
                             // Received data is in the form ['s', (address << 1) | op];
                             i2c_state.address = (rx_buffer[1] & 0xFE) >> 1;
@@ -474,24 +433,11 @@ void rx_loop(void) {
                             i2c_state.is_started = true;
                             send_ack();
                         } else {
-                            last_error_code = I2C_NOT_READY;
-                            send_err();
+                            last_error_code = issue_err(I2C_NOT_READY);
                         }
                         break;
 
-                    /*
-                     * ONE-WIRE COMMANDS
-                     */
-
-
-                    // FROM 1.2.0
-
-                    /*
-                     * GPIO COMMANDS
-                     */
-
-                    // FROM 1.1.0
-                    case 'g':   // SET DIGITAL OUT PIN
+                    case CMD_GPIO_SET_READ_WRITE:
                         {
                             uint8_t read_value = 0;
                             uint8_t gpio_pin = (rx_ptr[1] & 0x1F);
@@ -499,8 +445,7 @@ void rx_loop(void) {
                             // Make sure the pin's not in use by a bus
                             // FROM 1.2.4 -- Make this comparison more resilient and consistent
                             if ((is_pin_taken(gpio_pin) & ~PIN_USAGE_FIELD_GPIO) > 0) {
-                                last_error_code = GPIO_PIN_ALREADY_IN_USE;
-                                send_err();
+                                last_error_code = issue_err(GPIO_PIN_ALREADY_IN_USE);
                                 break;
                             }
 
@@ -515,13 +460,13 @@ void rx_loop(void) {
                             // Set pin operation
                             set_gpio(&gpio_state, &read_value, rx_ptr);
                             bool is_read = ((rx_ptr[1] & 0x20) > 0);
+                            // Return the read value or an ACK on set and write ops
                             putchar(is_read ? read_value : ACK);
                         }
                         break;
 
                     default:    // UNKNOWN COMMAND -- FAIL
-                        last_error_code = GEN_UNKNOWN_COMMAND;
-                        send_err();
+                        last_error_code = issue_err(GEN_UNKNOWN_COMMAND);
                 }
             }
 
@@ -581,6 +526,11 @@ static inline void send_ack(void) {
 #endif
 }
 
+
+static uint32_t issue_err(uint32_t errorCode) {
+    send_err();
+    return errorCode;
+}
 
 /**
  * @brief Send a single-byte ERR.
@@ -643,8 +593,10 @@ void tx(uint8_t* buffer, uint32_t byte_count) {
  *        It also sets the device LED colour.
  *
  * @param mode_key: The mode character: `i`, `s` etc.
+ *
+ * @returns: The passed in mode code.
  */
-static void set_mode(char mode_key) {
+static char set_mode(char mode_key) {
 
     switch(mode_key) {
         case MODE_CODE_I2C:
@@ -668,6 +620,8 @@ static void set_mode(char mode_key) {
 #ifdef DO_UART_DEBUG
     debug_log("Mode set: %c", mode_key);
 #endif
+
+    return mode_key;
 }
 
 
