@@ -64,7 +64,7 @@ char* find_boards(unsigned int* board_total) {
     }
 
     // Get an iterator across all matching boards.
-    kern_return_t kern_result = IOServiceGetMatchingServices(kIOMasterPortDefault, classes_to_match, &serial_port_iterator);
+    kern_return_t kern_result = IOServiceGetMatchingServices(kIOMainPortDefault, classes_to_match, &serial_port_iterator);
     if (kern_result != KERN_SUCCESS) return 0;
 
     // Iterate across all modems found
@@ -86,7 +86,7 @@ char* find_boards(unsigned int* board_total) {
             // If we have a valid path, and the path is not for Mac BLE devices,
             // or AirPods etc., add it to the data string.
             if (result && strstr(bsd_path, "usbmodem") != NULL) {
-                snprintf(store_ptr, 3, "%s|", bsd_path);
+                snprintf(store_ptr, boards + MAXPATHLEN * 10 - store_ptr, "%s|", bsd_path);
                 store_ptr += (strlen(bsd_path) + 1);
                 board_count++;
                 if (board_count > 9) break;
