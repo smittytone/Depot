@@ -1,7 +1,7 @@
 /*
  * macOS/Linux 1-Wire CLI utility
  *
- * Version 1.2.4
+ * Version 1.3.0
  * Copyright © 2026, Tony Smith (@smittytone)
  * Licence: MIT
  *
@@ -61,8 +61,7 @@ int main(int argc, char *argv[]) {
                 return EXIT_OK;
             }
 
-            if (strcasecmp(argv[i], "v") == 0 ||
-                strcasecmp(argv[i], "--version") == 0 ||
+            if (strcasecmp(argv[i], "--version") == 0 ||
                 strcasecmp(argv[i], "-v") == 0) {
                 show_version();
                 return EXIT_OK;

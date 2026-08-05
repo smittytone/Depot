@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="24765" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24765"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -123,7 +123,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" fullSizeContentView="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="480" height="210"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1204"/>
             <value key="minSize" type="size" width="480" height="210"/>
             <value key="maxSize" type="size" width="480" height="210"/>
             <value key="minFullScreenContentSize" type="size" width="480" height="210"/>
@@ -132,7 +132,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="480" height="210"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lch-VE-hRC">
+                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lch-VE-hRC">
                         <rect key="frame" x="18" y="48" width="444" height="126"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="126" id="E3Q-34-LN3"/>
@@ -144,15 +144,15 @@
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4rJ-1J-6sG">
-                        <rect key="frame" x="208" y="13" width="64" height="32"/>
-                        <constraints>
-                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="50" id="HrA-vc-ZgE"/>
-                            <constraint firstAttribute="height" constant="20" id="wk9-do-P3J"/>
-                        </constraints>
+                        <rect key="frame" x="215" y="20" width="50" height="20"/>
                         <buttonCell key="cell" type="push" title="Start" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="OpB-k2-lAs">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="50" id="HrA-vc-ZgE"/>
+                            <constraint firstAttribute="height" constant="20" id="wk9-do-P3J"/>
+                        </constraints>
                         <connections>
                             <action selector="doStartWithSender:" target="Voe-Tx-rLC" id="hQe-IE-oDA"/>
                         </connections>
@@ -165,7 +165,7 @@
                         </constraints>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSStatusUnavailable" id="u0f-jO-lhy"/>
                     </imageView>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="11U-mc-buH">
+                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="11U-mc-buH">
                         <rect key="frame" x="42" y="22" width="167" height="16"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="16" id="pOc-mA-HXK"/>
