@@ -31,7 +31,7 @@ set(FW_6_NAME "firmware_pico2")
 set(FW_6_SRC_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/pico2")
 
 # FROM 1.3.0
-set(FW_7_NAME "firmware_pico2")
+set(FW_7_NAME "firmware_feather2040")
 set(FW_7_SRC_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/feather")
 
 # FROM 1.2.2
@@ -146,6 +146,8 @@ if(BOARD_INDEX EQUAL -1)
     add_subdirectory(${FW_5_SRC_DIRECTORY}) # Arduino Nano
     # FROM 1.2.3
     add_subdirectory(${FW_6_SRC_DIRECTORY}) # Pico2
+    # FROM 1.3.0
+    add_subdirectory(${FW_7_SRC_DIRECTORY}) # Feather
 else()
     list(GET NAME_LIST ${BOARD_INDEX} BOARD)
     message("[DEPOT] Configuring build for ${BOARD}.")

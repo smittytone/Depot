@@ -21,7 +21,7 @@
 /*
  * CONSTANTS
  */
-#define     PIN_PICO_LED            25
+#define     PIN_PICO_LED            13
 
 
 /*
