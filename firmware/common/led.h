@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - LED control middleware
  *
- * @version     1.2.4
+ * @version     1.3.0
  * @author      Tony Smith (@smittytone)
  * @copyright   2026
  * @licence     MIT

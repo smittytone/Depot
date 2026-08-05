@@ -1,6 +1,7 @@
 # Release Notes
 
-- 1.2.4 *Unreleased*
+- 1.3.0 *Unreleased*
+    - Firmware: add initial support for [Adafruit Feather RP2040](https://www.adafruit.com/product/48840).
     - Firmware: fixed an incorrect handling of signal.
     - Firmware: fixed some potential buffer overflows in the I2C and 1-Wire pathways.
     - Firmware: switched from `sprintf()` to `snprintf()` for greater resilience.
@@ -10,6 +11,8 @@
     - Firmware: replaced literals with `#define`s.
     - Firmware: removed duplication across the various `CMakeLists.txt` files.
     - Firmware: correct STEMMA usage and `CMakeLists.txt` notes.
+    - Clients: fix use of `v` for a command *and* for version information.
+    - Clients: add `README.md` note about need for virtual environment to run Python examples.
 - 1.2.3 *16 July 2026*
     - Interim release with minor changes as I get back into the codebase.
     - Firmware: add provisional Pico 2 support.
