@@ -42,7 +42,7 @@ set(BOARD_LIST  "pico"
                 "pimoroni_tiny2040"
                 "adafruit_trinkey_qt2040"
                 "arduino_nano_rp2040_connect"
-                "pico2",
+                "pico2"
                 "adafruit_feather_rp2040")
 set(NAME_LIST   "Pico"
                 "Adafruit QTPy RP2040"
@@ -50,7 +50,7 @@ set(NAME_LIST   "Pico"
                 "Pimoroni Tiny 2040"
                 "Adafruit Trinkey QT2040"
                 "Arduino Nano RP2040 Connect"
-                "Pico 2",
+                "Pico 2"
                 "Adafruit Feather RP2040")
 
 # Move common source code to a separate directory
