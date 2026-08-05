@@ -15,7 +15,7 @@ cols = [0,0,0,0,0,0,0,0,0,0]
 def handler(signum, frame):
     # Reset the host's I2C bus
     sleep(0.5)
-    run([app, device, i2c_address, "a", "off"])
+    run([app, device, i2c_address, "a", "off"], check=True)
     print("Done")
     exit(0)
 
@@ -26,11 +26,11 @@ if len(argv) > 1:
 
 if len(argv) > 2:
     i2c_address = argv[2]
-    
+
 if device:
     # Activate I2C on the host, clear the screen, and turn it on
-    run([app, device, "z"])
-    run([app, device, "w", i2c_address, "0x00,0x18,0x0D,0x0E,0x19,0x40,0x0C,0x00"])
+    run([app, device, "z"], check=True)
+    run([app, device, "w", i2c_address, "0x00,0x18,0x0D,0x0E,0x19,0x40,0x0C,0x00"], check=True)
 
     out = b'\x21'
     while True:
@@ -69,15 +69,15 @@ if device:
                 b = 0x60
             elif a > 0:
                 b = 0x40
-            
+
             if i < 5:
                 c = 0
-                for y in range(0, 7):
+                for y in range(7):
                     c |= b & (1 << y)
                 out[2 + i] = c
             else:
                 inset = i - 5
-                for y in range(0, 7):
+                for y in range(7):
                     c = ((b & (1 << y)) >> y) << (6 - y)
                     if c > 0:
                         out[y + 2] |= (1 << inset)
@@ -88,20 +88,20 @@ if device:
                 # Write out L or R matrix buffer
                 data_string = ""
                 for j in range(1, 10):
-                    data_string += "0x{:02x},".format(out[j])
+                    data_string += f"0x{out[j]:02x},"
                 data_string = data_string[:-1]
                 try:
-                    run([app, device, "w", i2c_address, data_string], timeout=90.0)
+                    run([app, device, "w", i2c_address, data_string], check=True, timeout=90.0)
                 except TimeoutExpired:
                     print("Attempt to write data timed out")
                     exit(1)
-                
+
         try:
             # Update the displays
-            run([app, device, "w", i2c_address, "0x0C,0x01", "p"], timeout=90.0)
+            run([app, device, "w", i2c_address, "0x0C,0x01", "p"], check=True, timeout=90.0)
         except TimeoutExpired:
             print("Attempt to write data timed out")
             exit(1)
         sleep(1)
 else:
-    print("Usage: python cpu_chart_matrix.py {path/to/device} [optional i2C address]")
+    print("Usage: python cpu_chart_ltp305_cli2c.py device [I2C address]")

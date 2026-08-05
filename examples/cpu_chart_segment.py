@@ -13,7 +13,7 @@ i2c_address = "0x70"
 def handler(signum, frame):
     # Reset the host's I2C bus
     sleep(0.5)
-    run([app, device, i2c_address, "a", "off"])
+    run([app, device, i2c_address, "a", "off"], check=True)
     print("Done")
     exit(0)
 
@@ -27,12 +27,12 @@ if len(argv) > 2:
 
 if device:
     # Activate I2C on the host, clear the screen, and turn it on
-    run([app, device, i2c_address, "w", "a", "on", "b", "4"])
+    run([app, device, i2c_address, "w", "a", "on", "b", "4"], check=True)
 
     while True:
         # Get the CPU percentage and display it
         cpu = int(cpu_percent() * 10.0)
-        run([app, device, i2c_address, "n", str(cpu), "d", "2"])
+        run([app, device, i2c_address, "n", str(cpu), "d", "2"], check=True)
         sleep(0.5)
 else:
-    print("Usage: python cpu_chart_segment.py {device} {i2C address}")
+    print("Usage: python cpu_chart_segment.py device [I2C address]")

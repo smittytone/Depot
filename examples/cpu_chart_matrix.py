@@ -15,7 +15,7 @@ cols = [0,0,0,0,0,0,0,0]
 def handler(signum, frame):
     # Reset the host's I2C bus
     sleep(0.5)
-    run([app, device, i2c_address, "a", "off"])
+    run([app, device, i2c_address, "a", "off"], check=True)
     print("Done")
     exit(0)
 
@@ -26,12 +26,11 @@ if len(argv) > 1:
 
 if len(argv) > 2:
     i2c_address = argv[2]
-    
 
 if device:
     # Activate I2C on the host, clear the screen, and turn it on
-    run([app, device, i2c_address, "w", "a", "on", "b", "2"])
-        
+    run([app, device, i2c_address, "w", "a", "on", "b", "2"], check=True)
+
     while True:
         # Get the CPU percentage
         cpu = int(cpu_percent())
@@ -51,7 +50,7 @@ if device:
             b = 0
             if a > 87:
                 b = 0xFF
-            elif a > 75: 
+            elif a > 75:
                 b = 0x7F
             elif a > 62:
                 b = 0x3F
@@ -65,16 +64,16 @@ if device:
                 b = 0x03
             elif a > 0:
                 b = 0x01
-            data_string += "0x{:02x},".format(b)
+            data_string += f"0x{b:02x},"
         data_string = data_string[:-1]
-        
+
         try:
             # Write out the display buffer
-            run([app, device, i2c_address, "g", data_string], timeout=90.0)
+            run([app, device, i2c_address, "g", data_string], check=True, timeout=90.0)
         except TimeoutExpired:
             print("Attempt to write data timed out")
             exit(1)
 
         sleep(1)
 else:
-    print("Usage: python cpu_chart_matrix.py {device} {i2C address}")
+    print("Usage: python cpu_chart_matrix.py device [I2C address]")

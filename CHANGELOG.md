@@ -13,6 +13,7 @@
     - Firmware: correct STEMMA usage and `CMakeLists.txt` notes.
     - Clients: fix use of `v` for a command *and* for version information.
     - Examples: add `README.md` note about need for virtual environment to run Python examples.
+    - Examples: add `mcp9808_temp_disp_cli2c.py` Python example.
 - 1.2.3 *16 July 2026*
     - Interim release with minor changes as I get back into the codebase.
     - Firmware: add provisional Pico 2 support.

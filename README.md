@@ -1,6 +1,6 @@
 # Depot 1.3.0
 
-Multi-bus clients for macOS and Linux, and bus-host adaptor board firmware for the RP2040.
+Multi-bus clients for macOS and Linux, and bus-host adaptor board firmware for the RP2040 or RP2350.
 
 It is used as the basis for I&sup2;C client apps for generic I&sup2;C usage, and to operate Holtek HT16K33-controlled matrix and segment LED displays, and 1-Wire apps for generic 1-Wire usage and to use the Analog Devices DS18B20 sensors.
 
@@ -76,7 +76,7 @@ In each case:
     * `./deploy.sh /path/to/device build/firmware/trinkey/firmware_trinkey2040.uf2`
     * `./deploy.sh /path/to/device build/firmware/nano/firmware_arduino_nano.uf2`
 
-The deploy script tricks the RP2040-based board into booting into disk mode, then copies over the newly build firmware. When the copy completes, the RP2040 automatically reboots. This saves a lot of tedious power-cycling with the BOOT button held down.
+The deploy script tricks the RP2040/RP2350-based board into booting into disk mode, then copies over the newly build firmware. When the copy completes, the board automatically reboots. This saves a lot of tedious power-cycling with the BOOT button held down.
 
 ### Debug vs Release
 
@@ -114,9 +114,9 @@ The contents of this repo are:
 |   |___/i2c                        // I2C driver code
 |   |___/onewire                    // 1-Wire driver code
 |   |___/ds18b20                    // A DS18B20-oriented version of cliwire
-|   |___/sensor                     // A macOS GUI app that uses the 1-Wire and serial driver code.
+|   |___/sensor                     // A Swift/C macOS GUI app that uses the 1-Wire and serial driver code.
 |
-|___/firmware                       // The RP2040 host firmware, written in C
+|___/firmware                       // The RP2040/RP2350 host firmware, written in C
 |   |___/common                     // Code common to multiple versions
 |   |___/feather                    // An Adafruit Feathr RP2040 version
 |   |___/nano                       // An Arduino Nano RP2040 Connect version
@@ -132,13 +132,15 @@ The contents of this repo are:
 |   |___cpu_chart_segment.py        // CPU utilisation display for 4-digit segment LEDs
 |   |___cpu_chart_ltp305_cli2c.py   // CPU utilisation display for twin LTP305 matrices
 |   |___mcp9808_temp_cli2c.py       // Periodic temperature reports from an MCP9808 sensor
+|   |___mcp9808_temp_disp_cli2c.py  // Periodic temperature reports from an MCP9808 sensor
+|                                   // and presented on a 4-digit segment LED
 |
 |___/linux                          // Linux build settings (CMake) for the client apps
 |
 |___CMakeLists.txt                  // Top-level firmware project CMake config file
 |___pico_sdk_import.cmake           // Raspberry Pi Pico SDK CMake import script
 |
-|___firmware.code-workspace         // Visual Studio Code workspace for the RP2040 firmware
+|___firmware.code-workspace         // Visual Studio Code workspace for the board firmware
 |___cli2c.xcodeproj                 // Xcode project for cli2c, matrix and segment
 |___cliwire.xcodeproj               // Xcode project for cliwire
 |
@@ -152,7 +154,7 @@ The contents of this repo are:
 
 ## Devices
 
-Under macOS, RP2040-based boards will appear in `/dev` as `cu.usbmodemXXXXX` or similar. You can use my [`dlist`](https://github.com/smittytone/dlist) utility to save looking up and keying in these names, which can vary across boots.
+Under macOS, RP2040/RP2350-based boards will appear in `/dev` as `cu.usbmodemXXXXX` or similar. You can use my [`dlist`](https://github.com/smittytone/dlist) utility to save looking up and keying in these names, which can vary across boots.
 
 Under Linux, specifically Raspberry Pi OS, boards appear as `/dev/ttyACM0`. You may need to add your user account to the group `dialout` in order to access the port:
 
@@ -177,11 +179,12 @@ The following client apps are included in the repo. They are documented [on my d
 The [`examples`](examples/) folder contains Python 3.x scripts that make use of the above apps:
 
 * `cpu_chart_matrix.py` — A rudimentary side-scrolling CPU activity chart. Requires an HT16K33-based 8x8 matrix LED. Requires the `matrix` CLI tool in your `$PATH` (see above).
-* `cpu_chart_segment.py` — A CPU activity numerical percentage readout. Requires an HT16K33-based 4-digit, 7-segment matrix LED. Requires the `segment` CLI tool in your `$PATH` (see above).
-* `mcp9808_temp_cli2c.py` — Second-by-second temperature readout. Requires an MCP9808 temperature sensor breakout. Requires the `cli2x` CLI tool in your `$PATH` (see above).
-* `cpu_chart_ltp305_cli2c.py` — A version of the side-scrolling CPU activity chart. Requires a [Pimoroni LED Matrices + Driver](https://shop.pimoroni.com/products/led-dot-matrix-breakout). Requires the `cli2x` CLI tool in your `$PATH` (see above).
+* `cpu_chart_segment.py` — A CPU activity numerical percentage readout. Requires an HT16K33-based 4-digit, 7-segment LED. Requires the `segment` CLI tool in your `$PATH` (see above).
+* `mcp9808_temp_cli2c.py` — Second-by-second temperature readout. Requires an MCP9808 temperature sensor breakout. Requires the `cli2c` CLI tool in your `$PATH` (see above).
+* `mcp9808_temp_disp_cli2c.py` — A version of the previous example that presents the temperature on an attached HT16K33-based 4-digit, 7-segment LED. I connected both on chained STEMMA ports connected to an Adafruit Feather RP2040 board. It’s a good example of driving two I&sup2;C devices on the same bus. Requires the `cli2c` and `segment` CLI tools in your `$PATH` (see above).
+* `cpu_chart_ltp305_cli2c.py` — A version of the side-scrolling CPU activity chart. Requires a [Pimoroni LED Matrices + Driver](https://shop.pimoroni.com/products/led-dot-matrix-breakout). Requires the `cli2c` CLI tool in your `$PATH` (see above).
 
-All the examples run at the command line and take the path to the adaptor device as a required argument and a I&sup2;C address as a second, optional address (if you are not using each device’s standard address). For example:
+All the examples run at the command line and take the path to the adaptor device as a required argument and an I&sup2;C address as a second, optional argument (if you are not using each device’s default address). For example:
 
 ```shell
 python examples/cpu_chart_ltp305_cli2c.py /dev/cu.usbserial-0101 0x63
@@ -203,7 +206,7 @@ deactivate
 
 This work was inspired by James Bowman’s ([@jamesbowman](https://github.com/jamesbowman)) [`i2ccl` tool](https://github.com/jamesbowman/i2cdriver), which was written as a macOS/Linux/Windows command line tool to connect to his [I2CMini board](https://i2cdriver.com/mini.html).
 
-My own I&sup2;C driver code started out based on James’ but involves numerous changes and (I think) improvements. I also removed the Windows code and some ctionality that I don’t need (I&sup2;C capture, monitoring). Finally, it targets fresh firmware I wrote from the ground up to run on an RP2040-based board, not the I2CMini.
+My own I&sup2;C driver code started out based on James’ but involves numerous changes and (I think) improvements. I also removed the Windows code and some functionality that I don’t need (I&sup2;C capture, monitoring). Finally, it targets fresh firmware I wrote from the ground up to run on an RP2040/RP2350-based board, not the I2CMini.
 
 Why? Originally I was writing an HT16K33 driver based directly on James’ code, but I accidentally broke the pins off my I2CMini — only to find it is very hard to find new boards. James’ firmware is written in a modern version of Forth, so I had no choice but to learn Forth, or write code of my own. I chose the latter.
 
@@ -221,4 +224,4 @@ See [CHANGELOG.md](CHANGELOG.md).
 
 All client apps are © 2026 Tony Smith (@smittytone) and licensed under the terms of the MIT Licence.
 
-The RP2040 firmware is © 2026, Tony Smith (@smittytone). It is licensed under the terms of the MIT Licence.
+The RP2040/RP2350 firmware is © 2026, Tony Smith (@smittytone). It is licensed under the terms of the MIT Licence.
