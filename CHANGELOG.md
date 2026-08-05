@@ -12,7 +12,7 @@
     - Firmware: removed duplication across the various `CMakeLists.txt` files.
     - Firmware: correct STEMMA usage and `CMakeLists.txt` notes.
     - Clients: fix use of `v` for a command *and* for version information.
-    - Clients: add `README.md` note about need for virtual environment to run Python examples.
+    - Examples: add `README.md` note about need for virtual environment to run Python examples.
 - 1.2.3 *16 July 2026*
     - Interim release with minor changes as I get back into the codebase.
     - Firmware: add provisional Pico 2 support.

@@ -43,8 +43,8 @@ The build system will use the standard Pico SDK environment variable `PICO_BOARD
 
 You can build the code from the accompanying Xcode project files:
 
-* `cli2c.xcodeproj` — Contains `cli2c`, `segment` and `matrix`.
-* `cliwire.xcodeproj` — Contains `cliwire`, `ds18b20` and `sensor` (GUI).
+* `cli2c.xcodeproj` — Contains `cli2c`, `segment` and `matrix`.
+* `cliwire.xcodeproj` — Contains `cliwire`, `ds18b20` and `sensor` (GUI).
 
 In each case:
 
@@ -169,6 +169,8 @@ The following client apps are included in the repo. They are documented [on my d
 | `matrix` | A specific driver for HT16K33-based 8x8 LED matrices | macOS, Linux | [Link](https://smittytone.net/docs/depot_i2c.html#matrix) |
 | `segment` | A specific driver for HT16K33-based 4-digit, 7-segment LEDs | macOS, Linux | [Link](https://smittytone.net/docs/depot_i2c.html#segment) |
 | `cliwire` | A generic 1-Wire command line utility | macOS, Linux | [Link](https://smittytone.net/docs/depot_1wire.html#cliwire) |
+
+**Note** These are essentially demo apps, and are required by the examples listed below. When built for debug release they will emit logging for the traffic passing to and from the bus host board. This can be disabled by using Xcode to compile a release build by choosing **Archive** from the **Product** menu.
 
 ## Full Examples
 
