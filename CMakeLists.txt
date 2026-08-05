@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.30)
 # Set project data
 set(PROJECT_NAME "Depot Bus Host Firmware")
 set(FW_BUILD_NUMBER "44")
-set(FW_VERSION_NUMBER "1.2.4")
+set(FW_VERSION_NUMBER "1.3.0")
 
 # Set app name(s) and version(s)
 # NOTE Indices changed from 1.2.2
@@ -30,6 +30,10 @@ set(FW_5_SRC_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/nano")
 set(FW_6_NAME "firmware_pico2")
 set(FW_6_SRC_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/pico2")
 
+# FROM 1.3.0
+set(FW_7_NAME "firmware_pico2")
+set(FW_7_SRC_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/feather")
+
 # FROM 1.2.2
 # Create a list of Depot-supported PICO_BOARD values
 set(BOARD_LIST  "pico"
@@ -38,14 +42,16 @@ set(BOARD_LIST  "pico"
                 "pimoroni_tiny2040"
                 "adafruit_trinkey_qt2040"
                 "arduino_nano_rp2040_connect"
-                "pico2")
+                "pico2",
+                "adafruit_feather_rp2040")
 set(NAME_LIST   "Pico"
                 "Adafruit QTPy RP2040"
                 "SparkFun ProMicro"
                 "Pimoroni Tiny 2040"
                 "Adafruit Trinkey QT2040"
                 "Arduino Nano RP2040 Connect"
-                "Pico 2")
+                "Pico 2",
+                "Adafruit Feather RP2040")
 
 # Move common source code to a separate directory
 set(COMMON_CODE_DIRECTORY "${CMAKE_SOURCE_DIR}/firmware/common")

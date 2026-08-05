@@ -16,7 +16,7 @@ Why Depot? Because it’s a place in which you’ll find lots of buses.
 
 ### Bus Host Board
 
-The bus host board is a [Raspberry Pi Pico](https://www.raspberrypi.com/documentation/microcontrollers/raspberry-pi-pico.html), [Raspberry Pi Pico 2](https://www.raspberrypi.com/documentation/microcontrollers/pico-series.html#pico2), [Adafruit QTPy RP2040](https://www.adafruit.com/product/4900), [Adafruit QT2040 Trinkey](https://www.adafruit.com/product/5056), [SparkFun ProMicro RP2040](https://www.sparkfun.com/products/18288), [Pimoroni Tiny 2040](https://shop.pimoroni.com/products/tiny-2040?variant=39560012234835) or [Arduino Nano RP2040 Connect](https://store.arduino.cc/products/arduino-nano-rp2040-connect-with-headers).
+The bus host board is a [Raspberry Pi Pico](https://www.raspberrypi.com/documentation/microcontrollers/raspberry-pi-pico.html), [Raspberry Pi Pico 2](https://www.raspberrypi.com/documentation/microcontrollers/pico-series.html#pico2), [Adafruit QTPy RP2040](https://www.adafruit.com/product/4900), [Adafruit QT2040 Trinkey](https://www.adafruit.com/product/5056), [Adafruit Feather RP2040](https://www.adafruit.com/product/48840), [SparkFun ProMicro RP2040](https://www.sparkfun.com/products/18288), [Pimoroni Tiny 2040](https://shop.pimoroni.com/products/tiny-2040?variant=39560012234835) or [Arduino Nano RP2040 Connect](https://store.arduino.cc/products/arduino-nano-rp2040-connect-with-headers).
 
 It runs the included firmware and connects to a host computer via USB.
 
@@ -28,11 +28,12 @@ The build system will use the standard Pico SDK environment variable `PICO_BOARD
 | :-- | :-- |
 | Pico | `pico` |
 | Pico | `pico2` |
-| QTPy | `adafruit_qtpy_rp2040` |
+| Feather | `adafruit_feather_rp2040` |
+| Nano | `arduino_nano_rp2040_connect` |
 | ProMicro | `sparkfun_promicro` |
+| QTPy | `adafruit_qtpy_rp2040` |
 | Tiny | `pimoroni_tiny2040` |
 | Trinkey | `adafruit_trinkey_qt2040` |
-| Nano | `arduino_nano_rp2040_connect` |
 
 * There’s more information [in this blog post](https://blog.smittytone.net/2023/03/16/meet-depot-an-rp2040-based-multi-bus-adaptor-for-macs-and-linux-pcs/).
 
@@ -116,14 +117,15 @@ The contents of this repo are:
 |   |___/sensor                     // A macOS GUI app that uses the 1-Wire and serial driver code.
 |
 |___/firmware                       // The RP2040 host firmware, written in C
+|   |___/common                     // Code common to multiple versions
+|   |___/feather                    // An Adafruit Feathr RP2040 version
+|   |___/nano                       // An Arduino Nano RP2040 Connect version
 |   |___/pico                       // The Raspberry Pi Pico version
 |   |___/pico2                      // The Raspberry Pi Pico 2 version
-|   |___/nano                       // An Arduino Nano RP2040 Connect version
 |   |___/promicro                   // A SparkFun ProMicro RP2040 version
 |   |___/qtpy                       // An Adafruit QTPy RP2040 version
 |   |___/tiny                       // A Pimoroni Tiny 2040 version
 |   |___/trinkey                    // An Adafruit QT2040 Trinkey version
-|   |___/common                     // Code common to multiple versions
 |
 |___/examples                       // Demo apps
 |   |___cpu_chart_matrix.py         // CPU utilisation display for 8x8 matrix LEDs
