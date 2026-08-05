@@ -226,8 +226,8 @@ void send_i2c_status(I2C_State* its) {
             patch,                                  // 2-4 chars
             BUILD_NUM,                              // 2-4 chars
             pid,                                    // 17 chars
-            model);                                 // 2-17 chars
-                                                    // == 41-68 chars
+            model);                                 // 2-24 chars
+                                                    // == 43-75 chars
 
     // Send the data
     tx((uint8_t*)status_buffer, strlen(status_buffer));
