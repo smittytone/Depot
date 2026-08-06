@@ -22,7 +22,7 @@ add_compile_definitions(
 add_compile_definitions(
     PIN_NEO_DATA=16
     PIN_NEO_PWR=4
-    NEO_COLOUR=0x100000)    # Magenta
+    NEO_COLOUR=0x1000)
 
 # Include app source code file(s)
 add_executable(${FW_7_NAME}
