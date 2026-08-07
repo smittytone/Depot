@@ -1,7 +1,7 @@
 /*
  * macOS/Linux Depot Serial Comms Functions
  *
- * Version 1.3.0
+ * Version 1.4.0
  * Copyright © 2026, Tony Smith (@smittytone)
  * Licence: MIT
  *
@@ -36,10 +36,8 @@
 #define ACK                             0x0F
 #define ERR                             0xF0
 
-// FROM 1.1.2
 #define READ_BUS_HOST_TIMEOUT_S         2
 
-// FROM 1.2.0
 #define     MODE_CODE_NONE              '0'
 #define     MODE_CODE_I2C               'i'
 #define     MODE_CODE_SPI               's'

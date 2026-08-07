@@ -1,7 +1,7 @@
 /*
  * macOS/Linux Depot GPIO Functions
  *
- * Version 1.3.0
+ * Version 1.4.0
  * Copyright © 2026, Tony Smith (@smittytone)
  * Licence: MIT
  *

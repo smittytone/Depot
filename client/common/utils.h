@@ -1,7 +1,7 @@
 /*
  * macOS/Linux Depot Utility Functions
  *
- * Version 1.3.0
+ * Version 1.4.0
  * Copyright © 2026, Tony Smith (@smittytone)
  * Licence: MIT
  *
@@ -20,7 +20,6 @@
 /*
  * CONSTANTS
  */
-// FROM 1.1.3
 #define LOG_TYPE_MSG                0
 #define LOG_TYPE_ERROR              1
 #define LOG_TYPE_WARNING            2

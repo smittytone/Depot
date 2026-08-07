@@ -1,7 +1,7 @@
 /*
- * Generic macOS/Linux SPI driver
+ * Generic macOS/Linux I2C driver
  *
- * Version 1.4.0
+ * Version 1.3.0
  * Copyright © 2026, Tony Smith (@smittytone)
  * Licence: MIT
  *
@@ -18,7 +18,7 @@
 #include "serialdriver.h"
 #include "utils.h"
 #include "gpio.h"
-#include "spidriver.h"
+#include "i2cdriver.h"
 
 
 #pragma mark - Static Prototypes
@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
     // Process arguments
     if (argc < 2) {
         // Insufficient arguments -- issue usage info and bail
-        fprintf(stderr, "Usage: clispi device [command] ... [command]\n");
+        fprintf(stderr, "Usage: cli2c {DEVICE_PATH} [command] ... [command]\n");
         return EXIT_OK;
     } else {
         // Check for a help and/or version request
@@ -76,8 +76,8 @@ int main(int argc, char *argv[]) {
             serial_connect(&board, argv[1]);
 
             if (board.is_connected) {
-                // Set the mode to SPI -- requires firmware 1.2 and up
-                if (board.fw_version_minor > 1 && !serial_set_mode(&board, MODE_CODE_SPI)) {
+                // Set the mode to I2C -- requires firmware 1.2 and up
+                if (board.fw_version_minor > 1 && !serial_set_mode(&board, MODE_CODE_I2C)) {
                     serial_flush_and_close_port(&board);
                     fprintf(stderr, "Could not set board mode... exiting\n");
                     return EXIT_ERR;
@@ -106,7 +106,7 @@ int main(int argc, char *argv[]) {
  */
 static inline void show_help(void) {
 
-    fprintf(stderr, "clispi device [commands]\n\n");
+    fprintf(stderr, "cli2c device [commands]\n\n");
     fprintf(stderr, "Usage:\n");
     fprintf(stderr, "  device is a mandatory device path, e.g., /dev/cu.usbmodem-101.\n");
     fprintf(stderr, "  [commands] are optional commands, as shown below.\n\n");
@@ -119,7 +119,7 @@ static inline void show_help(void) {
  */
 static inline void show_version(void) {
 
-    fprintf(stderr, "clispi %s\n", APP_VERSION);
+    fprintf(stderr, "cli2c %s\n", APP_VERSION);
     fprintf(stderr, "Copyright © 2026, Tony Smith.\n");
 }
 
@@ -130,16 +130,19 @@ static inline void show_version(void) {
 static inline void show_commands(void) {
 
     fprintf(stderr, "Commands:\n");
-    fprintf(stderr, "  z                            Initialise the SPI bus.\n");
-    fprintf(stderr, "  c bus ID MOSI MISO SCLK CS   Configure the SPI bus by specifying the pins\n");
-    fprintf(stderr, "                               to be used.\n");
-    fprintf(stderr, "  w address bytes              Write bytes out to SPI.\n");
-    fprintf(stderr, "  r address count              Read count bytes in from SPI.\n");
+    fprintf(stderr, "  z                            Initialise the I2C bus.\n");
+    fprintf(stderr, "  c bus ID SDA pin SCL pin     Configure the I2C bus.\n");
+    fprintf(stderr, "  f frequency                  Set the I2C bus frequency in multiples of 100kHz.\n");
+    fprintf(stderr, "                               Only 1 and 4 are supported.\n");
+    fprintf(stderr, "  w address bytes              Write bytes out to I2C.\n");
+    fprintf(stderr, "  r address count              Read count bytes in from I2C.\n");
     fprintf(stderr, "                               Issues a STOP after all the bytes have been read.\n");
-    fprintf(stderr, "  p                            Manually halt the SPI bus.\n");
-    fprintf(stderr, "  x                            Reset the SPI bus.\n");
-    fprintf(stderr, "  i                            Get SPI bus host device information.\n");
-    fprintf(stderr, "  l on|off                     Turn the SPI bus host LED on or off.\n");
+    fprintf(stderr, "  p                            Manually issue an I2C STOP.\n");
+    fprintf(stderr, "  x                            Reset the I2C bus.\n");
+    fprintf(stderr, "  s                            Scan for devices on the I2C bus.\n");
+    fprintf(stderr, "  i                            Get I2C bus host device information.\n");
+    fprintf(stderr, "  g number [hi|lo] [in|out]    Control a GPIO pin.\n");
+    fprintf(stderr, "  l on|off                     Turn the I2C bus host LED on or off.\n");
     fprintf(stderr, "  h                            Show help and quit.\n");
 }
 
@@ -195,117 +198,87 @@ static int process_commands(SerialDriver *sd, int argc, char *argv[], uint32_t d
 
         switch (command[0]) {
             case 'C':
-            case 'c':   // CHOOSE SPI BUS AND PINS
+            case 'c':   // CHOOSE I2C BUS AND (FROM 1.1.0) PINS
                 {
                     if (i < argc - 1) {
-                        SPIConfigData spid = {
-                            .speed = 2000,
-                            .bus_id = 0,
-                            .mosi = -1,
-                            .miso = -1,
-                            .sclk = -1,
-                            .cs = -1,
-                            .data_size = -1,
-                            .cpol = -1,
-                            .cpha = -1
-                        };
-
                         char* token = argv[++i];
-                        int value = 0;
-                        while (i < argc - 1) {
+                        long bus_id = strtol(token, NULL, 0);
+
+                        if (i < argc - 1) {
                             token = argv[++i];
-                            value = (int)strtol(token, NULL, 0);
-                            switch(i - 1) {
-                                case 0:
-                                    spid.bus_id = value;
-                                case 1:
-                                    spid.mosi = value;
-                                    break;
-                                case 2:
-                                    spid.miso = value;
-                                    break;
-                                case 3:
-                                    spid.sclk = value;
-                                    break;
-                                case 4:
-                                    spid.cs = value;
-                                    break;
-                                case 5:
-                                    spid.data_size = value;
-                                    break;
-                                case 6:
-                                    spid.cpol = value;
-                                    break;
-                                case 7:
-                                    spid.cpha = value;
-                                    break;
-                            }
-                        }
+                            long sda_pin = strtol(token, NULL, 0);
 
-                        if (spid.bus_id != 1 && spid.bus_id != 0) {
-                            print_warning("Incorrect SPI bus ID selected. Should be 0 or 1. Using 0");
-                            spid.bus_id = 0;
-                        }
+                            if (i < argc - 1) {
+                                token = argv[++i];
+                                long scl_pin = strtol(token, NULL, 0);
 
-                        // Make sure we have broadly valid pin numbers
-                        if (spid.mosi < 0 || spid.mosi > 32 ||
-                            spid.miso < 0 || spid.miso > 32 ||
-                            spid.sclk < 0 || spid.sclk > 32 ||
-                            spid.cs   < 0 || spid.cs   > 32) {
-                            print_error("Unsupported pin value(s) specified");
-                            return EXIT_ERR;
-                        }
+                                // Make sure we have broadly valid pin numbers
+                                if (sda_pin < 0 || sda_pin > 32 ||
+                                    scl_pin < 0 || scl_pin > 32 ||
+                                    sda_pin == scl_pin) {
+                                    print_error("Unsupported pin value(s) specified");
+                                    return EXIT_ERR;
+                                }
 
-                        // Make sure we have non-matching pin numbers
-                        if (spid.mosi == spid.miso ||
-                            spid.mosi == spid.sclk ||
-                            spid.mosi == spid.cs   ||
-                            spid.miso == spid.sclk ||
-                            spid.miso == spid.cs   ||
-                            spid.sclk == spid.cs) {
-                            print_error("Unsupported pin value(s) specified");
-                            return EXIT_ERR;
-                        }
-
-                        if (spid.cpol == -1) spid.cpol = 0;   // Set the default
-                        if (spid.cpol != 0 && spid.cpol != 1) {
-                            print_error("Unsupported CPOL specifie. Should be 0 or 1");
-                            return EXIT_ERR;
-                        }
-
-                        if (spid.cpha == -1) spid.cpha = 0;   // Set the default
-                        if (spid.cpha != 0 && spid.cpha != 1) {
-                            print_error("Unsupported CPHA specified. Should be 0 or 1");
-                            return EXIT_ERR;
-                        }
-
-                        if (spid.data_size == -1) spid.data_size = 8;   // Set the default
-                        if (spid.data_size < 4 || spid.data_size > 16) {
-                            print_error("Unsupported data size specified. Should be 4-16");
-                            return EXIT_ERR;
-                        }
+                                if (bus_id != 1 && bus_id != 0) {
+                                    print_warning("Incorrect I2C bus ID selected. Should be 0 or 1");
+                                    bus_id = 0;
+                                }
 
 #if DEBUG
-                        printf("BUS %i, MOSI %i, MISO %i, SCLK %i, CS %i\n", spid.bus_id, spid.mosi, spid.miso, spid.sclk, spid.cs);
+                                printf("BUS %li, SDA %li, SCL %li\n", bus_id, sda_pin, scl_pin);
 #endif
 
-                        bool result = spi_set_bus(sd, &spid);
-                        if (!result) {
-                            print_error("SPI bus config un-ACK’d");
-                            serial_get_last_error(sd);
-                            return EXIT_ERR;
+                                bool result = i2c_set_bus(sd, (uint8_t)bus_id, (uint8_t)sda_pin, (uint8_t)scl_pin);
+                                if (!result) {
+                                    // FROM 1.2.3 -- Get and present error
+                                    print_error("I2C bus config un-ACK’d");
+                                    serial_get_last_error(sd);
+                                    return EXIT_ERR;
+                                }
+
+                                break;
+                            }
                         }
                     }
 
-                    break;
+                    print_error("Incomplete I2C setup data given");
+                    return EXIT_ERR;
                 }
 
+            // FROM 1.1.4
             case 'E':
             case 'e':   // PRINT LAST BOARD ERROR
                 serial_get_last_error(sd);
                 break;
 
-            case 'G':
+            case 'F':
+            case 'f':   // SET THE BUS FREQUENCY
+                {
+                    if (i < argc - 1) {
+                        char* token = argv[++i];
+                        long speed = strtol(token, NULL, 0);
+
+                        if (speed == 1 || speed == 4) {
+                            bool result = i2c_set_speed(sd, speed);
+                            if (!result) {
+                                // FROM 1.2.3 -- Get and present error
+                                print_error("Frequency set un-ACK’d");
+                                serial_get_last_error(sd);
+                                return EXIT_ERR;
+                            }
+                        } else {
+                            print_warning("Incorrect I2C frequency selected. Should be 1(00kHz) or 4(00kHz)");
+                        }
+
+                        break;
+                    }
+
+                    print_error("No frequency value given");
+                    return EXIT_ERR;
+                }
+
+            case 'G':   // FROM 1.1.0
             case 'g':   // SET OR GET A GPIO PIN
                 {
                     if (i < argc - 1) {
@@ -392,13 +365,13 @@ static int process_commands(SerialDriver *sd, int argc, char *argv[], uint32_t d
 
             case 'I':
             case 'i':   // PRINT HOST STATUS INFO
-                spi_get_info(sd, true);
+                i2c_get_info(sd, true);
                 break;
 
             // FROM 1.1.3
             case 'K':
             case 'k':   // DE-INIT BUS
-                spi_deinit(sd);
+                i2c_deinit(sd);
                 break;
 
             // FROM 1.1.0
@@ -424,16 +397,17 @@ static int process_commands(SerialDriver *sd, int argc, char *argv[], uint32_t d
                 }
 
             case 'P':
-            case 'p':   // ISSUE AN SPI STOP
-                spi_stop(sd);
+            case 'p':   // ISSUE AN I2C STOP
+                i2c_stop(sd);
                 break;
 
             case 'R':
-            case 'r':   // READ FROM THE SPI BUS
+            case 'r':   // READ FROM THE I2C BUS
                 {
                     // Get the address if we can
                     if (i < argc - 1) {
                         char* token = argv[++i];
+                        long address = strtol(token, NULL, 0);
 
                         // Get the number of bytes if we can
                         if (i < argc - 1) {
@@ -441,22 +415,32 @@ static int process_commands(SerialDriver *sd, int argc, char *argv[], uint32_t d
                             size_t num_bytes = strtol(token, NULL, 0);
                             uint8_t bytes[8192];
 
-                            spi_start(sd, 1);
-                            spi_read(sd, bytes, num_bytes);
-                            spi_stop(sd);
+                            i2c_start(sd, address, 1);
+                            i2c_read(sd, bytes, num_bytes);
+                            i2c_stop(sd);
                             break;
+                        } else {
+                            print_error("No I2C address given");
                         }
+                    } else {
+                        print_error("No I2C address given");
                     }
 
                     return EXIT_ERR;
                 }
 
+            case 'S':
+            case 's':   // LIST DEVICES ON BUS
+                i2c_scan(sd);
+                break;
+
             case 'W':
-            case 'w':   // WRITE TO THE SPI BUS
+            case 'w':   // WRITE TO THE I2C BUS
                 {
                     // Get the address if we can
                     if (i < argc - 1) {
                         char* token = argv[++i];
+                        long address = strtol(token, NULL, 0);
 
                         // Get the bytes to write if we can
                         if (i < argc - 1) {
@@ -476,24 +460,29 @@ static int process_commands(SerialDriver *sd, int argc, char *argv[], uint32_t d
                                 endptr++;
                             }
 
-                            spi_start(sd, 0);
-                            spi_write(sd, bytes, num_bytes);
+                            i2c_start(sd, (uint8_t)address, 0);
+                            i2c_write(sd, bytes, num_bytes);
                             break;
+                        } else {
+                            print_error("No I2C address given");
                         }
+                    } else {
+                        print_error("No I2C address given");
                     }
 
                     return EXIT_ERR;
                 }
 
             case 'X':
-            case 'x':   // RESET SPI BUS
-                spi_reset(sd);
+            case 'x':   // RESET BUS
+                i2c_reset(sd);
                 break;
 
             case 'Z':
-            case 'z':   // INITIALISE SPI BUS
-                if (!(spi_init(sd))) {
-                    print_error("Could not initialise SPI");
+            case 'z':   // INITIALISE BUS
+                // Initialize the I2C host's I2C bus
+                if (!(i2c_init(sd))) {
+                    print_error("Could not initialise I2C");
                     serial_flush_and_close_port(sd);
                     return EXIT_ERR;
                 }

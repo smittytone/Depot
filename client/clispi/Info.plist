@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleGetInfoString</key>
-	<string>clispi $(MARKETING_VERSION) copyright © 2026, Tony Smith. All rights reserved</string>
+	<string>cli2c $(MARKETING_VERSION) copyright © 2026, Tony Smith. All rights reserved</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleName</key>
-	<string>clispi</string>
+	<string>cli2c</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
