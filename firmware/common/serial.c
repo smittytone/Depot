@@ -20,10 +20,12 @@
 #include "pico/unique_id.h"
 #include "hardware/gpio.h"
 #include "hardware/i2c.h"
+#include "hardware/spi.h"
 // Depot
 #include "led.h"
 #include "gpio.h"
 #include "i2c.h"
+#include "spi.h"
 #include "errors.h"
 #include "onewire.h"
 #include "serial.h"
@@ -56,6 +58,8 @@ char supported_modes[MAX_NUMBER_OF_MODES] = { MODE_CODE_NONE };
 I2C_State i2c_state;
 OneWireState ow_state;
 GPIO_State gpio_state;
+// FROM 1.4.0
+SPI_State spi_state;
 
 
 /**
@@ -84,7 +88,7 @@ void rx_loop(void) {
     // Prepare a transaction record with default data
     i2c_state.is_started = false;                         // No transaction taking place
     i2c_state.is_ready = false;                           // I2C bus not yet initialised
-    i2c_state.frequency = 400;                            // The bud frequency in use
+    i2c_state.frequency = 400;                            // The bus frequency in use
     i2c_state.address = 0xFF;                             // The target I2C address
     i2c_state.bus = DEFAULT_I2C_BUS == 0 ? i2c0 : i2c1;   // The I2C bus to use
     i2c_state.sda_pin = DEFAULT_SDA_PIN;                  // The I2C SDA pin
@@ -99,12 +103,24 @@ void rx_loop(void) {
     ow_state.current_device = 0;
     ow_state.device_count = 0;
 
+    // FROM 1.4.0 -- record SPI state
+    spi_state.is_ready = false;
+    spi_state.is_started = false;
+    spi_state.frequency = 1000 * 1000;                    // 1MHz default
+    spi_state.bus = DEFAULT_SPI_BUS == 0 ? spi0 : spi1;   // The SPI bus to use
+    spi_state.sclk_pin = DEFAULT_SPI_SCK_PIN;
+    spi_state.mosi_pin = DEFAULT_SPI_MOSI_PIN;
+    spi_state.miso_pin = DEFAULT_SPI_MISO_PIN;
+    spi_state.cs_pin = DEFAULT_SPI_CS_PIN;
+
     // FROM 1.1.3
     // Default current mode to I2C, for backwards compatibility
     // NOTE Call the function so the LED colour is correctly set
     uint8_t current_mode = set_mode(MODE_CODE_I2C);
     supported_modes[0] = MODE_CODE_I2C;
     supported_modes[1] = MODE_CODE_ONE_WIRE;
+    // FROM 1.4.0
+    supported_modes[2] = MODE_CODE_SPI;
 
     // FROM 1.1.3
     uint32_t last_error_code = GEN_NO_ERROR;
@@ -175,6 +191,24 @@ void rx_loop(void) {
                             // FROM 1.2.4 -- Include error condition
                             last_error_code = issue_err(OW_NOT_READY);
                             break;
+                        case MODE_CODE_SPI:
+                            if (spi_state.is_ready && spi_state.is_started) {
+                                spi_state.write_byte_count = status_byte - WRITE_LENGTH_BASE + 1;
+#ifdef DO_UART_DEBUG
+                                debug_log("Bytes to write: %i", spi_state.write_byte_count);
+#endif
+                                int bytes_sent = spi_write_blocking(spi_state.bus, &rx_buffer[1], spi_state.write_byte_count);
+                                if (bytes_sent == spi_state.write_byte_count) {
+                                    send_ack();
+                                    break;
+                                }
+
+                                last_error_code = issue_err(SPI_COULD_NOT_WRITE);
+                                break;
+                            }
+
+                            last_error_code = issue_err(SPI_NOT_STARTED);
+                            break;
                         default:
                             last_error_code = issue_err(GEN_UNKNOWN_MODE);
                     }
@@ -217,6 +251,23 @@ void rx_loop(void) {
 
                             last_error_code = issue_err(OW_NOT_READY);
                             break;
+                        case MODE_CODE_SPI:
+                            if (spi_state.is_ready && spi_state.is_started) {
+                                spi_state.read_byte_count = status_byte - READ_LENGTH_BASE + 1;
+
+                                int bytes_read = spi_read_blocking(spi_state.bus, 0x00, bus_rx_buffer, spi_state.read_byte_count);
+
+                                if (bytes_read == spi_state.read_byte_count) {
+                                    tx(bus_rx_buffer, spi_state.read_byte_count);
+                                    break;
+                                }
+
+                                last_error_code = issue_err(SPI_COULD_NOT_READ);
+                                break;
+                            }
+
+                            last_error_code = issue_err(SPI_NOT_STARTED);
+                            break;
                         default:
                             last_error_code = issue_err(GEN_UNKNOWN_MODE);
                     }
@@ -253,11 +304,14 @@ void rx_loop(void) {
 
                     case CMD_GET_STATUS:
                         switch(current_mode) {
-                            case MODE_CODE_I2C:
+                            case MODE_CODE_I2C: // DEFAULT
                                 send_i2c_status(&i2c_state);
                                 break;
                             case MODE_CODE_ONE_WIRE:
                                 ow_send_state(&ow_state);
+                                break;
+                            case MODE_CODE_SPI:
+                                send_spi_status(&spi_state);
                                 break;
                             default:
                                 last_error_code = issue_err(GEN_UNKNOWN_MODE);
@@ -297,7 +351,7 @@ void rx_loop(void) {
                             break;
                         }
 
-                    case CMD_MULTIBUS_CONFIGURE_BUS:    // BUSES SUPPORTED: I2C, ONE-WIRE
+                    case CMD_MULTIBUS_CONFIGURE_BUS:    // BUSES SUPPORTED: I2C, ONE-WIRE, SPI
                         {
                             bool success = false;
                             uint32_t possible_error = GEN_NO_ERROR;
@@ -310,8 +364,15 @@ void rx_loop(void) {
                                     success = ow_configure(&ow_state, rx_buffer[1]);
                                     possible_error = OW_COULD_NOT_CONFIGURE;
                                     break;
+                                case MODE_CODE_SPI:
+                                    success = configure_spi(&spi_state, &rx_buffer[1]);
+                                    possible_error = SPI_COULD_NOT_CONFIGURE;
+                                    break;
                                 default:
-                                    possible_error = issue_err(GEN_UNKNOWN_MODE);
+                                    // FROM 1.4.0 -- Don't call `issue_err()` here: doing so sent an
+                                    // ERR immediately, and a second one was then sent below (since
+                                    // `success` remains `false`), corrupting the reply framing
+                                    possible_error = GEN_UNKNOWN_MODE;
                             }
 
                             if (success) {
@@ -331,12 +392,17 @@ void rx_loop(void) {
                             case MODE_CODE_ONE_WIRE:
                                 ow_send_scan(&ow_state);
                                 break;
+                            case MODE_CODE_SPI:
+                                // SPI has no device-discovery protocol of its own --
+                                // peripherals are selected individually via CS, not addressed
+                                last_error_code = issue_err(GEN_UNKNOWN_COMMAND);
+                                break;
                             default:
                                 last_error_code = issue_err(GEN_UNKNOWN_MODE);
                         }
                         break;
 
-                    case CMD_MULTIBUS_INIT_BUS:     // BUSES SUPPORTED: I2C, ONE-WIRE
+                    case CMD_MULTIBUS_INIT_BUS:     // BUSES SUPPORTED: I2C, ONE-WIRE, SPI
                         switch(current_mode) {
                             case MODE_CODE_I2C:
                                 // No need it initialise if we already have
@@ -368,12 +434,29 @@ void rx_loop(void) {
                                     last_error_code = issue_err(OW_NO_DEVICES_FOUND);
                                 }
                                 break;
+                            case MODE_CODE_SPI:
+                                // No need to initialise if we already have
+                                if (!spi_state.is_ready) {
+                                    // Are the pins already taken?
+                                    if ((is_pin_taken(spi_state.sclk_pin) & ~PIN_USAGE_FIELD_SPI) > 0 ||
+                                        (is_pin_taken(spi_state.mosi_pin) & ~PIN_USAGE_FIELD_SPI) > 0 ||
+                                        (is_pin_taken(spi_state.miso_pin) & ~PIN_USAGE_FIELD_SPI) > 0 ||
+                                        (is_pin_taken(spi_state.cs_pin) & ~PIN_USAGE_FIELD_SPI) > 0) {
+                                        last_error_code = issue_err(SPI_PINS_ALREADY_IN_USE);
+                                        break;
+                                    }
+
+                                    // Initialise the bus
+                                    init_spi(&spi_state);
+                                }
+                                send_ack();
+                                break;
                             default:
                                 last_error_code = issue_err(GEN_UNKNOWN_MODE);
                         }
                         break;
 
-                    case CMD_MULTIBUS_RESET_BUS:    // BUSES SUPPORTED: I2C, ONE-WIRE
+                    case CMD_MULTIBUS_RESET_BUS:    // BUSES SUPPORTED: I2C, ONE-WIRE, SPI
                         switch(current_mode) {
                             case MODE_CODE_I2C:
                                 i2c_state.is_started = false;
@@ -384,16 +467,86 @@ void rx_loop(void) {
                                 ow_reset(&ow_state);
                                 send_ack();
                                 break;
+                            case MODE_CODE_SPI:
+                                spi_state.is_started = false;
+                                reset_spi(&spi_state);
+                                send_ack();
+                                break;
                             default:
                                 last_error_code = issue_err(GEN_UNKNOWN_MODE);
                         }
                         break;
 
-                    case CMD_MULTIBUS_DEINIT_BUS:   // BUSES SUPPORTED: I2C
+                    case CMD_MULTIBUS_DEINIT_BUS:   // BUSES SUPPORTED: I2C, SPI
                         switch(current_mode) {
                             case MODE_CODE_I2C:
                                 deinit_i2c(&i2c_state);
                                 send_ack();
+                                break;
+                            case MODE_CODE_SPI:
+                                deinit_spi(&spi_state);
+                                send_ack();
+                                break;
+                            default:
+                                last_error_code = issue_err(GEN_UNKNOWN_MODE);
+                        }
+                        break;
+
+                    // FROM 1.4.0 -- Also used to de-assert an SPI peripheral's CS line
+                    case CMD_MULTIBUS_STOP:
+                        switch(current_mode) {
+                            case MODE_CODE_I2C:
+                                if (i2c_state.is_ready && i2c_state.is_started) {
+                                    // Send no bytes and STOP
+                                    uint8_t data = 0;
+                                    i2c_write_timeout_us(i2c_state.bus, i2c_state.address, &data, 1, false, 1000);
+
+                                    // Reset state
+                                    i2c_state.is_started = false;
+                                    i2c_state.is_read_op = false;
+                                    send_ack();
+                                } else {
+                                    last_error_code = issue_err(I2C_ALREADY_STOPPED);
+                                }
+                                break;
+                            case MODE_CODE_SPI:
+                                if (spi_state.is_ready && spi_state.is_started) {
+                                    // De-assert CS (it's active low)
+                                    gpio_put(spi_state.cs_pin, true);
+                                    spi_state.is_started = false;
+                                    send_ack();
+                                } else {
+                                    last_error_code = issue_err(SPI_NOT_STARTED);
+                                }
+                                break;
+                            default:
+                                last_error_code = issue_err(GEN_UNKNOWN_MODE);
+                        }
+                        break;
+
+                    // FROM 1.4.0 -- Also used to select an SPI peripheral (assert its CS line)
+                    case CMD_MULTIBUS_START:
+                        switch(current_mode) {
+                            case MODE_CODE_I2C:
+                                if (i2c_state.is_ready) {
+                                    // Received data is in the form ['s', (address << 1) | op];
+                                    i2c_state.address = (rx_buffer[1] & 0xFE) >> 1;
+                                    i2c_state.is_read_op = ((rx_buffer[1] & 0x01) == 1);
+                                    i2c_state.is_started = true;
+                                    send_ack();
+                                } else {
+                                    last_error_code = issue_err(I2C_NOT_READY);
+                                }
+                                break;
+                            case MODE_CODE_SPI:
+                                if (spi_state.is_ready) {
+                                    // Assert CS (it's active low)
+                                    gpio_put(spi_state.cs_pin, false);
+                                    spi_state.is_started = true;
+                                    send_ack();
+                                } else {
+                                    last_error_code = issue_err(SPI_NOT_READY);
+                                }
                                 break;
                             default:
                                 last_error_code = issue_err(GEN_UNKNOWN_MODE);
@@ -408,33 +561,6 @@ void rx_loop(void) {
                     case CMD_I2C_SET_400KHZ:
                         set_i2c_frequency(&i2c_state, 400);
                         send_ack();
-                        break;
-
-                    case CMD_I2C_STOP:
-                        if (i2c_state.is_ready && i2c_state.is_started) {
-                            // Send no bytes and STOP
-                            uint8_t data = 0;
-                            i2c_write_timeout_us(i2c_state.bus, i2c_state.address, &data, 1, false, 1000);
-
-                            // Reset state
-                            i2c_state.is_started = false;
-                            i2c_state.is_read_op = false;
-                            send_ack();
-                        } else {
-                            last_error_code = issue_err(I2C_ALREADY_STOPPED);
-                        }
-                        break;
-
-                    case CMD_I2C_START:
-                        if (i2c_state.is_ready) {
-                            // Received data is in the form ['s', (address << 1) | op];
-                            i2c_state.address = (rx_buffer[1] & 0xFE) >> 1;
-                            i2c_state.is_read_op = ((rx_buffer[1] & 0x01) == 1);
-                            i2c_state.is_started = true;
-                            send_ack();
-                        } else {
-                            last_error_code = issue_err(I2C_NOT_READY);
-                        }
                         break;
 
                     case CMD_GPIO_SET_READ_WRITE:
@@ -659,5 +785,6 @@ uint8_t is_pin_taken(uint32_t pin) {
     uint8_t bitfield = is_pin_in_use_by_gpio(&gpio_state, pin) ? PIN_USAGE_FIELD_GPIO : 0;
     bitfield |= is_pin_in_use_by_i2c(&i2c_state, pin) ? PIN_USAGE_FIELD_I2C : 0;
     bitfield |= is_pin_in_use_by_ow(&ow_state, pin) ? PIN_USAGE_FIELD_ONEWIRE : 0;
+    bitfield |= is_pin_in_use_by_spi(&spi_state, pin) ? PIN_USAGE_FIELD_SPI : 0;
     return bitfield;
 }

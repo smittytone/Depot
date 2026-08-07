@@ -68,7 +68,8 @@ function(depot_configure_firmware TARGET_NAME)
         ${COMMON_CODE_DIRECTORY}/led.c
         ${COMMON_CODE_DIRECTORY}/gpio.c
         ${COMMON_CODE_DIRECTORY}/i2c.c
-        ${COMMON_CODE_DIRECTORY}/onewire.c)
+        ${COMMON_CODE_DIRECTORY}/onewire.c
+        ${COMMON_CODE_DIRECTORY}/spi.c)
 
     # Compile debug sources
     # Uses CMake generator expression to extract config type

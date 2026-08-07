@@ -1,7 +1,7 @@
 /*
  * Depot RP2040 Bus Host Firmware - Primary serial and command functions
  *
- * @version     1.3.0
+ * @version     1.4.0
  * @author      Tony Smith (@smittytone)
  * @copyright   2026
  * @licence     MIT
@@ -15,6 +15,7 @@
  * INCLUDES
  */
 #include <stdint.h>
+#include "board_commands.h"
 
 #ifdef DO_UART_DEBUG
 #include "debug.h"
@@ -67,25 +68,11 @@
 
 #define PIN_USAGE_FIELD_GPIO                    0x01
 #define PIN_USAGE_FIELD_I2C                     0x02
+// FROM 1.4.0
+#define PIN_USAGE_FIELD_SPI                     0x04
 #define PIN_USAGE_FIELD_ONEWIRE                 0x10
 
 #define ERR_MSG_SIZE_BYTES                      3
-
-#define CMD_REQUEST_CONN                        '!'
-#define CMD_SET_LED_STATE                       '*'
-#define CMD_GET_STATUS                          '?'
-#define CMD_GET_LAST_ERROR                      '$'
-#define CMD_SET_MODE                            '#'
-#define CMD_MULTIBUS_CONFIGURE_BUS              'c'
-#define CMD_MULTIBUS_DEVICE_SCAN                'd'
-#define CMD_MULTIBUS_INIT_BUS                   'i'
-#define CMD_MULTIBUS_RESET_BUS                  'x'
-#define CMD_MULTIBUS_DEINIT_BUS                 'k'
-#define CMD_I2C_SET_100KHZ                      '1'
-#define CMD_I2C_SET_400KHZ                      '4'
-#define CMD_I2C_START                           's'
-#define CMD_I2C_STOP                            'p'
-#define CMD_GPIO_SET_READ_WRITE                 'g'
 
 
 /*

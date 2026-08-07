@@ -49,6 +49,10 @@ enum HOST_ERRORS {
     SPI_COULD_NOT_WRITE         = 0x41,
     SPI_COULD_NOT_READ          = 0x42,
     SPI_UNAVAILABLE_ON_BOARD    = 0x43,
+    // FROM 1.4.0
+    SPI_NOT_READY               = 0x44,
+    SPI_COULD_NOT_CONFIGURE     = 0x45,
+    SPI_PINS_ALREADY_IN_USE     = 0x46,
 
     // ONE-WIRE
     OW_NOT_READY                = 0x80,
