@@ -73,7 +73,6 @@
 			isa = PBXGroup;
 			children = (
 				3B22E8803025BD78009FBA2D /* clispi */,
-				3B22E8813025BD8C009FBA2D /* oled */,
 				3B09CB8A29A636D300EE69D8 /* common */,
 				3B22E87F3025BD54009FBA2D /* spi */,
 				3B09CB7C29A636A200EE69D8 /* Products */,
@@ -121,13 +120,6 @@
 				3B22E8823025BDB0009FBA2D /* Info.plist */,
 			);
 			path = clispi;
-			sourceTree = "<group>";
-		};
-		3B22E8813025BD8C009FBA2D /* oled */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = oled;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -131,15 +131,15 @@ static inline void show_commands(void) {
 
     fprintf(stderr, "Commands:\n");
     fprintf(stderr, "  z                            Initialise the SPI bus.\n");
-    fprintf(stderr, "  c bus ID MOSI MISO SCLK CS   Configure the SPI bus by specifying the pins\n");
-    fprintf(stderr, "                               to be used.\n");
-    fprintf(stderr, "  w address bytes              Write bytes out to SPI.\n");
-    fprintf(stderr, "  r address count              Read count bytes in from SPI.\n");
-    fprintf(stderr, "                               Issues a STOP after all the bytes have been read.\n");
+    fprintf(stderr, "  c id mosi miso sclk cs       Configure the SPI bus by specifying its ID, pins\n");
+    fprintf(stderr, "                               and polarities.\n");
+    fprintf(stderr, "  w bytes                      Write bytes out to SPI.\n");
+    fprintf(stderr, "  r count                      Read count bytes in from SPI.\n");
     fprintf(stderr, "  p                            Manually halt the SPI bus.\n");
     fprintf(stderr, "  x                            Reset the SPI bus.\n");
     fprintf(stderr, "  i                            Get SPI bus host device information.\n");
     fprintf(stderr, "  l on|off                     Turn the SPI bus host LED on or off.\n");
+    fprintf(stderr, "  g number [hi|lo] [in|out]    Control a GPIO pin.\n");
     fprintf(stderr, "  h                            Show help and quit.\n");
 }
 
@@ -352,6 +352,7 @@ static int process_commands(SerialDriver *sd, int argc, char *argv[], uint32_t d
                                 }
                             }
 
+                            printf("Pin %li direction is %s and set to %s\n", pin_number, (pin_direction ? "out" : "in"), (pin_state ? "hi" : "lo"));
                             // Encode the TX data:
                             // Bit 7 6 5 4 3 2 1 0
                             //     | | | |_______|________ Pin number 0-31
