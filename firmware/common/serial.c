@@ -563,6 +563,33 @@ void rx_loop(void) {
                         send_ack();
                         break;
 
+                    case CMD_I2C_STOP:
+                        if (i2c_state.is_ready && i2c_state.is_started) {
+                            // Send no bytes and STOP
+                            uint8_t data = 0;
+                            i2c_write_timeout_us(i2c_state.bus, i2c_state.address, &data, 1, false, 1000);
+
+                            // Reset state
+                            i2c_state.is_started = false;
+                            i2c_state.is_read_op = false;
+                            send_ack();
+                        } else {
+                            last_error_code = issue_err(I2C_NOT_STARTED);
+                        }
+                        break;
+
+                    case CMD_I2C_START:
+                        if (i2c_state.is_ready) {
+                            // Received data is in the form ['s', (address << 1) | op];
+                            i2c_state.address = (rx_buffer[1] & 0xFE) >> 1;
+                            i2c_state.is_read_op = ((rx_buffer[1] & 0x01) == 1);
+                            i2c_state.is_started = true;
+                            send_ack();
+                        } else {
+                            last_error_code = issue_err(I2C_NOT_READY);
+                        }
+                        break;
+
                     case CMD_GPIO_SET_READ_WRITE:
                         {
                             uint8_t read_value = 0;

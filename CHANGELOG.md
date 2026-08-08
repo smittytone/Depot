@@ -3,7 +3,7 @@
 - 1.3.0 *Unreleased*
     - Firmware: add initial support for [Adafruit Feather RP2040](https://www.adafruit.com/product/48840).
     - Firmware: fixed an incorrect handling of signal.
-    - Firmware: fixed some potential buffer overflows in the I2C and 1-Wire pathways.
+    - Firmware: fixed some potential buffer overflows in the I&sup2;C and 1-Wire pathways.
     - Firmware: switched from `sprintf()` to `snprintf()` for greater resilience.
     - Firmware: removed dead lines, unnecessary comments, extra semi-colons.
     - Firmware: applied consistent variable naming.

@@ -16,12 +16,18 @@
     Bits 8-6: Mode
     Bits 5-1: Code
 
-    General: 000-xxxxx
-    I2C:     001-xxxxx
-    SPI:     010-xxxxx
-    UART:    011-xxxxx
-    1-Wire:  100-xxxxx
-    GPIO:    101-xxxxx
+    General: 000-xxxxx      0
+    I2C:     001-xxxxx      1
+    SPI:     010-xxxxx      2
+    UART:    011-xxxxx      3
+    1-Wire:  100-xxxxx      4
+    GPIO:    101-xxxxx      5
+
+    By type:
+    WRITE           2
+    READ            3
+    CONFIG          4
+    PINS IN USE     5
 */
 
 enum HOST_ERRORS {
@@ -40,37 +46,36 @@ enum HOST_ERRORS {
     I2C_NOT_STARTED             = 0x21,
     I2C_COULD_NOT_WRITE         = 0x22,
     I2C_COULD_NOT_READ          = 0x23,
-    I2C_ALREADY_STOPPED         = 0x24,
-    I2C_COULD_NOT_CONFIGURE     = 0x25,
-    I2C_PINS_ALREADY_IN_USE     = 0x26,
+    I2C_COULD_NOT_CONFIGURE     = 0x24,
+    I2C_PINS_ALREADY_IN_USE     = 0x25,
 
     // SPI
-    SPI_NOT_STARTED             = 0x40,
-    SPI_COULD_NOT_WRITE         = 0x41,
-    SPI_COULD_NOT_READ          = 0x42,
-    SPI_UNAVAILABLE_ON_BOARD    = 0x43,
-    // FROM 1.4.0
-    SPI_NOT_READY               = 0x44,
-    SPI_COULD_NOT_CONFIGURE     = 0x45,
-    SPI_PINS_ALREADY_IN_USE     = 0x46,
+    SPI_NOT_READY               = 0x40,
+    SPI_NOT_STARTED             = 0x41,
+    SPI_COULD_NOT_WRITE         = 0x42,
+    SPI_COULD_NOT_READ          = 0x43,
+    SPI_COULD_NOT_CONFIGURE     = 0x44,
+    SPI_PINS_ALREADY_IN_USE     = 0x45,
+    SPI_UNAVAILABLE_ON_BOARD    = 0x49,
+
+    // UART
+    UART_NOT_READY              = 0x60,
 
     // ONE-WIRE
     OW_NOT_READY                = 0x80,
     OW_NO_DEVICES_FOUND         = 0x81,
-    OW_COULD_NOT_READ           = 0x82,
-    // = 0x83
-    // = 0x84
-    OW_COULD_NOT_CONFIGURE      = 0x85,
-    OW_PIN_ALREADY_IN_USE       = 0x86,
+    OW_COULD_NOT_WRITE          = 0x82,
+    OW_COULD_NOT_READ           = 0x83,
+    OW_COULD_NOT_CONFIGURE      = 0x84,
+    OW_PINS_ALREADY_IN_USE      = 0x85,
 
-    GPIO_ILLEGAL_PIN            = 0xA0,
+    GPIO_NOT_READY              = 0xA0,
     // = 0xA1
     // = 0xA2
     // = 0xA3
-    // = 0xA4
-    GPIO_CANT_SET_PIN           = 0xA5,
-    GPIO_PIN_ALREADY_IN_USE     = 0xA6,
-
+    GPIO_CANT_SET_PIN           = 0xA4,
+    GPIO_PIN_ALREADY_IN_USE     = 0xA5,
+    GPIO_PIN_ILLEGAL_VALUE      = 0xA9,
 
     // DO NOT USE VALUE 0xF0
     GEN_DO_NOT_USE_ERR          = 0xF0,
