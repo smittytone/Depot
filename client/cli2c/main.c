@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
     // Process arguments
     if (argc < 2) {
         // Insufficient arguments -- issue usage info and bail
-        fprintf(stderr, "Usage: cli2c {DEVICE_PATH} [command] ... [command]\n");
+        fprintf(stderr, "Usage: cli2c /path/to/device [command] ... [command]\n");
         return EXIT_OK;
     } else {
         // Check for a help and/or version request
@@ -106,9 +106,9 @@ int main(int argc, char *argv[]) {
  */
 static inline void show_help(void) {
 
-    fprintf(stderr, "cli2c device [commands]\n\n");
+    fprintf(stderr, "cli2c /path/to/device [commands]\n\n");
     fprintf(stderr, "Usage:\n");
-    fprintf(stderr, "  device is a mandatory device path, e.g., /dev/cu.usbmodem-101.\n");
+    fprintf(stderr, "  /path/to/device is mandatory, e.g., /dev/cu.usbmodem-101.\n");
     fprintf(stderr, "  [commands] are optional commands, as shown below.\n\n");
     show_commands();
 }
@@ -131,7 +131,7 @@ static inline void show_commands(void) {
 
     fprintf(stderr, "Commands:\n");
     fprintf(stderr, "  z                            Initialise the I2C bus.\n");
-    fprintf(stderr, "  c bus ID SDA pin SCL pin     Configure the I2C bus.\n");
+    fprintf(stderr, "  c id sda scl                 Configure the I2C bus by is ID and pins.\n");
     fprintf(stderr, "  f frequency                  Set the I2C bus frequency in multiples of 100kHz.\n");
     fprintf(stderr, "                               Only 1 and 4 are supported.\n");
     fprintf(stderr, "  w address bytes              Write bytes out to I2C.\n");

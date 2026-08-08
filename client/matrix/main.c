@@ -49,7 +49,7 @@ int main(int argc, char* argv[]) {
     // Process arguments
     if (argc < 2) {
         // Insufficient arguments -- issue usage info and bail
-        fprintf(stderr, "Usage: matrix {DEVICE_PATH} [I2C Address] [command] ... [command]\n");
+        fprintf(stderr, "Usage: matrix /path/to/device [I2C address] [command] ... [command]\n");
         return EXIT_OK;
     } else {
         // Check for a help request
@@ -395,9 +395,9 @@ static int process_commands(SerialDriver* sd, int argc, char* argv[], int delta)
  */
 static void show_help(void) {
 
-    fprintf(stderr, "matrix device [address] [commands]\n\n");
+    fprintf(stderr, "matrix /path/to/device [address] [commands]\n\n");
     fprintf(stderr, "Usage:\n");
-    fprintf(stderr, "  device is a mandatory device path, e.g., /dev/cu.usbmodem-010101.\n");
+    fprintf(stderr, "  /path/to/device is mandatory, e.g., /dev/cu.usbmodem-010101.\n");
     fprintf(stderr, "  [address] is an optional display I2C address. Default: 0x70.\n");
     fprintf(stderr, "  [commands] are optional HT16K33 matrix commands:\n\n");
     fprintf(stderr, "Commands:\n");

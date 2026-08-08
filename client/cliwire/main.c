@@ -113,9 +113,9 @@ int main(int argc, char *argv[]) {
  */
 static inline void show_help(void) {
 
-    fprintf(stderr, "cliwire {device} [commands]\n\n");
+    fprintf(stderr, "cliwire /path/to/device [commands]\n\n");
     fprintf(stderr, "Usage:\n");
-    fprintf(stderr, "  {device} is a mandatory device path, e.g., /dev/cu.usbmodem-101.\n");
+    fprintf(stderr, "  /path/to/device is mandatory, e.g., /dev/cu.usbmodem-101.\n");
     fprintf(stderr, "  [commands] are optional commands, as shown below.\n\n");
     show_commands();
 }
@@ -137,13 +137,15 @@ static inline void show_version(void) {
 static inline void show_commands(void) {
 
     fprintf(stderr, "Commands:\n");
-    fprintf(stderr, "  z                                Initialise 1-Wire.\n");
-    fprintf(stderr, "  c {bus ID} {SDA pin} {SCL pin}   Configure 1-Wire.\n");
-    fprintf(stderr, "  r {address} {count}              Read count bytes in from 1-Wire.\n");
-    fprintf(stderr, "  s                                Scan for devices on the 1-Wire host.\n");
-    fprintf(stderr, "  i                                Get 1-Wire host device information.\n");
-    fprintf(stderr, "  l {on|off}                       Turn the 1-Wire host LED on or off.\n");
-    fprintf(stderr, "  h                                Show help and quit.\n");
+    fprintf(stderr, "  z                            Initialise 1-Wire.\n");
+    fprintf(stderr, "  c pin                        Configure 1-Wire.\n");
+    fprintf(stderr, "  r count                      Read count bytes in from 1-Wire.\n");
+    fprintf(stderr, "  w bytes                      Write bytes out to 1-Wire.\n");
+    fprintf(stderr, "  s                            Scan for devices on the 1-Wire host.\n");
+    fprintf(stderr, "  i                            Get 1-Wire host device information.\n");
+    fprintf(stderr, "  g number [hi|lo] [in|out]    Control a GPIO pin.\n");
+    fprintf(stderr, "  l {on|off}                   Turn the 1-Wire host LED on or off.\n");
+    fprintf(stderr, "  h                            Show help and quit.\n");
 }
 
 
