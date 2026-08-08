@@ -421,7 +421,7 @@ void rx_loop(void) {
                             i2c_state.is_read_op = false;
                             send_ack();
                         } else {
-                            last_error_code = issue_err(I2C_ALREADY_STOPPED);
+                            last_error_code = issue_err(I2C_NOT_STARTED);
                         }
                         break;
 
