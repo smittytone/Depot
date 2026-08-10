@@ -1,8 +1,8 @@
 /*
  * macOS/Linux OneWire CLI utility - DS18B20 version
  *
- * Version 1.2.0
- * Copyright © 2023, Tony Smith (@smittytone)
+ * Version 1.3.0
+ * Copyright © 2026, Tony Smith (@smittytone)
  * Licence: MIT
  *
  */
@@ -116,7 +116,7 @@ static inline void show_help(void) {
 static inline void show_version(void) {
 
     fprintf(stderr, "cliwire %s\n", APP_VERSION);
-    fprintf(stderr, "Copyright © 2023, Tony Smith.\n");
+    fprintf(stderr, "Copyright © 2026, Tony Smith.\n");
 }
 
 
