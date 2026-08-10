@@ -45,6 +45,10 @@ The build system will use the standard Pico SDK environment variable `PICO_BOARD
 xcode-select --install
 brew install cmake ninja libusb picotool
 brew install --cask gcc-arm-embedded
+git clone https://github.com/raspberrypi/pico-sdk.git
+git -C pico-sdk submodule update --init
+export PICO_SDK_PATH=/path/to/pico-sdk 
+export PICOTOOL_FETCH_FROM_GIT_PATH="$PICO_SDK_PATH/tools"
 ```
 
 ### Linux
@@ -54,6 +58,7 @@ sudo apt install cmake gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-n
 git clone https://github.com/raspberrypi/pico-sdk.git
 git -C pico-sdk submodule update --init
 export PICO_SDK_PATH=/path/to/pico-sdk 
+export PICOTOOL_FETCH_FROM_GIT_PATH="$PICO_SDK_PATH/tools"
 ```
 
 ## Build the Client Apps
