@@ -37,6 +37,25 @@ The build system will use the standard Pico SDK environment variable `PICO_BOARD
 
 * There’s more information [in this blog post](https://blog.smittytone.net/2023/03/16/meet-depot-an-rp2040-based-multi-bus-adaptor-for-macs-and-linux-pcs/).
 
+## Firmware and Client App Build Pre-requisites
+
+### macOS
+
+```shell
+xcode-select --install
+brew install cmake ninja libusb picotool
+brew install --cask gcc-arm-embedded
+```
+
+### Linux
+
+```shell
+sudo apt install cmake gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib libusb-1.0-0-dev
+git clone https://github.com/raspberrypi/pico-sdk.git
+git -C pico-sdk submodule update --init
+export PICO_SDK_PATH=/path/to/pico-sdk 
+```
+
 ## Build the Client Apps
 
 ### macOS
