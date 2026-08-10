@@ -67,7 +67,7 @@ enum HOST_ERRORS {
     OW_COULD_NOT_WRITE          = 0x82,
     OW_COULD_NOT_READ           = 0x83,
     OW_COULD_NOT_CONFIGURE      = 0x84,
-    OW_PINS_ALREADY_IN_USE      = 0x85,
+    OW_PIN_ALREADY_IN_USE       = 0x85,
 
     GPIO_NOT_READY              = 0xA0,
     // = 0xA1

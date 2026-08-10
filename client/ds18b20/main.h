@@ -1,8 +1,8 @@
 /*
  * macOS/Linux OneWire CLI utility - DS18B20 version
  *
- * Version 1.2.0
- * Copyright © 2023, Tony Smith (@smittytone)
+ * Version 1.3.0
+ * Copyright © 2026, Tony Smith (@smittytone)
  * Licence: MIT
  *
  */

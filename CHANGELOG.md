@@ -1,6 +1,6 @@
 # Release Notes
 
-- 1.3.0 *Unreleased*
+- 1.3.0 *10 August 2026*
     - Firmware: add initial support for [Adafruit Feather RP2040](https://www.adafruit.com/product/48840).
     - Firmware: fixed an incorrect handling of signal.
     - Firmware: fixed some potential buffer overflows in the I&sup2;C and 1-Wire pathways.
