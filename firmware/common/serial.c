@@ -29,6 +29,7 @@
 #include "errors.h"
 #include "onewire.h"
 #include "serial.h"
+#include "board_commands.h"
 
 
 /*
@@ -506,7 +507,7 @@ void rx_loop(void) {
                                     i2c_state.is_read_op = false;
                                     send_ack();
                                 } else {
-                                    last_error_code = issue_err(I2C_ALREADY_STOPPED);
+                                    last_error_code = issue_err(I2C_NOT_STARTED);
                                 }
                                 break;
                             case MODE_CODE_SPI:
@@ -562,8 +563,8 @@ void rx_loop(void) {
                         set_i2c_frequency(&i2c_state, 400);
                         send_ack();
                         break;
-
-                    case CMD_I2C_STOP:
+                    /*
+                    case CMD_MULTIBUS_STOP:
                         if (i2c_state.is_ready && i2c_state.is_started) {
                             // Send no bytes and STOP
                             uint8_t data = 0;
@@ -578,7 +579,7 @@ void rx_loop(void) {
                         }
                         break;
 
-                    case CMD_I2C_START:
+                    case CMD_MULTIBUS_START:
                         if (i2c_state.is_ready) {
                             // Received data is in the form ['s', (address << 1) | op];
                             i2c_state.address = (rx_buffer[1] & 0xFE) >> 1;
@@ -589,7 +590,7 @@ void rx_loop(void) {
                             last_error_code = issue_err(I2C_NOT_READY);
                         }
                         break;
-
+                    */
                     case CMD_GPIO_SET_READ_WRITE:
                         {
                             uint8_t read_value = 0;

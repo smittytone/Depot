@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 boards=(pico pico2 adafruit_qtpy_rp2040 adafruit_trinkey_qt2040 adafruit_feather_rp2040 sparkfun_promicro pimoroni_tiny2040 arduino_nano_rp2040_connect)
 count=0
@@ -15,7 +15,7 @@ for board in "${boards[@]}"; do
 
     echo "   Building..."
     if ! cmake --build build > /dev/null 2>&1 ; then
-        echo "   [ERROR] Build failed for ${board}"
+        echo "   [ERROR] Build failed for ${board} ($?)"
         exit 1
     fi
 

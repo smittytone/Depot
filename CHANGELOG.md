@@ -1,5 +1,8 @@
 # Release Notes
 
+- 1.4.0 *Unreleased*
+    - Firmware: add SPI bus support.
+    - Clients: add SPI bus support.
 - 1.3.0 *10 August 2026*
     - Firmware: add initial support for [Adafruit Feather RP2040](https://www.adafruit.com/product/48840).
     - Firmware: fixed an incorrect handling of signal.

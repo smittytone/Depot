@@ -15,7 +15,6 @@
  * INCLUDES
  */
 #include <stdint.h>
-#include "board_commands.h"
 
 #ifdef DO_UART_DEBUG
 #include "debug.h"
